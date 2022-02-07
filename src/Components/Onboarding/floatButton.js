@@ -1,18 +1,18 @@
 import React from 'react'
-import { StyleSheet, Image } from 'react-native'
+import { StyleSheet, View, TouchableOpacity } from 'react-native'
 import { useTheme } from '@/Hooks'
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-const floatButton = ( { onPress } ) => {
+const FloatButton = ( { onPress } ) => {
   const { Colors } = useTheme()
  
   return (
-    <View  style={ [styles.container, { backgroundColor : Colors.primary} ] }>
+    <View  style={ [styles.container, { backgroundColor : Colors.backgroundColor} ] }>
       
         <TouchableOpacity
           activeOpacity={0.7}
           onPress={onPress}
-          style={styles.touchableOpacityStyle}>
+         >
             <Icon name="arrow-right" style={styles.floatingButtonStyle} size={30} color={Colors.text} />
         </TouchableOpacity>
 
@@ -20,9 +20,9 @@ const floatButton = ( { onPress } ) => {
   )
 } 
 
-floatButton.propTypes = { }
+FloatButton.propTypes = { }
   
-floatButton.defaultProps = { }
+FloatButton.defaultProps = { }
 
 const styles = StyleSheet.create({
     container: {
@@ -30,31 +30,22 @@ const styles = StyleSheet.create({
       flexDirection: "row",
       justifyContent: "center",
       alignItems: "center",
-      padding: "1px",
+      padding: 1,
       backgroundColor: "#ffffff",
-      borderRadius: "84px",
-      shadowColor: rgba(58, 12, 163, 0.3),
+      borderRadius: 84,
+      shadowColor: "rgba(58, 12, 163, 0.3)",
       shadowOffset: {
-        width: '5px',
-        height: '2px'
+        width: 5,
+        height: 2
       }
     },
-    touchableOpacityStyle: {
-        position: 'absolute',
-        width: 50,
-        height: 50,
-        alignItems: 'center',
-        justifyContent: 'center',
-        right: 30,
-        bottom: 30,
-    },
+    
     floatingButtonStyle: {
         resizeMode: 'contain',
         width: 50,
-        height: 50,
-        //backgroundColor:'black'
+        height: 50
     },
 
 });
 
-export default floatButton
+export default FloatButton

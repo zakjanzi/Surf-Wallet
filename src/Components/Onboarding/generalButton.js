@@ -5,56 +5,58 @@ import { useTheme } from '@/Hooks'
 import { useTranslation } from 'react-i18next'
 
 //title = "onboarding_create_wallet | "
-const generalButton = ({ onPress, title }) => {
+const GeneralButton = ({ onPress, title, faded }) => {
   const { Colors } = useTheme()
   const { t } = useTranslation() 
 
   return (
-    <TouchableOpacity onPress={onPress} style={ [styles.container, { backgroundColor : Colors.primary} ] }>
+    <TouchableOpacity onPress={onPress} style={ [styles.container, { backgroundColor : faded === false ? Colors.normalButton : Colors.fadedButton } ] }>
         <Text style={[ styles.text, {color: Colors.text} ]}>{t(title)}</Text>
     </TouchableOpacity>
   )
 } 
 
-generalButton.propTypes = {
+GeneralButton.propTypes = {
     onPress: PropTypes.func,
-    title: PropTypes.string
+    title: PropTypes.string,
+    faded: PropTypes.bool
 }
   
-generalButton.defaultProps = {
+GeneralButton.defaultProps = {
     onPress: ()=>{},
-    title: "Empty"
+    title: "Empty",
+    faded: false
 }
 
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      flexDirection:"row",
+      flexDirection:"column",
+      alignItems: "center",
+      justifyContent:"center",
       elevation: 8,
-      backgroundColor: "#009688",
       borderRadius: 10,
       paddingVertical: 10,
       paddingHorizontal: 12,
-      shadowColor: rgba(58, 12, 163, 0.15),
+      shadowColor: "rgba(58, 12, 163, 0.15)",
       shadowOffset: {
-        width: '5px',
-        height: '2px'
+        width: 5,
+        height: 2
       },
-      shadowRadius: "3px"     
+      shadowRadius: 3    
     },
     text: {       
         color: "#fff",
-        fontWeight: "600",
+        fontWeight: 600,
         fontStyle:"normal",
         alignSelf: "center",
         textTransform: "capitalize",
-        fontWeight:"600",
-        fontFamily:"Inter",
-        fontSize:"14px",
-        lineHeight:"20px"
+        fontFamily:"Inter-Regular",
+        fontSize:14,
+        lineHeight:20
     }
 });
 
 
 
-export default generalButton
+export default GeneralButton

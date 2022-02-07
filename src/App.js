@@ -4,10 +4,12 @@ import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/lib/integration/react'
 import { store, persistor } from '@/Store'
 import ApplicationNavigator from '@/Navigators/Application'
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import './Translations'
 
 const App = () => (
   <Provider store={store}>
+ 
     {/**
      * PersistGate delays the rendering of the app's UI until the persisted state has been retrieved
      * and saved to redux.
@@ -16,8 +18,11 @@ const App = () => (
      * @see https://github.com/rt2zz/redux-persist/blob/master/docs/PersistGate.md
      */}
     <PersistGate loading={null} persistor={persistor}>
-      <ApplicationNavigator />
+      <SafeAreaProvider>
+        <ApplicationNavigator />
+      </SafeAreaProvider>
     </PersistGate>
+   
   </Provider>
 )
 
