@@ -1,81 +1,87 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { StyleSheet, Text } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import { useTheme } from '@/Hooks'
-import { useTranslation } from 'react-i18next'
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/Ionicons';
 
-// title = "onboarding_create_address_header
 
-const smallContainerForKeys = ({ onCopy, header, address, showCopyIcon }) => {
+const SmallContainerForKeys = ({ onCopy, header, address, showCopyIcon, showBorderBottom }) => {
   const { Colors } = useTheme()
-  const { t } = useTranslation() 
 
   return (
-    <View  style={ [styles.container, { backgroundColor : Colors.primary} ] }>      
-        <Text style={[ styles.text, {color: Colors.text} ]}>{t(header)}</Text>
-        { showCopyIcon && 
-        (<>
-            <TouchableOpacity onPress={onCopy}>
-                <Icon name="copy" style={styles.icon} size={30} color={Colors.text} />
-            </TouchableOpacity>
-         </>) 
-        }
+    <View  style={ [styles.container , showBorderBottom === true ? styles.borderLine : {} ] }> 
+        <View style={  [ { flexDirection: "row" , justifyContent: 'space-between' }] }>     
+            <Text style={[ styles.text, {color: Colors.skip} ]}>{ (header) }</Text>
+            { showCopyIcon && 
+            (<>
+                <TouchableOpacity onPress={onCopy} style={styles.icon}>
+                    <Icon name="copy-outline" size={20} color={Colors.someText} />
+                </TouchableOpacity>
+            </>) 
+            }
+        </View> 
         <Text style={[ styles.address, {color: Colors.text} ]}>{address}</Text>
     </View>
   )
 } 
 
-smallContainerForKeys.propTypes = {
+SmallContainerForKeys.propTypes = {
     onCopy: PropTypes.func,
     header: PropTypes.string,
     address: PropTypes.string,
-    showCopyIcon: PropTypes.bool
+    showCopyIcon: PropTypes.bool,
+    showBorderBottom: PropTypes.bool
 }
   
-smallContainerForKeys.defaultProps = {
+SmallContainerForKeys.defaultProps = {
     onCopy: () => {},
     header: "",
     address: "",
-    showCopyIcon: false
+    showCopyIcon: false,
+    showBorderBottom: false
 }
 
 const styles = StyleSheet.create({
     container: {
-      flexDirection: "column",
-      flexBasis: 3,
-      padding: "5px",
-      backgroundColor: "#ffffff",
-      width: "328px",
-      height: "74px"
+      flexDirection: "column", 
+      justifyContent: "space-evenly",   
+      padding: 5,    
+      width: "100%",
+      height: 74,
+    
     },
     text: {       
         alignSelf:"flex-start",
         fontWeight:"normal",
-        width: "65px",
-        height: "16px",
-        fontFamily:"Inter",
-        fontSize:"12px",
-        lineHeight:"16px",
+        width:120,
+        height: 16,
+        fontFamily:"Inter-Regular",
+        fontSize:14,
+        lineHeight:18,      
         textTransform: 'capitalize',
-        color: "#707070",
-        flexGrow: 2
+        color: "#707070"        
     },
     icon:{
-        flexGrow: 1,
-        alignSelf: 'flex-end'
+       width:20,
+       height:20
     },
-    address: {       
-        alignSelf:"flex-start",
-        fontWeight:"normal",
-        width: "279px",
-        height: "26px",
-        flexGrow: 2,
-        fontFamily:"Inter",
-        fontSize:"14px",
-        lineHeight:"26px",      
-        color: "#141414"
+    address: {
+        fontWeight:"500",
+        width: "100%",        
+        paddingHorizontal:5,
+        paddingVertical:5,
+        fontFamily:"Inter-Regular",
+        fontSize:16,
+        lineHeight:20,      
+        color: "#141414",        
+        flexWrap: "wrap",
+        
+    },
+    borderLine: {
+        borderBottomColor: "#707070",
+        borderBottomWidth: 1,
+        borderStyle: 'solid'
     }
 });
 
-export default smallContainerForKeys
+export default SmallContainerForKeys

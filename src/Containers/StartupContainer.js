@@ -22,7 +22,7 @@ const StartupContainer = () => {
   }) 
 
   return (
-    <SafeAreaView style={[Layout.fill, Layout.colCenter, Colors.backgroundColor ]}>
+    <SafeAreaView style={[Layout.fill, Layout.colCenter, { backgroundColor: '#3700B3' } ]}>
       <Text style={styles.text}> Surf Wallet </Text>
     </SafeAreaView>
   )

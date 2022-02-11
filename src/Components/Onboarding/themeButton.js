@@ -1,65 +1,68 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { StyleSheet, Text, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { useTheme } from '@/Hooks'
 import { useTranslation } from 'react-i18next'
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/Entypo';
 
 //title = "theme_darkmode | theme_lightmode"
-const themeButton = ({ onPress, title }) => {
+const ThemeButton = ({ onPress, title, iconName, iconFontSize }) => {
   const { Colors } = useTheme()
   const { t } = useTranslation() 
 
   return (
-    <TouchableOpacity onPress={onPress} style={ [styles.container, { backgroundColor : Colors.primary} ] }>
-        <Icon name="moon" style={styles.icon} size={30} color={Colors.text} />
-        <Text style={[ styles.text, {color: Colors.text} ]}>{t(title)}</Text>
-    </TouchableOpacity>
+   
+      <TouchableOpacity onPress={onPress} style={ [styles.container, { backgroundColor : Colors.langButton} ] } >
+          <Icon name={iconName} style={styles.icon} size={18} color={Colors.text} />
+          <Text style={[ styles.text, {color: Colors.text, fontSize: iconFontSize } ]}>{t(title)}</Text>
+      </TouchableOpacity>
+   
   )
 } 
 
-themeButton.propTypes = {
+ThemeButton.propTypes = {
     onPress: PropTypes.func,
-    title: PropTypes.string
+    title: PropTypes.string,
+    iconName: PropTypes.string,
+    iconFontSize: PropTypes.number
 }
   
-themeButton.defaultProps = {
+ThemeButton.defaultProps = {
     onPress: ()=>{},
-    title: "Empty"
+    title: "Empty",
+    iconName: "",
+    iconFontSize: 12
 }
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
+    container: {     
       flexDirection: "row",
+      justifyContent: "center",
       alignItems: "center",
-      padding: "16px",
-      backgroundColor: "#ffffff",
-      width: "125px",
-      height: "50px",
-      borderRadius: "15px",
-      borderWidth: "1px",
+      padding: 2,
+      width: 125,
+      height: 50,
+      borderRadius: 15,
+      borderWidth: 1,
       borderStyle: "solid",
       borderColor: "#E0E0E0"      
     },
-    icon:{
-        left:"12.8%",
-        right:"73.6%"
+    icon:{      
+      marginHorizontal:10,
     },
-    text: {       
-        left:"36.8%",
-        right:"12.8%",
-        width: "53px",
-        height: "28px",
+    text: {     
+        width:63,
+        height: 28,
         fontWeight:"500",
-        fontFamily:"Inter",
-        fontSize:"12px",
-        lineHeight:"18px",
+        fontFamily:"Inter-Regular",
+        fontSize:12,
+        lineHeight:18,
         textTransform: 'capitalize',
+        alignSelf:'flex-end',
         color: "#292929"
     }
 });
 
 
 
-export default themeButton
+export default ThemeButton

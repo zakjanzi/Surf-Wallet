@@ -2,16 +2,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { StyleSheet, Text, TouchableOpacity } from 'react-native'
 import { useTheme } from '@/Hooks'
-import { useTranslation } from 'react-i18next'
 
 //title = "copy"
 const CopyButton = ({ onPress, title }) => {
   const { Colors } = useTheme()
-  const { t } = useTranslation()
 
   return (
-    <TouchableOpacity onPress={onPress} style={ [styles.container, { backgroundColor : Colors.backgroundColor, borderColor: Colors.someText } ] }>
-        <Text style={[ styles.text, {color: Colors.text} ]}>{t(title)}</Text>
+    <TouchableOpacity  onPress={onPress} style={ [styles.container, { backgroundColor : Colors.backgroundColor, borderColor: Colors.someText } ] }>
+        <Text style={[ styles.text, {color: Colors.text, borderColor: Colors.someText } ]}>{(title)}</Text>
     </TouchableOpacity>
   )
 } 
@@ -27,25 +25,25 @@ CopyButton.defaultProps = {
 }
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      flexDirection: "column",
-      alignItems: "center",
-      justifyContent: "center",
-      backgroundColor: "#ffffff",
-      width: 84,
-      height: 44,
-      borderRadius: 4,
-      borderTopWidth: 1,      
-      borderStyle:"solid"
+    container: {    
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",     
+        width: 86,
+        height: 44,
+        borderRadius: 6,
+        borderWidth: 1,      
+        borderStyle:"solid",
+        marginTop:20
+    
     },
     text: {
-        width: 53,
+        alignSelf: 'center',       
         height: 28,
-        fontWeight:600,
+        fontWeight:"700",
         fontFamily:"Inter-Regular",
         fontSize:15,
-        lineHeight:28,
+        lineHeight:25,
         textTransform: 'capitalize',
         color: "#141414"
     }

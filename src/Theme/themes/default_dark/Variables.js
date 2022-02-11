@@ -1,7 +1,7 @@
 const Colors = {
   transparent: 'rgba(0,0,0,0)',
   backgroundColor: '#181621',
-
+  textInButton: '#F9F9F9',
   text: '#F5F5F5',
   headerText: '#FFFFFF',
   bodyText: '#A3A2AD',

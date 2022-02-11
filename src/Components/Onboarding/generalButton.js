@@ -1,18 +1,23 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { StyleSheet, Text, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { useTheme } from '@/Hooks'
 import { useTranslation } from 'react-i18next'
+import DropShadow from "react-native-drop-shadow";
 
 //title = "onboarding_create_wallet | "
 const GeneralButton = ({ onPress, title, faded }) => {
   const { Colors } = useTheme()
-  const { t } = useTranslation() 
+
 
   return (
-    <TouchableOpacity onPress={onPress} style={ [styles.container, { backgroundColor : faded === false ? Colors.normalButton : Colors.fadedButton } ] }>
-        <Text style={[ styles.text, {color: Colors.text} ]}>{t(title)}</Text>
-    </TouchableOpacity>
+  
+   
+      <TouchableOpacity onPress={onPress}  style={ [styles.container, { backgroundColor : faded === false ? Colors.normalButton : Colors.fadedButton } ] }>
+          <Text style={[ styles.text, {color: Colors.textInButton , opacity:  faded === false ? 1.0 : 0.5 } ]}>{ title }</Text>
+      </TouchableOpacity>
+     
+
   )
 } 
 
@@ -29,27 +34,24 @@ GeneralButton.defaultProps = {
 }
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
+    container: {     
       flexDirection:"column",
       alignItems: "center",
       justifyContent:"center",
-      elevation: 8,
-      borderRadius: 10,
-      paddingVertical: 10,
-      paddingHorizontal: 12,
-      shadowColor: "rgba(58, 12, 163, 0.15)",
-      shadowOffset: {
-        width: 5,
-        height: 2
-      },
-      shadowRadius: 3    
+      borderRadius: 50,
+      paddingVertical: 20,
+      paddingHorizontal: 32   
+    },
+    shadowProp: {
+      shadowColor: '#171717',
+      shadowOffset: {width: 0, height: 3},
+      shadowOpacity: 0.8,
+      shadowRadius: 4,
     },
     text: {       
-        color: "#fff",
-        fontWeight: 600,
+        fontWeight: "600",
         fontStyle:"normal",
-        alignSelf: "center",
+     
         textTransform: "capitalize",
         fontFamily:"Inter-Regular",
         fontSize:14,

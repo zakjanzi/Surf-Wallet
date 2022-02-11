@@ -2,8 +2,7 @@ import React , { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { useTheme } from '@/Hooks'
-import { useTranslation } from 'react-i18next'
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import Animated, {
     useSharedValue,
     useAnimatedStyle,
@@ -17,6 +16,7 @@ import Animated, {
 
 const Pulse = ({ delay = 0, repeat }) => {
     const animation = useSharedValue(0);
+    
     useEffect(() => {
       animation.value = withDelay(
         delay,
@@ -30,6 +30,7 @@ const Pulse = ({ delay = 0, repeat }) => {
         )
       );
     }, []);
+
     const animatedStyles = useAnimatedStyle(() => {
       const opacity = interpolate(
         animation.value,
@@ -45,80 +46,100 @@ const Pulse = ({ delay = 0, repeat }) => {
     return <Animated.View style={[styles.circle, animatedStyles]} />;
 };
 
+
+
 //title = "onboarding_create_address | "
-const FingerButton = ({ onPress }) => {
+const FingerButton = ({ onPress, title, waiting }) => {
   const [pulse, setPulse] = useState([1]);
 
-  const { Colors } = useTheme()
-  const { t } = useTranslation() 
+  const { Colors } = useTheme() 
 
   return (
     <>
         
-            <View style={ [styles.container] }>
-                <View  style={ [styles.innerCircle] }>
-                    <TouchableOpacity onPress={onPress} >
-                        <Icon name="fingerprint" size={23} color={Colors.someText} />            
-                    </TouchableOpacity>            
-                </View>
+            <TouchableOpacity style={ [styles.container] } onPress={onPress} >
+                <View style={[ styles.padCircle, { alignItems: 'center', justifyContent: 'center' , borderColor: waiting === true ? '#33c065' : Colors.someText} ]}>
+                
+                      <View style={[ styles.innerCircle, { borderColor: waiting === true ? '#33c065' : Colors.someText } ]} >
+                          <Icon style={ [ styles.innerCircle]  }  name="fingerprint" size={50} color={Colors.someText} />            
+                      </View>            
+                 
+                </View> 
                 {pulse.map((item, index) => (
-                    <Pulse repeat={index === 0} />
+                    <Pulse key={index} repeat={index === 0} />
                 ))}
-            </View>  
-            <Text style={[ styles.text, {color: Colors.text} ]}>{t(title)}</Text>
+            </TouchableOpacity>  
+
+            <Text style={[ styles.text, {color: Colors.someText} ]}>{ String(title).concat( waiting ? " (Hold On!)" : "" )  }</Text>
       
      </>  
   )
 } 
 
 FingerButton.propTypes = {
-    onPress: PropTypes.func 
+    onPress: PropTypes.func ,
+    waiting: PropTypes.bool,
+    title: PropTypes.string
 }
   
 FingerButton.defaultProps = {
-    onPress: ()=>{}
+    onPress: ()=>{},
+    title: "",
+    waiting: false
 }
+
 
 const styles = StyleSheet.create({
     container: {   
       flex: 1,   
-      flexDirection: "row",
+      flexDirection: "column",
+      alignItems: 'center',
       justifyContent: "center",
       backgroundColor: 'transparent',
       width: 146,
-      height: 146     
+      height: 146,
+        
     },
 
     circle: {
         backgroundColor: 'transparent',
-        width: 107,
-        height: 107,
+        width: 120,
+        height: 120,
         borderRadius: 150,
         position: 'absolute',
-        borderWidth: 2,
+        borderWidth: 5,
         borderStyle: "solid",
-        borderColor: "rgba(58, 12, 163, 0.12)",
+       
         alignContent: 'center'   
     },
 
     innerCircle: {
-        width: 30,
-        borderRadius: 40,
-        height: 30,
-        zIndex: 100,
+        width: 50,
+        borderRadius: 30,
+        height: 50,       
         position: 'absolute',
-        backgroundColor: 'white',
+        backgroundColor: 'transparent',
+    },
+
+    padCircle: {
+      width: 70,
+      borderRadius: 40,
+      height: 70,
+      position: 'absolute',
+      borderWidth: 1,
+      borderStyle: "solid",
+      borderColor: "#3700B3"
     },
 
     text :{
+      flex: 1,
         marginTop: 10,
         alignSelf: 'center',
-        color: "#3700B3",
-        width: 228,
-        height: 28,
-        fontWeight:500,
+        color: "#3700B3",      
+        fontWeight:"700",
         fontFamily:"Inter-Regular",
-        fontSize:15,
+        marginTop:"20%",
+        fontSize:14,
         lineHeight:28,
         textTransform: 'capitalize'
     }    

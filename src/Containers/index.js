@@ -8,3 +8,5 @@ export { default as GenerateWalletScreen } from './Onboarding/GenerateWalletScre
 export { default as PageNotFound } from './Onboarding/PageNotFound'
 export { default as SeedPhraseScreen } from './Onboarding/SeedPhraseScreen'
 export { default as ModalConfirmation } from './Onboarding/ModalConfirmation'
+export { default as IntroScreen } from './Onboarding/IntroScreen'
+export { default as FinalComments } from './Onboarding/FinalComments'

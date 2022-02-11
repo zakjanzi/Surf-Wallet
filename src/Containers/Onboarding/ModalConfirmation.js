@@ -3,6 +3,7 @@ import { View } from 'react-native'
 import { useTheme } from '@/Hooks'
 import { GeneralNotification, ModalNotification } from '@/Components'
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useTranslation } from 'react-i18next'
 
 const confirmAndFinish = () => {
      

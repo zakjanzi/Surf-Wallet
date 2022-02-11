@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
-import { View, LayoutAnimation, Platform, StyleSheet, TouchableOpacity, UIManager } from 'react-native'
-import { useTheme, useTogglePasswordVisibility } from '@/Hooks'
-import { GeneralNotification , SmallContainerForKeys} from '@/Components'
-import Icon from 'react-native-vector-icons/FontAwesome';
+import React, { useState, useLayoutEffect , useEffect} from 'react'
+import { View, LayoutAnimation, Platform, StyleSheet, TouchableOpacity, UIManager, Text } from 'react-native'
+import { useTheme } from '@/Hooks'
+import { GeneralNotification , SmallContainerForKeys, GeneralButton, TextPassword } from '@/Components'
+import Icon from 'react-native-vector-icons/Ionicons';
 import CheckBox from '@react-native-community/checkbox';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useTranslation } from 'react-i18next'
 
 if (
     Platform.OS === "android" &&
@@ -13,83 +14,95 @@ if (
     UIManager.setLayoutAnimationEnabledExperimental(true);
   }
 
-const AccountInformationScreen = () => {
+const AccountInformationScreen = ({navigation, route}) => {
+  const { mnemonic , privateKey } = route.params;
   const { Colors } = useTheme()
   const { t } = useTranslation()
   
   const [seeds, setSeed] = useState("");
-  const [password, setPassword] = useState("");
   const [expanded, setExpanded] = useState(false);
-  const [pastedSeed, setPastedSeed] = useState(""); //  get this from Navigation
+  const [password, setPassword] = useState("#SamplePassword200#$");
+
   const [toggleCheckBox, setToggleCheckBox] = useState(false);
-
-  const { passwordVisibility, handlePasswordVisibility } = useTogglePasswordVisibility();
-
 
   //get seed from Navigator
   const copySeed = () => {
     Clipboard.setString(seeds);
   }
 
+  useEffect(() => {
+   setSeed( JSON.parse(mnemonic).phrase )
+   
+  }, []);
+
   const confirmAndFinish = () => {
    //Just navigate to the Next screen
+    navigation.navigate("FinalComments")
   }
 
+  const onBack = () => {
+    navigation.goBack();
+  }
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerBackVisible: false,
+      headerLeft: () => (
+        <TouchableOpacity onPress={onBack} >
+            <Icon name="chevron-back" size={30} color={Colors.text} />            
+        </TouchableOpacity>
+      ),
+    });
+   }, [navigation]);
+
   return (   
-      <SafeAreaView style={ [ styles.fill ,  { padding: 10, backgroundColor: Colors.backgroundColor } ]}>   
+      <SafeAreaView style={ [ styles.fill ,  { padding: 15, backgroundColor: Colors.backgroundColor } ]}>   
         
-        <View>
+        <View style={{ marginTop: 10 }}>
             <GeneralNotification header={t('onboarding_account_info_header')} body={t('onboarding_account_info_body')} />
         </View> 
 
-        <View style={styles.accordion_header}>
+        <View style={styles.accordion_header}> 
             <Text> { t('onboarding_account_show_info') } </Text>
             <TouchableOpacity
                 onPress={() => {
                 LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
                 setExpanded(!expanded);
                 }}
-            >
-                <Icon name={ expanded === true ? "caret-up" : "caret-down" } size={27} color={Colors.text} />
+            > 
+                <Icon name={ expanded === true ? "caret-up" : "caret-down" } size={20} color={Colors.text} />
             </TouchableOpacity>
         </View> 
 
         { expanded && (
-            <View style={{ marginTop: 10 }}>
+            <View style={{ backgroundColor: Colors.langButton , borderRadius: 7, height: "25%", padding: 20 }}>
                <SmallContainerForKeys onCopy={copySeed} header={ t('onboarding_account_modal_header') } address={seeds} showCopyIcon={true} showBorderBottom={true} />
-               <View style={styles.inputContainer}>
-                    <TextInput
-                    style={styles.inputField}
-                    name="password"
-                    textContentType="newPassword"
-                    secureTextEntry={passwordVisibility}
-                    value={password}
-                    enablesReturnKeyAutomatically
-                    editable={false}
-                    />
-                        <Pressable onPress={handlePasswordVisibility}>
-                            <Icon name={'eye'} size={23} color={Colors.normalButton} />   
-                        </Pressable>
-                </View>
-            </View>
-        )}    
+               
+               <View style={{ flexDirection: 'row', justifyContent:'center', alignItems:'center' }}> 
+                    <Text style={{ width: '20%', alignSelf:'flex-end', fontWeight:'600' }}> Password: </Text>
+                    <View style={{ width: '80%' }}> 
+                         <TextPassword  password={password} />
+                    </View>
+                  
+               </View>
 
-        <View style={{ paddingVertical:5 , alignSelf: 'flex-end', width: '100%' }}>
-            <View style={{ flexDirection:'row', flex: 1 }}> 
-                <CheckBox
-                        style={{ flex: 1}}
-                        disabled={false}
-                        value={toggleCheckBox}
-                        tintColors={ { true: Colors.someText, false: Colors.skip }}
-                        onCheckColor={ Colors.langButton }
-                        onFillColor={ Colors.someText }
-                    />
-                <Text style={{ flex: 5 }}> { t('onboarding_account_accept_responsibility') } </Text>    
             </View>
-        </View>
-      
-        <View style={{ paddingVertical:5, alignSelf: 'flex-end' }}>
-            <generalButton onPress={confirmAndFinish} title={t('onboarding_confirm_and_finish')} />    
+        )}  
+
+        <View  style={{ alignSelf: "center", width: "90%", position: "absolute", bottom: 10 }}>
+            <View style={{ flexDirection:'row', paddingVertical:5 , marginBottom:20, width: '100%' }}>
+                    <CheckBox
+                            style={{ width: "10%"  }}
+                            disabled={false}
+                            value={toggleCheckBox}
+                            onValueChange={(newValue) => setToggleCheckBox(newValue)}
+                            tintColors={ { true: Colors.someText, false: Colors.skip }}
+                            onCheckColor={ Colors.langButton }
+                            onFillColor={ Colors.someText }
+                        />
+                    <Text style={{ width: "90%" , color: Colors.text }}> { t('onboarding_account_accept_responsibility') } </Text>
+            </View>
+            <GeneralButton onPress={confirmAndFinish} title={t('onboarding_confirm_and_finish')} />    
         </View>
 
       </SafeAreaView>     
@@ -101,15 +114,15 @@ const styles = StyleSheet.create({
     fill:{
         flex: 1, 
         flexDirection: "column" , 
-        justifyContent: "space-around"
+        
     },
-
     accordion_header:{
         width: 270,
         height:28,
         flexDirection: "row",
         padding:2,
         alignItems: "center",
+        marginTop: "20%" ,
         justifyContent:"center"
     },
 

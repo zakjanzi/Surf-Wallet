@@ -11,14 +11,14 @@
 export const Colors = {
   transparent: 'rgba(0,0,0,0)',
   backgroundColor: '#F9F9F9',
-
+  textInButton: '#F9F9F9',
   text: '#141414',
   headerText: '#3700B3',
   bodyText: '#333333',
   skip: '#707070',
   someText: '#3700B3',
 
-  fadedButton: '#2AO977',
+  fadedButton: '#290B70',
   langButton: '#FFFFFF',
   normalButton: '#3700B3'
 }

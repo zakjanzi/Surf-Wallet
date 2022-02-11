@@ -1,90 +1,151 @@
-import React, { useRef } from 'react'
-import { View,TouchableOpacity, Text, StyleSheet } from 'react-native'
+import React, { useState } from 'react'
+import { View,Dimensions,StyleSheet, TouchableOpacity, Text } from 'react-native'
 import { useTheme } from '@/Hooks'
-import { TextScreen, FloatButton, GeneralButton  } from '@/Components'
-import { SwiperFlatList } from 'react-native-swiper-flatlist';
+import { useSelector } from 'react-redux'
+import { GeneralButton } from '@/Components'
+import NextButton from '@/Assets/Images/Nextone_Light.svg'
+import OnBoardOneDark from '@/Assets/Images/onBoardone_dark.svg'
+import OnBoardTwoDark from '@/Assets/Images/onBoardtwo_dark.svg'
+import OnBoardThreeDark from '@/Assets/Images/onBoardthree_dark.svg'
+import OnBoardOneLight from '@/Assets/Images/onBoardone.svg'
+import OnBoardTwoLight from '@/Assets/Images/onBoardtwo.svg'
+import OnBoardThreeLight from '@/Assets/Images/onBoardthree.svg'
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useTranslation } from 'react-i18next'
+//import { navigate } from '@/Navigators/utils'
 
-const IntroScreen = () => {
-  const { Layout, Gutters, Colors } = useTheme()
-  const flatlistRef = useRef(null);
+const IntroScreen = ({ navigation }) => {
+  const { Layout, Colors } = useTheme()
+  const [steps, setSteps] = useState(0);
+  const isDarkTheme = useSelector(state => state.theme.darkMode )
   const { t } = useTranslation()
 
   const createWallet = () => {
-     
+      //navigate to GenerateWalletScreen
+      navigation.navigate("GenerateWalletScreen")
   }
-  const nextScreen = () => {
-     
+
+  const onSkip = () => {
+    setSteps(2)
+  }
+
+  const onNext = () => {
+    setSteps(steps + 1)
+  }
+
+  const onAlreadyHaveWallet = () => {
+    //navigate to Login Screen
+    navigation.navigate("CreateProfileScreen",{})
   }
 
   return (   
-      <SafeAreaView style={{ paddingTop: "5px", backgroundColor: Colors.backgroundColor }}>   
-        
-        <View style={[Layout.colCenter, Gutters.smallHPadding]}>
-            <View style={{marginTop:"10%" }}>            
-                <SwiperFlatList ref={flatlistRef} autoplayDelay={20} showPagination paginationDefaultColor={Colors.normalButton}>
-                   
-                    <View style={{ justifyContent: "space-around"}}>
-                        <TextScreen title_header={t('onboarding_textheader')}  title_body={t('onboarding_textbody')} />
-                        <View style={ styles.fill }>
-                            <View style={ styles.startView }>
-                                <TouchableOpacity onPress={setSkip} >
-                                    <Text style={ [styles.smallFont, { color: Colors.skip }] }>{ "Skip" }</Text>
-                                </TouchableOpacity>   
-                            </View>
+      <SafeAreaView style={[Layout.fill, { flexDirection: "column-reverse"} ]}>   
+          
+          { (steps === 0 || steps === 1) && ( 
+          <View style={ styles.fillRow }> 
+                <View style={ styles.startView }>                    
+                        <TouchableOpacity  onPress={onSkip} >
+                            <Text style={ [styles.smallFont, { color: Colors.skip }] }>{ "Skip" }</Text>
+                        </TouchableOpacity>
+                </View> 
+                <View style={ styles.endView }>  
+                        <TouchableOpacity  onPress={onNext} >                  
+                            <NextButton/>
+                        </TouchableOpacity>
+                </View>  
+          </View> )}
 
-                            <View style={ styles.endView }>
-                                <FloatButton onPress={nextScreen}/>    
-                            </View>            
-                        </View>
-                    </View>
+          { (steps === 2) && ( 
+          <View style={styles.fillAColumn}>  
+                <GeneralButton onPress={createWallet} title={ t('onboarding_create_wallet') } />
+                <TouchableOpacity  onPress={onAlreadyHaveWallet} style={{ alignSelf: "center" }} >  
+                    <Text style={ [styles.mediumFont, { color: Colors.skip }] }>{ t('onboarding_create_wallet_already_have') }</Text>
+                </TouchableOpacity>    
+          </View> )}
 
-                    <View style={{ justifyContent: "space-around"}}>
-                        <TextScreen title_header={t('onboarding_textheader_two')} title_body={t('onboarding_textbody_two')}  />
-                        <View style={  styles.fill  }>
-                            <View style={styles.startView}>
-                                <TouchableOpacity onPress={setSkip} >
-                                    <Text style={  [styles.smallFont, { color: Colors.skip }] }>{ "Skip" }</Text>
-                                </TouchableOpacity>   
-                            </View>
+          <View style={styles.slide}>
+                { (steps === 0 && isDarkTheme === true) && ( 
+                        <OnBoardOneDark/>
+                )}
+                { (steps === 1 && isDarkTheme === true) && ( 
+                        <OnBoardTwoDark/>
+                )}
+                { (steps === 2 && isDarkTheme === true) && ( 
+                        <OnBoardThreeDark/>
+                )}
 
-                            <View style={ styles.endView }>
-                                <FloatButton onPress={nextScreen}/>    
-                            </View>            
-                        </View>
-                    </View>
+                {(steps === 0 && !isDarkTheme) && ( 
+                        <OnBoardOneLight/>
+                )}
+                {(steps === 1 && !isDarkTheme) && ( 
+                        <OnBoardTwoLight/>
+                )}
+                {(steps === 2 && !isDarkTheme) && ( 
+                        <OnBoardThreeLight/>
+                )}
+          </View>
 
-                    <View style={{ justifyContent: "space-around"}}>
-                        <TextScreen title_header={t('onboarding_textheader_three')} title_body={t('onboarding_textbody_three')} />
-                        <View style={{ paddingVertical:"5px" , flex: 1 }}>
-                             <GeneralButton onPress={createWallet} title={t('onboarding_create_wallet')} />    
-                        </View>
-                        <View style={{ paddingVertical:5, flex: 1 }}>
-                            <Text style={{ fontWeight: 600, fontSize: 14, lineHeight: 20, color: Colors.skip  }}> </Text>
-                        </View>                        
-                    </View>
-
-                </SwiperFlatList>
-            </View>
-        </View>     
-
+           
       </SafeAreaView>     
   ) 
 }
 
 const styles = StyleSheet.create({
     fill:{
-        flex: 1, flexDirection: "row" 
+        flex: 1, flexDirection: "column" 
+    },
+    fillRow:{
+         flexDirection: 'row',  height: "10%", marginVertical: 10, marginHorizontal:20,  justifyContent: "space-between",
+    },
+    fillAColumn:{
+        flexDirection: 'column',  height: "16%", marginVertical: 15, paddingTop: 10,
+        alignItems:"stretch", justifyContent:"space-between",  marginHorizontal:20
+    },
+    slide:{
+       justifyContent: "center", alignItems:"center", marginBottom: 66
     },
     startView:{
-        justifyContent: "flex-start", marginHorizontal: 5
+        width: 50, marginLeft: 30, justifyContent: 'center'
     },
     endView:{
-        justifyContent: "flex-end", marginHorizontal: 5
-    },
+         width: 50,  marginRight: 30, justifyContent: 'center'
+      },
     smallFont:{
-       fontSize: 12, lineHeight:16
+        fontSize: 12, lineHeight:16
+    },
+    mediumFont:{
+        fontSize: 16, lineHeight:20
     }
   })
 
+
+  //borderWidth: 1, borderColor: "#ffffff", borderStyle: "dashed",
+  /***
+   * 
+   *   <Onboarding
+                pages={[
+                    {
+                        backgroundColor: Colors.someText ,
+                        image: <></>,
+                        title: t('onboarding_textheader'),
+                        subtitle: t('onboarding_textbody') ,
+                        nextLabel: <FloatButton/>
+                    },
+                    {
+                        backgroundColor: Colors.someText ,
+                        image: <></>,
+                        title: t('onboarding_textheader_two'),
+                        subtitle: t('onboarding_textbody_two'),
+                        nextLabel: <FloatButton/>
+                    },
+                    {
+                        backgroundColor: Colors.someText ,
+                        image:  <></>,
+                        title: t('onboarding_textheader_three'),
+                        subtitle: t('onboarding_textheader_three'),
+                        onDone:{onDoneFunc}
+                    }
+                ]}
+            />
+   */
 export default IntroScreen
