@@ -73,11 +73,12 @@ export default function OnboardingUsername({navigation}) {
             style={[
               styles.inputCont,
               {
-                borderBottomColor: !available
-                  ? BaseColor.notavailableName
-                  : usernameRef?.current?.isFocused()
-                  ? BaseColor.inputBottomLine
-                  : BaseColor.placeholderInput,
+                borderBottomColor:
+                  !available && !isEmpty(username)
+                    ? BaseColor.notavailableName
+                    : usernameRef?.current?.isFocused()
+                    ? BaseColor.inputBottomLine
+                    : BaseColor.placeholderInput,
               },
             ]}>
             {!isEmpty(username) && (
@@ -111,9 +112,14 @@ export default function OnboardingUsername({navigation}) {
                 },
               ]}
             />
-
             <CText
-              value={available ? t('available') : t('notAvailable')}
+              value={
+                isEmpty(username)
+                  ? ''
+                  : available
+                  ? t('available')
+                  : t('notAvailable')
+              }
               style={[
                 styles.righttxt,
                 {

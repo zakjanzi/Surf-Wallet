@@ -84,26 +84,6 @@ export default function OnboardingScreen({navigation}) {
             style={[styles.desciption, {color: BaseColor.onBoardDesc}]}
           />
         </View>
-
-        <View style={styles.dotCont}>
-          {walkArr.map((item, index) => {
-            return (
-              <View
-                key={index}
-                style={[
-                  styles.dot,
-                  {
-                    height: index == curIndex ? 8 : 4,
-                    width: index == curIndex ? 8 : 4,
-                    backgroundColor:
-                      index == curIndex
-                        ? BaseColor.primary
-                        : BaseColor.boardingSkip,
-                  },
-                ]}></View>
-            );
-          })}
-        </View>
       </View>
     );
   };
@@ -136,6 +116,26 @@ export default function OnboardingScreen({navigation}) {
           viewabilityConfig={viewConfigRef.current}
           showsHorizontalScrollIndicator={false}
         />
+
+        <View style={styles.dotCont}>
+          {walkArr.map((item, index) => {
+            return (
+              <View
+                key={index}
+                style={[
+                  styles.dot,
+                  {
+                    height: index == curIndex ? 8 : 4,
+                    width: index == curIndex ? 8 : 4,
+                    backgroundColor:
+                      index == curIndex
+                        ? BaseColor.primary
+                        : BaseColor.boardingSkip,
+                  },
+                ]}></View>
+            );
+          })}
+        </View>
 
         {curIndex == 2 ? (
           <View style={{padding: 16}}>

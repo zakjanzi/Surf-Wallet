@@ -21,6 +21,7 @@ import styles from './styles';
 import Clipboard from '@react-native-clipboard/clipboard';
 import CCheckBox from '../../components/CCheckBox';
 import {FontFamily} from '../../config/typography';
+import Toast from 'react-native-simple-toast';
 
 export default function AccountInformation({navigation}) {
   const {dark} = useSelector(state => state.auth);
@@ -113,7 +114,7 @@ export default function AccountInformation({navigation}) {
                   <TouchableOpacity
                     activeOpacity={0.7}
                     onPress={() => {
-                      Clipboard.setString(privateKey);
+                      Clipboard.setString(phrase);
 
                       Toast.show(t('copied'));
                     }}>
