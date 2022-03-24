@@ -1,13 +1,6 @@
 import React, {useState} from 'react';
 import {useSelector} from 'react-redux';
-import {
-  View,
-  ScrollView,
-  Image,
-  TouchableOpacity,
-  Text,
-  Modal,
-} from 'react-native';
+import {View, ScrollView, Image, TouchableOpacity, Text} from 'react-native';
 import {DarkColor, LightColor} from '../../config/colors';
 import CHeader from '../../components/CHeader';
 import {t} from 'i18next';
@@ -19,8 +12,6 @@ import Toast from 'react-native-simple-toast';
 import Clipboard from '@react-native-clipboard/clipboard';
 import CButton from '../../components/CButton';
 import {enableAnimateInEaseOut} from '../../config/commonFunctions';
-import {FlatList} from 'react-native-gesture-handler';
-import {FontFamily} from '../../config/typography';
 
 export default function GenerateWallet({navigation}) {
   const {dark} = useSelector(state => state.auth);
@@ -33,19 +24,7 @@ export default function GenerateWallet({navigation}) {
   const [privateKey, setprivateKey] = useState('');
   const [privateKeyProgress, setprivateKeyProgress] = useState(0);
 
-  const [seedPhrase, setseedPhrase] = useState(false);
-
-  const [phrase, setphrase] = useState('');
-  const [phraseArr, setphraseArr] = useState([]);
-  const [phraseProgess, setphraseProgess] = useState(0);
-  const [phraseLoading, setphraseLoading] = useState(false);
-
-  const [copied, setcopied] = useState(false);
-
-  const [phraseModal, setphraseModal] = useState(false);
-
-  const [started, setstarted] = useState(false);
-
+  //loading of privacy key
   const generatePrivacyKey = () => {
     setprivateKeyGenerate(true);
     interval = setInterval(() => {
@@ -66,33 +45,6 @@ export default function GenerateWallet({navigation}) {
     setTimeout(() => {
       setprivateKey('0xrYCbftL0GpLnuYigpsUtrlq');
       clearInterval(interval);
-      setstarted(true);
-    }, 5000);
-  };
-
-  const generatePhrase = () => {
-    interval = setInterval(() => {
-      console.log('This will run every second!');
-      setphraseProgess(progress => {
-        if (progress == 0) {
-          return 0.1;
-        } else if (progress == 0.1) {
-          return 0.3;
-        } else if (progress == 0.3) {
-          return 0.8;
-        } else if (progress == 0.8) {
-          return 1;
-        }
-      });
-    }, 1000);
-
-    setTimeout(() => {
-      let tempPhrase =
-        'book man test word wallet short eyes apply pencil door floor tall';
-      setphrase(tempPhrase);
-      setphraseArr(tempPhrase.split(' '));
-
-      clearInterval(interval);
     }, 5000);
   };
 
@@ -109,42 +61,20 @@ export default function GenerateWallet({navigation}) {
       />
       <View style={[styles.root, {backgroundColor: BaseColor.primaryBG}]}>
         <ScrollView style={{flexGrow: 1}} showsVerticalScrollIndicator={false}>
-          <View
-            style={{
-              borderRadius: 12,
-            }}>
-            {privateKeyGenerate && (
-              <View
-                style={[
-                  styles.privateKeyCont,
-                  {backgroundColor: BaseColor.langUNSBtnBack, zIndex: 2},
-                ]}>
-                {!privateKey ? (
-                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                    <CText
-                      value={t('privateKey') + ' :'}
-                      style={{
-                        color: BaseColor.text2,
-                        fontSize: 12,
-                      }}
-                    />
-                    <View
-                      style={{
-                        flex: 1,
-                        marginStart: 16,
-                      }}>
-                      <ProgressBar
-                        progress={privateKeyProgress}
-                        width={null}
-                        borderWidth={0}
-                        unfilledColor={BaseColor.unProgressBack}
-                        color={BaseColor.onBoardTitle}
-                      />
-                    </View>
-                  </View>
-                ) : (
-                  <View style={{flexDirection: 'row'}}>
-                    <View style={{flex: 1}}>
+          <View style={{paddingBottom: 25}}>
+            <View
+              style={{
+                backgroundColor: BaseColor.langUNSBtnBack,
+                borderRadius: 12,
+              }}>
+              {privateKeyGenerate && (
+                <View
+                  style={[
+                    styles.privateKeyCont,
+                    {backgroundColor: BaseColor.langUNSBtnBack},
+                  ]}>
+                  {!privateKey ? (
+                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
                       <CText
                         value={t('privateKey') + ' :'}
                         style={{
@@ -152,15 +82,39 @@ export default function GenerateWallet({navigation}) {
                           fontSize: 12,
                         }}
                       />
-                      <CText
-                        value={privateKey}
+                      <View
                         style={{
-                          color: BaseColor.text1,
-                          fontSize: 14,
-                        }}
-                      />
+                          flex: 1,
+                          marginStart: 16,
+                        }}>
+                        <ProgressBar
+                          progress={privateKeyProgress}
+                          width={null}
+                          borderWidth={0}
+                          unfilledColor={BaseColor.unProgressBack}
+                          color={BaseColor.onBoardTitle}
+                        />
+                      </View>
                     </View>
-                    {/* <TouchableOpacity
+                  ) : (
+                    <View style={{flexDirection: 'row'}}>
+                      <View style={{flex: 1}}>
+                        <CText
+                          value={t('privateKey') + ' :'}
+                          style={{
+                            color: BaseColor.text2,
+                            fontSize: 12,
+                          }}
+                        />
+                        <CText
+                          value={privateKey}
+                          style={{
+                            color: BaseColor.text1,
+                            fontSize: 14,
+                          }}
+                        />
+                      </View>
+                      <TouchableOpacity
                         activeOpacity={0.7}
                         onPress={() => {
                           Clipboard.setString(privateKey);
@@ -172,223 +126,57 @@ export default function GenerateWallet({navigation}) {
                           style={{height: 18, width: 18}}
                           resizeMode="contain"
                         />
-                      </TouchableOpacity> */}
-                  </View>
-                )}
-              </View>
-            )}
-            {started ? (
-              <View>
-                {privateKey && !seedPhrase ? (
-                  <View
-                    style={{
-                      paddingBottom: 64,
-                      padding: 16,
-                      margin: -16,
-                      borderRadius: 50,
-                      zIndex: 1,
-                    }}>
-                    <View
-                      style={{
-                        marginTop: -16,
-                        backgroundColor: BaseColor.langUNSBtnBack,
-                        borderRadius: 14,
-                      }}>
-                      <View
-                        style={{
-                          alignItems: 'center',
-                          marginTop: 64,
-                          // paddingBottom: 64,
-                        }}>
-                        <Image
-                          source={
-                            dark
-                              ? Images.mini_info_dark
-                              : Images.mini_info_light
-                          }
-                          style={{height: 14, width: 14}}
-                          resizeMode="contain"
-                        />
-                        <CText
-                          value={t('thisIsYourPrivateKey')}
-                          style={{
-                            color: BaseColor.text2,
-                            fontSize: 14,
-                            marginHorizontal: 36,
-                            textAlign: 'center',
-                            marginTop: 24,
-                            marginBottom: 64,
-                          }}
-                        />
-                        <Image
-                          source={dark ? Images.check_dark : Images.check_light}
-                          style={{
-                            height: 42,
-                            width: 42,
-                            marginTop: 24,
-                            position: 'absolute',
-                            bottom: -21,
-                          }}
-                          resizeMode="contain"
-                        />
-                      </View>
+                      </TouchableOpacity>
                     </View>
-                  </View>
-                ) : (
-                  <View>
-                    <CText
-                      value={t('seedPhrase') + ' :'}
-                      style={{
-                        color: BaseColor.text1,
-                        fontSize: 14,
-                        marginTop: 64,
-                      }}
-                    />
-                    {!phrase ? (
-                      <View style={{marginTop: 32}}>
-                        <View style={{padding: 64, paddingBottom: 24}}>
-                          <ProgressBar
-                            progress={phraseProgess}
-                            width={null}
-                            borderWidth={0}
-                            unfilledColor={BaseColor.unProgressBack}
-                            color={BaseColor.onBoardTitle}
-                          />
-                        </View>
-
-                        <CText
-                          value={t('extractingSeedPhrase')}
-                          style={{
-                            color: BaseColor.text2,
-                            fontSize: 14,
-                            marginTop: 32,
-                            textAlign: 'center',
-                          }}
-                        />
-                      </View>
-                    ) : (
-                      <View>
-                        <FlatList
-                          keyExtractor={(item, index) => index}
-                          data={phraseArr}
-                          numColumns={4}
-                          contentContainerStyle={{marginTop: 16}}
-                          renderItem={({item, index}) => {
-                            return (
-                              <CText
-                                value={item}
-                                medium
-                                style={{
-                                  color: BaseColor.text1,
-                                  fontSize: 14,
-                                  // width: Dime,
-                                  width: '25%',
-                                  textAlign: 'center',
-                                  padding: 8,
-                                  marginTop: 16,
-                                }}
-                              />
-                            );
-                          }}
-                        />
-                        <TouchableOpacity
-                          style={{
-                            alignSelf: 'center',
-                            marginTop: 36,
-                            padding: 16,
-                            borderWidth: 1,
-                            borderColor: BaseColor.inputBorder,
-                            borderRadius: 4,
-                            paddingHorizontal: 24,
-                          }}
-                          onPress={() => {
-                            setcopied(true);
-                            Clipboard.setString(phrase);
-                            Toast.show(t('copied'));
-                          }}>
-                          <CText
-                            value={t('copy')}
-                            semiBold
-                            style={{
-                              color: BaseColor.text1,
-                              fontSize: 14,
-                            }}
-                          />
-                        </TouchableOpacity>
-                      </View>
-                    )}
-                  </View>
-                )}
-              </View>
-            ) : null}
-          </View>
-        </ScrollView>
-
-        {phrase ? (
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              marginBottom: 16,
-            }}>
-            <Image
-              style={{height: 14, width: 14}}
-              source={dark ? Images.mini_info_dark : Images.mini_info_light}
-              resizeMode="contain"
-            />
-            <View
-              style={{
-                alignItems: 'center',
-                flexDirection: 'row',
-                marginStart: 8,
-              }}>
-              <CText
-                value={t('whatIsA')}
-                style={{
-                  color: BaseColor.text2,
-                  fontSize: 12,
-                }}
-              />
-              <Text>{` `}</Text>
-              <TouchableOpacity
-                activeOpacity={0.7}
-                onPress={() => {
-                  setphraseModal(true);
-                }}>
-                <CText
-                  value={t('seedPhrase')}
+                  )}
+                </View>
+              )}
+              {privateKey ? (
+                <View
                   style={{
-                    color: BaseColor.onBoardTitle,
-                    fontSize: 12,
-                  }}
-                />
-              </TouchableOpacity>
-              <Text>{` `}</Text>
-              <CText
-                value={t('andWhy')}
-                style={{
-                  color: BaseColor.text2,
-                  fontSize: 12,
-                }}
-              />
+                    alignItems: 'center',
+                    marginTop: 32,
+                    // paddingBottom: 64,
+                  }}>
+                  <Image
+                    source={
+                      dark ? Images.mini_info_dark : Images.mini_info_light
+                    }
+                    style={{height: 14, width: 14}}
+                    resizeMode="contain"
+                  />
+                  <CText
+                    value={t('thisIsYourPrivateKey')}
+                    style={{
+                      color: BaseColor.text2,
+                      fontSize: 14,
+                      marginHorizontal: 36,
+                      textAlign: 'center',
+                      marginTop: 24,
+                      marginBottom: 64,
+                    }}
+                  />
+                  <Image
+                    source={dark ? Images.check_dark : Images.check_light}
+                    style={{
+                      height: 42,
+                      width: 42,
+                      marginTop: 24,
+                      position: 'absolute',
+                      bottom: -21,
+                    }}
+                    resizeMode="contain"
+                  />
+                </View>
+              ) : null}
             </View>
           </View>
-        ) : null}
-        {phrase ? (
+        </ScrollView>
+        {privateKey ? (
           <CButton
             value={t('continue')}
-            disable={!copied}
             onPress={() => {
               navigation.navigate('SeedPhrase');
-            }}
-          />
-        ) : privateKey ? (
-          <CButton
-            value={t('continue')}
-            onPress={() => {
-              // navigation.navigate('SeedPhrase');
-              setseedPhrase(true);
-              generatePhrase();
             }}
           />
         ) : (
@@ -398,70 +186,6 @@ export default function GenerateWallet({navigation}) {
           />
         )}
       </View>
-      <Modal transparent animationType="slide" visible={phraseModal}>
-        <TouchableOpacity
-          activeOpacity={1}
-          onPress={() => setphraseModal(false)}
-          style={[styles.modalCont, {backgroundColor: BaseColor.transBlack}]}>
-          <View
-            style={[styles.bottomCont, {backgroundColor: BaseColor.primaryBG}]}>
-            <CText
-              value={t('seedPhrase')}
-              semiBold
-              style={{color: BaseColor.text1, fontSize: 16}}
-            />
-            <Text
-              style={{
-                color: BaseColor.text2,
-                fontSize: 12,
-                fontFamily: FontFamily.Inter_Regular,
-              }}>
-              {t('seedIsPrivateKey1') + ' '}
-              <Text
-                style={{
-                  color: BaseColor.onBoardTitle,
-                  fontSize: 12,
-                  fontFamily: FontFamily.Inter_Regular,
-                }}>
-                {t('seedPhrase')}
-              </Text>
-              {' ' + t('seedIsPrivateKey2')}
-            </Text>
-            <CText
-              value={t('seedIsPrivateKey3')}
-              style={{color: BaseColor.text2, fontSize: 12, marginTop: 24}}
-            />
-            <View
-              style={{
-                backgroundColor: BaseColor.langUNSBtnBack,
-                borderRadius: 6,
-                padding: 24,
-                marginVertical: 48,
-              }}>
-              <CText
-                value={t('ifLoseSeedPrase')}
-                medium
-                style={{
-                  color: BaseColor.text1,
-                  fontSize: 12,
-                  textAlign: 'center',
-                }}
-              />
-              <Image
-                source={dark ? Images.mini_info_dark : Images.mini_info_light}
-                style={{
-                  height: 14,
-                  width: 14,
-                  position: 'absolute',
-                  top: -7,
-                  alignSelf: 'center',
-                }}
-              />
-            </View>
-            <CButton value={t('gotIt')} onPress={() => setphraseModal(false)} />
-          </View>
-        </TouchableOpacity>
-      </Modal>
     </>
   );
 }

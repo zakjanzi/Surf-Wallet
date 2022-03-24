@@ -55,6 +55,7 @@ export default function OnboardingScreen({navigation}) {
 
   const viewConfigRef = React.useRef({viewAreaCoveragePercentThreshold: 50});
 
+  // render single page
   const renderPage = ({item, index}) => {
     return (
       <View
@@ -83,6 +84,26 @@ export default function OnboardingScreen({navigation}) {
             medium
             style={[styles.desciption, {color: BaseColor.onBoardDesc}]}
           />
+        </View>
+
+        <View style={styles.dotCont}>
+          {walkArr.map((item, index) => {
+            return (
+              <View
+                key={index}
+                style={[
+                  styles.dot,
+                  {
+                    height: index == curIndex ? 8 : 4,
+                    width: index == curIndex ? 8 : 4,
+                    backgroundColor:
+                      index == curIndex
+                        ? BaseColor.primary
+                        : BaseColor.boardingSkip,
+                  },
+                ]}></View>
+            );
+          })}
         </View>
       </View>
     );
@@ -117,26 +138,6 @@ export default function OnboardingScreen({navigation}) {
           showsHorizontalScrollIndicator={false}
         />
 
-        <View style={styles.dotCont}>
-          {walkArr.map((item, index) => {
-            return (
-              <View
-                key={index}
-                style={[
-                  styles.dot,
-                  {
-                    height: index == curIndex ? 8 : 4,
-                    width: index == curIndex ? 8 : 4,
-                    backgroundColor:
-                      index == curIndex
-                        ? BaseColor.primary
-                        : BaseColor.boardingSkip,
-                  },
-                ]}></View>
-            );
-          })}
-        </View>
-
         {curIndex == 2 ? (
           <View style={{padding: 16}}>
             <CButton
@@ -145,7 +146,10 @@ export default function OnboardingScreen({navigation}) {
                 navigation.navigate('OnboardingUsername');
               }}
             />
-            <TouchableOpacity style={{padding: 24}}>
+            <TouchableOpacity
+              style={{padding: 24}}
+              activeOpacity={0.7}
+              onPress={() => {}}>
               <CText
                 value={t('alreadyWallet')}
                 medium
@@ -177,7 +181,12 @@ export default function OnboardingScreen({navigation}) {
                   index: curIndex + 1,
                 });
               }}
-              style={styles.nextCont}>
+              style={[
+                styles.nextCont,
+                {
+                  backgroundColor: BaseColor.whiteColor,
+                },
+              ]}>
               <Image
                 source={Images.light_right_arrow}
                 style={{height: 24, width: 24}}

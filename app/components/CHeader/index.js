@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Image, Text, TouchableOpacity, View} from 'react-native';
 import {useSelector} from 'react-redux';
 import {DarkColor, LightColor} from '../../config/colors';
@@ -9,7 +9,20 @@ export default function CHeader(props) {
   const {dark} = useSelector(state => state.auth);
   const [BaseColor, setBaseColor] = useState(dark ? DarkColor : LightColor);
 
-  const {title = '', backBtn, onBackPress = () => {}} = props;
+  const {
+    title = '',
+    backBtn,
+    onBackPress = () => {},
+    leftIcon,
+    onLeftIconPress = () => {},
+    renderCenter = () => {},
+    rightIcon,
+    onRightIconPress = () => {},
+  } = props;
+
+  useEffect(() => {
+    setBaseColor(dark ? DarkColor : LightColor);
+  }, [dark]);
 
   return (
     <>
@@ -20,16 +33,27 @@ export default function CHeader(props) {
           justifyContent: 'center',
           alignItems: 'center',
         }}>
-        <CText
-          value={title}
-          bold
-          style={{
-            color: BaseColor.headerTitle,
-            fontSize: 16,
-          }}
-        />
+        {title ? (
+          <CText
+            value={title}
+            bold
+            style={{
+              color: BaseColor.headerTitle,
+              fontSize: 16,
+            }}
+          />
+        ) : (
+          <View
+            style={{
+              width: '80%',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            {renderCenter()}
+          </View>
+        )}
       </View>
-      {backBtn && (
+      {backBtn ? (
         <TouchableOpacity
           activeOpacity={0.7}
           onPress={() => {
@@ -39,6 +63,33 @@ export default function CHeader(props) {
           <Image
             source={dark ? Images.back_arrow_dark : Images.back_arrow}
             style={{height: 18, width: 18}}
+            resizeMode="contain"
+          />
+        </TouchableOpacity>
+      ) : leftIcon ? (
+        <TouchableOpacity
+          activeOpacity={0.7}
+          onPress={() => {
+            onLeftIconPress();
+          }}
+          style={{position: 'absolute', left: 16, top: 31}}>
+          <Image
+            source={leftIcon}
+            style={{height: 18, width: 18}}
+            resizeMode="contain"
+          />
+        </TouchableOpacity>
+      ) : null}
+      {rightIcon && (
+        <TouchableOpacity
+          activeOpacity={0.7}
+          onPress={() => {
+            onRightIconPress();
+          }}
+          style={{position: 'absolute', right: 16, top: 24}}>
+          <Image
+            source={rightIcon}
+            style={{height: 24, width: 24}}
             resizeMode="contain"
           />
         </TouchableOpacity>

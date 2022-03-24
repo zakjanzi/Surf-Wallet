@@ -32,7 +32,7 @@ export default function CButton(props) {
       <CText
         value={value}
         semiBold
-        style={{color: LightColor.white, fontSize: 14}}
+        style={{color: LightColor.whiteColor, fontSize: 14}}
       />
     </TouchableOpacity>
   );

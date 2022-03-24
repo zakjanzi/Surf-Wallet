@@ -26,4 +26,11 @@ export default styles = StyleSheet.create({
     shadowRadius: 4.65,
     elevation: 6,
   },
+  modalCont: {
+    flex: 1,
+    justifyContent: 'flex-end',
+  },
+  bottomCont: {
+    padding: 16,
+  },
 });

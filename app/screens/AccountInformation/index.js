@@ -21,7 +21,6 @@ import styles from './styles';
 import Clipboard from '@react-native-clipboard/clipboard';
 import CCheckBox from '../../components/CCheckBox';
 import {FontFamily} from '../../config/typography';
-import Toast from 'react-native-simple-toast';
 
 export default function AccountInformation({navigation}) {
   const {dark} = useSelector(state => state.auth);
@@ -38,6 +37,7 @@ export default function AccountInformation({navigation}) {
 
   const [phraseModal, setphraseModal] = useState(false);
 
+  // ease out animation
   enableAnimateInEaseOut();
 
   return (
@@ -114,7 +114,7 @@ export default function AccountInformation({navigation}) {
                   <TouchableOpacity
                     activeOpacity={0.7}
                     onPress={() => {
-                      Clipboard.setString(phrase);
+                      Clipboard.setString(privateKey);
 
                       Toast.show(t('copied'));
                     }}>
@@ -208,8 +208,13 @@ export default function AccountInformation({navigation}) {
         <CButton
           value={t('confirmNFinish')}
           disable={agreed && understood ? false : true}
+          onPress={() => {
+            navigation.navigate('HomeDrawerNavigator');
+          }}
         />
       </View>
+
+      {/* phrase details modal */}
       <Modal transparent animationType="slide" visible={phraseModal}>
         <TouchableOpacity
           activeOpacity={1}

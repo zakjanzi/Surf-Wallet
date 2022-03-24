@@ -22,11 +22,12 @@ export default function LanguageScreen({navigation}) {
   const dispatch = useDispatch();
   const {dark, currentLanguage} = useSelector(state => state.auth);
 
-  const [currentLang, setcurrentLang] = useState();
+  const [currentLang, setcurrentLang] = useState(currentLanguage);
   const [darkTheme, setdarkTheme] = useState(dark);
   const [BaseColor, setBaseColor] = useState(dark ? DarkColor : LightColor);
   const [btnBack, setbtnBack] = useState();
 
+  // change theme function
   const changeTheme = () => {
     setdarkTheme(!darkTheme);
     dispatch(setDark(!darkTheme));
@@ -36,6 +37,7 @@ export default function LanguageScreen({navigation}) {
     setBaseColor(dark ? DarkColor : LightColor);
   }, [darkTheme]);
 
+  // change language function
   const changeLanguage = async value => {
     i18n
       .changeLanguage(value)
@@ -81,14 +83,13 @@ export default function LanguageScreen({navigation}) {
             ]}
             activeOpacity={0.7}
             onPress={() => {
-              if (currentLanguage != 'en') {
+              if (currentLang != 'en') {
                 console.log(
                   '🚀 ~ file: index.js ~ line 82 ~ LanguageScreen ~ currentLang',
                   currentLang,
                 );
                 changeLanguage('en');
               }
-              setcurrentLang('en');
               setTimeout(() => {
                 navigation.navigate('OnboardingScreen');
               }, 500);
@@ -116,10 +117,9 @@ export default function LanguageScreen({navigation}) {
             ]}
             activeOpacity={0.7}
             onPress={() => {
-              if (currentLanguage != 'ar') {
+              if (currentLang != 'ar') {
                 changeLanguage('ar');
               }
-              setcurrentLang('ar');
               setTimeout(() => {
                 navigation.navigate('OnboardingScreen');
               }, 500);
