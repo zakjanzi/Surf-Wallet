@@ -13,4 +13,19 @@ export default styles = StyleSheet.create({
     borderRadius: 50,
     marginRight: 8,
   },
+  rowStyle: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  txtStyle: {
+    fontFamily: FontFamily.Inter_Bold,
+  },
+  txtStyleChart: {
+    fontFamily: FontFamily.Inter_SemiBold,
+  },
+  textInputCont: {
+    paddingStart: 16,
+  },
+  searchBox: {},
 });

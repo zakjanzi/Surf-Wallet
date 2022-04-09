@@ -22,7 +22,7 @@ export default function LanguageScreen({navigation}) {
   const dispatch = useDispatch();
   const {dark, currentLanguage} = useSelector(state => state.auth);
 
-  const [currentLang, setcurrentLang] = useState(currentLanguage);
+  const [currentLang, setcurrentLang] = useState('');
   const [darkTheme, setdarkTheme] = useState(dark);
   const [BaseColor, setBaseColor] = useState(dark ? DarkColor : LightColor);
   const [btnBack, setbtnBack] = useState();
@@ -83,12 +83,14 @@ export default function LanguageScreen({navigation}) {
             ]}
             activeOpacity={0.7}
             onPress={() => {
-              if (currentLang != 'en') {
+              if (currentLanguage != 'en') {
                 console.log(
                   '🚀 ~ file: index.js ~ line 82 ~ LanguageScreen ~ currentLang',
                   currentLang,
                 );
                 changeLanguage('en');
+              } else {
+                setcurrentLang('en');
               }
               setTimeout(() => {
                 navigation.navigate('OnboardingScreen');
@@ -117,8 +119,10 @@ export default function LanguageScreen({navigation}) {
             ]}
             activeOpacity={0.7}
             onPress={() => {
-              if (currentLang != 'ar') {
+              if (currentLanguage != 'ar') {
                 changeLanguage('ar');
+              } else {
+                setcurrentLang('ar');
               }
               setTimeout(() => {
                 navigation.navigate('OnboardingScreen');
@@ -132,6 +136,7 @@ export default function LanguageScreen({navigation}) {
                   currentLang == 'ar'
                     ? BaseColor.langSTxtBack
                     : BaseColor.langUNSTxtBack,
+                transform: [{rotateY: '180deg'}],
               }}
             />
           </TouchableOpacity>

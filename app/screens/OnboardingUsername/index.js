@@ -32,10 +32,6 @@ export default function OnboardingUsername({navigation}) {
   const [available, setavailable] = useState(false);
 
   const usernameRef = useRef();
-  console.log(
-    '🚀 ~ file: index.js ~ line 34 ~ OnboardingUsername ~ usernameRef',
-    usernameRef?.current?.isFocused(),
-  );
 
   const options = [
     {label: t('public'), value: 'public'},
@@ -73,10 +69,12 @@ export default function OnboardingUsername({navigation}) {
             style={[
               styles.inputCont,
               {
-                borderBottomColor: !available
-                  ? BaseColor.notavailableName
-                  : usernameRef?.current?.isFocused()
-                  ? BaseColor.inputBottomLine
+                borderBottomColor: !isEmpty(username)
+                  ? !available
+                    ? BaseColor.notavailableName
+                    : usernameRef?.current?.isFocused()
+                    ? BaseColor.inputBottomLine
+                    : BaseColor.placeholderInput
                   : BaseColor.placeholderInput,
               },
             ]}>
@@ -113,7 +111,13 @@ export default function OnboardingUsername({navigation}) {
             />
 
             <CText
-              value={available ? t('available') : t('notAvailable')}
+              value={
+                !isEmpty(username)
+                  ? available
+                    ? t('available')
+                    : t('notAvailable')
+                  : ''
+              }
               style={[
                 styles.righttxt,
                 {

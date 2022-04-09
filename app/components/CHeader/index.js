@@ -18,6 +18,7 @@ export default function CHeader(props) {
     renderCenter = () => {},
     rightIcon,
     onRightIconPress = () => {},
+    rightIconSize = 24,
   } = props;
 
   useEffect(() => {
@@ -59,7 +60,13 @@ export default function CHeader(props) {
           onPress={() => {
             onBackPress();
           }}
-          style={{position: 'absolute', left: 16, top: 31}}>
+          style={{
+            position: 'absolute',
+            padding: 16,
+            height: 80,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
           <Image
             source={dark ? Images.back_arrow_dark : Images.back_arrow}
             style={{height: 18, width: 18}}
@@ -72,7 +79,13 @@ export default function CHeader(props) {
           onPress={() => {
             onLeftIconPress();
           }}
-          style={{position: 'absolute', left: 16, top: 31}}>
+          style={{
+            position: 'absolute',
+            padding: 16,
+            height: 80,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
           <Image
             source={leftIcon}
             style={{height: 18, width: 18}}
@@ -86,10 +99,17 @@ export default function CHeader(props) {
           onPress={() => {
             onRightIconPress();
           }}
-          style={{position: 'absolute', right: 16, top: 24}}>
+          style={{
+            position: 'absolute',
+            right: 0,
+            padding: 16,
+            height: 80,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
           <Image
             source={rightIcon}
-            style={{height: 24, width: 24}}
+            style={{height: rightIconSize, width: rightIconSize}}
             resizeMode="contain"
           />
         </TouchableOpacity>

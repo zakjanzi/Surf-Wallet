@@ -1,31 +1,53 @@
 import React, {useEffect} from 'react';
-import {Text, View} from 'react-native';
+import {Text, View, StatusBar} from 'react-native';
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated';
 import {FontFamily} from '../../config/typography';
 
 export default function SplashScreen({navigation}) {
+  const fadeOut = useSharedValue(0);
+
+  const animatStyle = useAnimatedStyle(() => {
+    return {
+      opacity: fadeOut.value,
+    };
+  }, []);
+
   useEffect(() => {
+    fadeOut.value = withTiming(1.0, {duration: 2000});
     setTimeout(() => {
       navigation.navigate('LanguageScreen');
     }, 3000);
   }, []);
 
   return (
-    <View
-      style={{
-        flex: 1,
-        backgroundColor: '#3700B3',
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}>
-      <Text
+    <>
+      <StatusBar hidden />
+      <View
         style={{
-          color: '#fff',
-          fontWeight: 'bold',
-          fontFamily: FontFamily.Inter_Regular,
-          fontSize: 34,
+          flex: 1,
+          backgroundColor: '#3700B3',
+          justifyContent: 'center',
+          alignItems: 'center',
         }}>
-        Surf wallet
-      </Text>
-    </View>
+        <Animated.View style={animatStyle}>
+          <Text
+            style={[
+              {
+                color: '#fff',
+                fontWeight: 'bold',
+                fontFamily: FontFamily.Inter_Regular,
+                fontSize: 34,
+              },
+              ,
+            ]}>
+            Surf wallet
+          </Text>
+        </Animated.View>
+      </View>
+    </>
   );
 }

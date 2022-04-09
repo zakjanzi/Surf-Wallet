@@ -88,7 +88,7 @@ export default function SeedPhrase2({navigation}) {
             style={{
               flexDirection: 'row',
               // alignItems: 'center',
-              marginTop: 16,
+              margin: 16,
             }}>
             <Image
               style={{height: 14, width: 14, marginTop: 4}}
@@ -105,13 +105,15 @@ export default function SeedPhrase2({navigation}) {
             />
           </View>
         </ScrollView>
-        <CButton
-          value={t('continue')}
-          disable={!phrase}
-          onPress={() => {
-            navigation.navigate('AccountInformation');
-          }}
-        />
+        <View style={{padding: 16}}>
+          <CButton
+            value={t('continue')}
+            disable={!phrase}
+            onPress={() => {
+              navigation.navigate('AccountInformation');
+            }}
+          />
+        </View>
       </View>
     </>
   );

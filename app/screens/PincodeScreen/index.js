@@ -75,6 +75,7 @@ export default function PincodeScreen({navigation}) {
             value={pincode}
             onTextChange={code => setpincode(code)}
             restrictToNumbers
+            autoFocus
           />
         </ScrollView>
         <CButton

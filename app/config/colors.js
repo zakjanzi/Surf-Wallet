@@ -56,6 +56,11 @@ export const DarkColor = {
   chartColor: '#A8E6CF',
   chartSelColor: '#26242E',
   grey70: '#707070',
+  btnBack2: '#2D2B35',
+  cccccc: '#cccccc',
+  yellow: '#D2AD4F',
+  modalBack: '#2D2B35',
+  infoGreen: '#83E1CD',
 };
 
 export const LightColor = {
@@ -108,4 +113,9 @@ export const LightColor = {
   chartColor: '#0D723A',
   chartSelColor: '#EBEBEB',
   grey70: '#707070',
+  btnBack2: '#211134',
+  cccccc: '#cccccc',
+  yellow: '#D2AD4F',
+  modalBack: '#F9F9F9',
+  infoGreen: '#16C9A3',
 };

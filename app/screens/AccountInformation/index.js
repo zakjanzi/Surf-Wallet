@@ -53,6 +53,7 @@ export default function AccountInformation({navigation}) {
         <ScrollView contentContainerStyle={{flexGrow: 1}}>
           <CText
             value={t('secureYourWalletSmall')}
+            medium
             style={{color: BaseColor.text1, fontSize: 16}}
           />
           <View style={{marginTop: 12, marginEnd: 48}}>
@@ -170,6 +171,7 @@ export default function AccountInformation({navigation}) {
             onPress={() => {
               setagreed(!agreed);
             }}
+            size={20}
           />
           <CText
             value={t('agreedTS')}
@@ -194,6 +196,7 @@ export default function AccountInformation({navigation}) {
             onPress={() => {
               setunderstood(!understood);
             }}
+            size={20}
           />
           <CText
             value={t('understandLosingAccess')}

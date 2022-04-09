@@ -61,7 +61,7 @@ export default function GenerateWallet({navigation}) {
       />
       <View style={[styles.root, {backgroundColor: BaseColor.primaryBG}]}>
         <ScrollView style={{flexGrow: 1}} showsVerticalScrollIndicator={false}>
-          <View style={{paddingBottom: 25}}>
+          <View style={{paddingBottom: 25, margin: 16}}>
             <View
               style={{
                 backgroundColor: BaseColor.langUNSBtnBack,
@@ -74,7 +74,11 @@ export default function GenerateWallet({navigation}) {
                     {backgroundColor: BaseColor.langUNSBtnBack},
                   ]}>
                   {!privateKey ? (
-                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                      }}>
                       <CText
                         value={t('privateKey') + ' :'}
                         style={{
@@ -172,19 +176,21 @@ export default function GenerateWallet({navigation}) {
             </View>
           </View>
         </ScrollView>
-        {privateKey ? (
-          <CButton
-            value={t('continue')}
-            onPress={() => {
-              navigation.navigate('SeedPhrase');
-            }}
-          />
-        ) : (
-          <CButton
-            value={t('generateAWallet')}
-            onPress={() => generatePrivacyKey()}
-          />
-        )}
+        <View style={{padding: 16}}>
+          {privateKey ? (
+            <CButton
+              value={t('continue')}
+              onPress={() => {
+                navigation.navigate('SeedPhrase');
+              }}
+            />
+          ) : (
+            <CButton
+              value={t('generateAWallet')}
+              onPress={() => generatePrivacyKey()}
+            />
+          )}
+        </View>
       </View>
     </>
   );

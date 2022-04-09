@@ -86,6 +86,7 @@ export default function RecoveryOption({navigation}) {
             keyboardType="email-address"
             style={{marginTop: 22}}
             error={!isEmailValid}
+            autoFocus
           />
 
           {emailRef?.current?.isFocused() && (

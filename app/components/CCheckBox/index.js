@@ -19,7 +19,6 @@ export default function CCheckBox(props) {
   const [BaseColor, setBaseColor] = useState(dark ? DarkColor : LightColor);
 
   const {checked = false, onPress = () => {}, size = 16} = props;
-  console.log('🚀 ~ file: index.js ~ line 22 ~ CCheckBox ~ checked', checked);
 
   const checkedImg = dark ? Images.checked_dark : Images.checked_light;
   const uncheckedImg = dark ? Images.unchecked_light : Images.unchecked_light;

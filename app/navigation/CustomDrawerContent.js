@@ -112,7 +112,10 @@ export default function CustomDrawerContent({navigation}) {
           </TouchableOpacity>
           <TouchableOpacity
             activeOpacity={0.7}
-            onPress={() => {}}
+            onPress={() => {
+              navigation.closeDrawer();
+              navigation.navigate('MyOffers');
+            }}
             style={{
               flexDirection: 'row',
               alignItems: 'center',
@@ -134,7 +137,10 @@ export default function CustomDrawerContent({navigation}) {
           </TouchableOpacity>
           <TouchableOpacity
             activeOpacity={0.7}
-            onPress={() => {}}
+            onPress={() => {
+              navigation.closeDrawer();
+              navigation.navigate('MyTrades');
+            }}
             style={{
               flexDirection: 'row',
               alignItems: 'center',

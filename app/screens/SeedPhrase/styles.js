@@ -5,7 +5,6 @@ import {FontFamily} from '../../config/typography';
 export default styles = StyleSheet.create({
   root: {
     flex: 1,
-    padding: 16,
   },
   dot: {
     height: 8,
@@ -17,7 +16,7 @@ export default styles = StyleSheet.create({
     borderRadius: 12,
     padding: 16,
     minHeight: 74,
-    shadowColor: '#000',
+    shadowColor: 'grey',
     shadowOffset: {
       width: 0,
       height: 3,
@@ -25,6 +24,7 @@ export default styles = StyleSheet.create({
     shadowOpacity: 0.27,
     shadowRadius: 4.65,
     elevation: 6,
+    margin: 16,
   },
   modalCont: {
     flex: 1,

@@ -29,6 +29,7 @@ const CInput = React.forwardRef((props, ref) => {
     onSubmitEditing = () => {},
     returnKeyType,
     error,
+    autoFocus,
   } = props;
 
   const [focus, setfocus] = useState(false);
@@ -71,6 +72,7 @@ const CInput = React.forwardRef((props, ref) => {
           secureTextEntry={secureTextEntry}
           onSubmitEditing={onSubmitEditing}
           returnKeyType={returnKeyType}
+          autoFocus={autoFocus}
         />
         {leftIcon && (
           <Image

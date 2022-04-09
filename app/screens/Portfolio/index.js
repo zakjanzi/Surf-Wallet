@@ -75,6 +75,15 @@ export default function Portfolio({navigation}) {
     },
   ];
 
+  // chart menu options
+  const chatOptions = [
+    {label: '1Hour', value: '1h'},
+    {label: '1D', value: '1d'},
+    {label: 'IW', value: '1w'},
+    {label: 'IM', value: '1m'},
+    {label: 'ALL', value: 'all'},
+  ];
+
   //header data
   const options = [
     {label: t('porfolio'), value: 'portfolio'},
@@ -165,7 +174,7 @@ export default function Portfolio({navigation}) {
         onLeftIconPress={() => navigation.openDrawer()}
         renderCenter={() => {
           return (
-            <View style={{width: '40%'}}>
+            <View style={{width: '60%'}}>
               <SwitchSelector
                 options={options}
                 initial={0}
@@ -178,7 +187,7 @@ export default function Portfolio({navigation}) {
                 backgroundColor={BaseColor.unselectedPrivacyback}
                 textStyle={styles.txtStyle}
                 selectedTextStyle={styles.txtStyle}
-                fontSize={10}
+                fontSize={12}
                 borderColor={BaseColor.unselectedPrivacyback}
                 hasPadding={true}
               />
@@ -188,6 +197,7 @@ export default function Portfolio({navigation}) {
         rightIcon={
           portfoliotab == 'portfolio' ? Images.notification_icon : Images.search
         }
+        rightIconSize={portfoliotab == 'portfolio' ? 28 : 24}
         onRightIconPress={() => {
           if (portfoliotab == 'portfolio') {
             navigation.navigate('Notifications');
@@ -315,15 +325,11 @@ export default function Portfolio({navigation}) {
 
                     <View style={{flex: 1, marginStart: 12}}>
                       <SwitchSelector
-                        options={[
-                          {label: '1Hour', value: '1h'},
-                          {label: '1D', value: '1d'},
-                          {label: 'IW', value: '1w'},
-                          {label: 'IM', value: '1m'},
-                          {label: 'ALL', value: 'all'},
-                        ]}
+                        options={chatOptions}
                         initial={0}
-                        onPress={value => {}}
+                        onPress={value =>
+                          console.log(`Call onPress with value: ${value}`)
+                        }
                         selectedColor={BaseColor.privacySelClr}
                         textColor={BaseColor.text2}
                         buttonColor={BaseColor.chartSelColor}

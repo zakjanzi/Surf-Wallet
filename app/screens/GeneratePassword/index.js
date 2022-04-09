@@ -76,6 +76,7 @@ export default function GeneratePassword({navigation}) {
                 : false
             }
             error={!isPassValid}
+            autoFocus
           />
 
           <CInput

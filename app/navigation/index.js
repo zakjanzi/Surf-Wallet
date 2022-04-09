@@ -48,6 +48,13 @@ import TransactionDetails from '../screens/TransactionDetails';
 import Notifications from '../screens/Notifications';
 import DetailedItemScreen from '../screens/DetailedItemScreen';
 import SearchScreen from '../screens/SearchScreen';
+import MyTrades from '../screens/MyTrades';
+import MyOffers from '../screens/MyOffers';
+import OfferView from '../screens/OfferView';
+import Feedback from '../screens/Feedback';
+import CreateAnOffer from '../screens/CreateAnOffer';
+import Trade from '../screens/Trade';
+import Chat from '../screens/Chat';
 
 // Remove font scale
 Text.defaultProps = Text.defaultProps || {};
@@ -284,6 +291,13 @@ export default function NavStart() {
             component={DetailedItemScreen}
           />
           <Stack.Screen name="SearchScreen" component={SearchScreen} />
+          <Stack.Screen name="MyTrades" component={MyTrades} />
+          <Stack.Screen name="MyOffers" component={MyOffers} />
+          <Stack.Screen name="OfferView" component={OfferView} />
+          <Stack.Screen name="Feedback" component={Feedback} />
+          <Stack.Screen name="CreateAnOffer" component={CreateAnOffer} />
+          <Stack.Screen name="Trade" component={Trade} />
+          <Stack.Screen name="Chat" component={Chat} />
         </Stack.Navigator>
       </NavigationContainer>
       <NoInternet />

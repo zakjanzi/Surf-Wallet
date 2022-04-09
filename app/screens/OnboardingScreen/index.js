@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   UIManager,
   View,
+  StatusBar,
 } from 'react-native';
 import {useSelector} from 'react-redux';
 import CButton from '../../components/CButton';
@@ -73,7 +74,7 @@ export default function OnboardingScreen({navigation}) {
           }}
           resizeMode="center"
         />
-        <View>
+        <View style={{marginTop: 24}}>
           <CText
             value={item.title}
             extraBold
@@ -112,6 +113,11 @@ export default function OnboardingScreen({navigation}) {
   // enableAnimateInEaseOut();
   return (
     <>
+      <StatusBar
+        barStyle={dark ? 'light-content' : 'dark-content'}
+        backgroundColor={BaseColor.primaryBG}
+        hidden={false}
+      />
       <View style={{flex: 1, backgroundColor: BaseColor.primaryBG}}>
         <View style={styles.header}>
           <TouchableOpacity
@@ -149,7 +155,9 @@ export default function OnboardingScreen({navigation}) {
             <TouchableOpacity
               style={{padding: 24}}
               activeOpacity={0.7}
-              onPress={() => {}}>
+              onPress={() => {
+                navigation.navigate('HomeDrawerNavigator');
+              }}>
               <CText
                 value={t('alreadyWallet')}
                 medium

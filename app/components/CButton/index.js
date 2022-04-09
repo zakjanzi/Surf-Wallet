@@ -13,6 +13,7 @@ export default function CButton(props) {
     titleStyle = {},
     onPress = () => {},
     disable = false,
+    bordered,
   } = props;
 
   return (
@@ -22,17 +23,29 @@ export default function CButton(props) {
       style={[
         {
           borderRadius: 24,
-          backgroundColor: disable ? BaseColor.disbtnColor : BaseColor.btnColor,
+          backgroundColor: !bordered
+            ? disable
+              ? BaseColor.disbtnColor
+              : BaseColor.btnColor
+            : '#0000',
           height: 56,
           justifyContent: 'center',
           alignItems: 'center',
+          borderWidth: bordered ? 2 : 0,
+          borderColor: disable
+            ? BaseColor.disbtnColor
+            : BaseColor.inputBottomLine,
         },
+        containerStyle,
       ]}
       disabled={disable}>
       <CText
         value={value}
         semiBold
-        style={{color: LightColor.whiteColor, fontSize: 14}}
+        style={{
+          color: bordered ? BaseColor.inputBottomLine : LightColor.whiteColor,
+          fontSize: 14,
+        }}
       />
     </TouchableOpacity>
   );

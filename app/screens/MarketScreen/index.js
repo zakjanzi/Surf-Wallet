@@ -646,11 +646,11 @@ export default function MarketScreen({navigation}) {
               value={
                 selectedTopMenu == 'overview'
                   ? t('totalMarketCap')
-                  : t('asstes')
+                  : t('assets')
               }
               semiBold
               style={{
-                fontSize: 12,
+                fontSize: selectedTopMenu == 'overview' ? 12 : 16,
                 color: BaseColor.text1,
               }}
             />

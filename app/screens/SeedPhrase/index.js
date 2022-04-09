@@ -126,143 +126,147 @@ export default function SeedPhrase({navigation}) {
               </TouchableOpacity>
             </View>
           </View>
-          <CText
-            value={t('seedPhrase') + ' :'}
-            style={{
-              color: BaseColor.text1,
-              fontSize: 14,
-              marginTop: 32,
-            }}
-          />
-          {!phrase ? (
-            <View style={{marginTop: 32}}>
-              <View style={{padding: 64, paddingBottom: 24}}>
-                <ProgressBar
-                  progress={phraseProgess}
-                  width={null}
-                  borderWidth={0}
-                  unfilledColor={BaseColor.unProgressBack}
-                  color={BaseColor.onBoardTitle}
-                />
-              </View>
-
-              <CText
-                value={t('extractingSeedPhrase')}
-                style={{
-                  color: BaseColor.text2,
-                  fontSize: 14,
-                  marginTop: 32,
-                  textAlign: 'center',
-                }}
-              />
-            </View>
-          ) : (
-            <View>
-              <FlatList
-                keyExtractor={(item, index) => index}
-                data={phraseArr}
-                numColumns={4}
-                contentContainerStyle={{marginTop: 16}}
-                renderItem={({item, index}) => {
-                  return (
-                    <CText
-                      value={item}
-                      medium
-                      style={{
-                        color: BaseColor.text1,
-                        fontSize: 14,
-                        // width: Dime,
-                        width: '25%',
-                        textAlign: 'center',
-                        padding: 8,
-                        marginTop: 16,
-                      }}
-                    />
-                  );
-                }}
-              />
-              <TouchableOpacity
-                style={{
-                  alignSelf: 'center',
-                  marginTop: 36,
-                  padding: 16,
-                  borderWidth: 1,
-                  borderColor: BaseColor.inputBorder,
-                  borderRadius: 4,
-                  paddingHorizontal: 24,
-                }}
-                onPress={() => {
-                  setcopied(true);
-                  Clipboard.setString(phrase);
-                  Toast.show(t('copied'));
-                }}>
-                <CText
-                  value={t('copy')}
-                  semiBold
-                  style={{
-                    color: BaseColor.text1,
-                    fontSize: 14,
-                  }}
-                />
-              </TouchableOpacity>
-            </View>
-          )}
-        </ScrollView>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            marginBottom: 16,
-          }}>
-          <Image
-            style={{height: 14, width: 14}}
-            source={dark ? Images.mini_info_dark : Images.mini_info_light}
-            resizeMode="contain"
-          />
-          <View
-            style={{
-              alignItems: 'center',
-              flexDirection: 'row',
-              marginStart: 8,
-            }}>
+          <View style={{padding: 16}}>
             <CText
-              value={t('whatIsA')}
+              value={t('seedPhrase') + ' :'}
               style={{
-                color: BaseColor.text2,
-                fontSize: 12,
+                color: BaseColor.text1,
+                fontSize: 14,
+                marginTop: 32,
               }}
             />
-            <Text>{` `}</Text>
-            <TouchableOpacity
-              activeOpacity={0.7}
-              onPress={() => {
-                setphraseModal(true);
+            {!phrase ? (
+              <View style={{marginTop: 32}}>
+                <View style={{padding: 64, paddingBottom: 24}}>
+                  <ProgressBar
+                    progress={phraseProgess}
+                    width={null}
+                    borderWidth={0}
+                    unfilledColor={BaseColor.unProgressBack}
+                    color={BaseColor.onBoardTitle}
+                  />
+                </View>
+
+                <CText
+                  value={t('extractingSeedPhrase')}
+                  style={{
+                    color: BaseColor.text2,
+                    fontSize: 14,
+                    marginTop: 32,
+                    textAlign: 'center',
+                  }}
+                />
+              </View>
+            ) : (
+              <View>
+                <FlatList
+                  keyExtractor={(item, index) => index}
+                  data={phraseArr}
+                  numColumns={4}
+                  contentContainerStyle={{marginTop: 16}}
+                  renderItem={({item, index}) => {
+                    return (
+                      <CText
+                        value={item}
+                        medium
+                        style={{
+                          color: BaseColor.text1,
+                          fontSize: 14,
+                          // width: Dime,
+                          width: '25%',
+                          textAlign: 'center',
+                          padding: 8,
+                          marginTop: 16,
+                        }}
+                      />
+                    );
+                  }}
+                />
+                <TouchableOpacity
+                  style={{
+                    alignSelf: 'center',
+                    marginTop: 36,
+                    padding: 16,
+                    borderWidth: 1,
+                    borderColor: BaseColor.inputBorder,
+                    borderRadius: 4,
+                    paddingHorizontal: 24,
+                  }}
+                  onPress={() => {
+                    setcopied(true);
+                    Clipboard.setString(phrase);
+                    Toast.show(t('copied'));
+                  }}>
+                  <CText
+                    value={t('copy')}
+                    semiBold
+                    style={{
+                      color: BaseColor.text1,
+                      fontSize: 14,
+                    }}
+                  />
+                </TouchableOpacity>
+              </View>
+            )}
+          </View>
+        </ScrollView>
+        <View style={{padding: 16}}>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              marginBottom: 16,
+            }}>
+            <Image
+              style={{height: 14, width: 14}}
+              source={dark ? Images.mini_info_dark : Images.mini_info_light}
+              resizeMode="contain"
+            />
+            <View
+              style={{
+                alignItems: 'center',
+                flexDirection: 'row',
+                marginStart: 8,
               }}>
               <CText
-                value={t('seedPhrase')}
+                value={t('whatIsA')}
                 style={{
-                  color: BaseColor.onBoardTitle,
+                  color: BaseColor.text2,
                   fontSize: 12,
                 }}
               />
-            </TouchableOpacity>
-            <Text>{` `}</Text>
-            <CText
-              value={t('andWhy')}
-              style={{
-                color: BaseColor.text2,
-                fontSize: 12,
-              }}
-            />
+              <Text>{` `}</Text>
+              <TouchableOpacity
+                activeOpacity={0.7}
+                onPress={() => {
+                  setphraseModal(true);
+                }}>
+                <CText
+                  value={t('seedPhrase')}
+                  style={{
+                    color: BaseColor.onBoardTitle,
+                    fontSize: 12,
+                  }}
+                />
+              </TouchableOpacity>
+              <Text>{` `}</Text>
+              <CText
+                value={t('andWhy')}
+                style={{
+                  color: BaseColor.text2,
+                  fontSize: 12,
+                }}
+              />
+            </View>
           </View>
+          <CButton
+            value={t('continue')}
+            disable={!copied}
+            onPress={() => {
+              navigation.navigate('SeedPhrase2');
+            }}
+          />
         </View>
-        <CButton
-          value={t('continue')}
-          disable={!copied}
-          onPress={() => {
-            navigation.navigate('SeedPhrase2');
-          }}
-        />
       </View>
 
       {/* phrase detail modal */}
