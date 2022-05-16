@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
   Text,
   FlatList,
-  Modal,
   Dimensions,
   TextInput,
 } from 'react-native';
@@ -19,6 +18,8 @@ import CText from '../../components/CText';
 import {DarkColor, LightColor} from '../../config/colors';
 import {Images} from '../../config/images';
 import styles from './styles';
+import Modal from 'react-native-modal';
+import {enableAnimateInEaseOut} from '../../config/commonFunctions';
 
 export default function BuySell({navigation}) {
   const {dark} = useSelector(state => state.auth);
@@ -30,6 +31,7 @@ export default function BuySell({navigation}) {
   const [selectedCurrency, setselectedCurrency] = useState('USD');
 
   const [selectedCrypto, setselectedCrypto] = useState('BTC');
+  const [selectedLanguage, setselectedLanguage] = useState('USD');
 
   const [locationModal, setlocationModal] = useState(false);
 
@@ -133,12 +135,15 @@ export default function BuySell({navigation}) {
   const cryptocurrenciesArr = [
     {
       title: 'BTC',
+      icon: Images.bitcoin,
     },
     {
       title: 'ETH',
+      icon: Images.ethereum,
     },
     {
       title: 'XMR',
+      icon: Images.xmr,
     },
   ];
 
@@ -184,6 +189,8 @@ export default function BuySell({navigation}) {
     );
   };
 
+  enableAnimateInEaseOut();
+
   return (
     <>
       <CHeader
@@ -220,12 +227,24 @@ export default function BuySell({navigation}) {
             activeOpacity={0.7}
             onPress={() => {
               navigation.navigate('CreateAnOffer');
+            }}
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
             }}>
+            <Image
+              source={Images.add_icon}
+              style={{
+                height: 14,
+                width: 14,
+              }}
+              tintColor={BaseColor.inputBottomLine}
+            />
             <CText
-              value={`+ ${t('createAnOffer')}`}
+              value={` ${t('createAnOffer')}`}
               medium
               style={{
-                fontSize: 10,
+                fontSize: 12,
                 color: BaseColor.inputBottomLine,
               }}
             />
@@ -257,16 +276,14 @@ export default function BuySell({navigation}) {
               activeOpacity={0.7}
               onPress={() => setfilterModal(true)}>
               <Image
-                source={
-                  dark ? Images.lower_menu_dark_trans : Images.lower_menu_light
-                }
+                source={Images.filter}
                 resizeMode="contain"
                 style={{
-                  height: 22,
-                  width: 22,
+                  height: 24,
+                  width: 24,
                   marginStart: 16,
                 }}
-                tintColor={dark ? '#EBEBF5' : null}
+                tintColor={BaseColor.text2}
               />
             </TouchableOpacity>
           </View>
@@ -278,15 +295,21 @@ export default function BuySell({navigation}) {
           showsVerticalScrollIndicator={false}
         />
       </View>
+
       <Modal
-        style={{flex: 1}}
-        transparent
-        visible={filterModal}
-        animationType="slide">
+        style={{flex: 1, margin: 0}}
+        // transparent
+        isVisible={filterModal}
+        backdropTransitionInTiming={1000}
+        backdropTransitionOutTiming={1000}
+        animationInTiming={1000}
+        animationOutTiming={1000}
+        useNativeDriverForBackdrop={true}
+        // animationType="slide"
+      >
         <View
           style={{
             flex: 1,
-            backgroundColor: BaseColor.transBlack,
             justifyContent: 'flex-end',
           }}>
           <View
@@ -294,12 +317,13 @@ export default function BuySell({navigation}) {
             <View style={{alignItems: 'flex-end'}}>
               <TouchableOpacity
                 activeOpacity={0.7}
-                onPress={() => setfilterModal(false)}>
+                onPress={() => setfilterModal(false)}
+                style={{padding: 8}}>
                 <Image
                   source={Images.close_cross}
                   style={{
-                    height: 12,
-                    width: 12,
+                    height: 14,
+                    width: 14,
                   }}
                   resizeMode="contain"
                   tintColor={BaseColor.text1}
@@ -312,8 +336,9 @@ export default function BuySell({navigation}) {
                 value={t('stablecoins')}
                 semiBold
                 style={{
-                  fontSize: 14,
+                  fontSize: 16,
                   color: BaseColor.text1,
+                  marginTop: 16,
                 }}
               />
 
@@ -334,7 +359,7 @@ export default function BuySell({navigation}) {
                         style={{
                           flexDirection: 'row',
                           alignItems: 'center',
-                          padding: 4,
+                          padding: 8,
                           paddingHorizontal: 8,
                           flex: 1,
                           borderWidth: 1,
@@ -342,9 +367,7 @@ export default function BuySell({navigation}) {
                           borderColor: BaseColor.placeholderInput,
                           justifyContent: 'center',
                         }}
-                        onPress={() => {
-                          setfilterModal(false);
-                        }}>
+                        onPress={() => {}}>
                         <CText
                           value={item.title}
                           medium
@@ -358,6 +381,9 @@ export default function BuySell({navigation}) {
                     </View>
                   );
                 }}
+                style={{
+                  marginTop: 4,
+                }}
               />
             </>
 
@@ -366,7 +392,7 @@ export default function BuySell({navigation}) {
                 value={t('cryptocurrencies')}
                 semiBold
                 style={{
-                  fontSize: 14,
+                  fontSize: 16,
                   color: BaseColor.text1,
                   marginTop: 32,
                 }}
@@ -389,7 +415,7 @@ export default function BuySell({navigation}) {
                         style={{
                           flexDirection: 'row',
                           alignItems: 'center',
-                          padding: 4,
+                          padding: 8,
                           paddingHorizontal: 8,
                           flex: 1,
                           borderWidth: 1,
@@ -402,8 +428,12 @@ export default function BuySell({navigation}) {
                         }}
                         onPress={() => {
                           setselectedCrypto(item.title);
-                          setfilterModal(false);
                         }}>
+                        <Image
+                          source={item.icon}
+                          style={{height: 22, width: 22}}
+                          resizeMode="contain"
+                        />
                         <CText
                           value={item.title}
                           medium
@@ -431,6 +461,9 @@ export default function BuySell({navigation}) {
                       )}
                     </View>
                   );
+                }}
+                style={{
+                  marginTop: 4,
                 }}
               />
             </>
@@ -475,7 +508,7 @@ export default function BuySell({navigation}) {
                 value={t('fiat')}
                 semiBold
                 style={{
-                  fontSize: 14,
+                  fontSize: 16,
                   color: BaseColor.text1,
                   marginTop: 32,
                 }}
@@ -498,17 +531,19 @@ export default function BuySell({navigation}) {
                         style={{
                           flexDirection: 'row',
                           alignItems: 'center',
-                          padding: 4,
+                          padding: 8,
                           paddingHorizontal: 8,
                           flex: 1,
                           borderWidth: 1,
                           borderRadius: 8,
-                          borderColor: BaseColor.placeholderInput,
+                          borderColor:
+                            selectedCurrency == item.title
+                              ? BaseColor.inputBottomLine
+                              : BaseColor.placeholderInput,
                           justifyContent: 'center',
                         }}
                         onPress={() => {
-                          setselectedCurrency(item);
-                          setfilterModal(false);
+                          setselectedCurrency(item.title);
                         }}>
                         <Image
                           source={item.icon}
@@ -521,12 +556,18 @@ export default function BuySell({navigation}) {
                           style={{
                             marginStart: 8,
                             fontSize: 12,
-                            color: BaseColor.placeholderInput,
+                            color:
+                              selectedCurrency == item.title
+                                ? BaseColor.inputBottomLine
+                                : BaseColor.placeholderInput,
                           }}
                         />
                       </TouchableOpacity>
                     </View>
                   );
+                }}
+                style={{
+                  marginTop: 4,
                 }}
               />
             </>
@@ -534,15 +575,18 @@ export default function BuySell({navigation}) {
         </View>
       </Modal>
 
+      {/* location modal */}
       <Modal
-        style={{flex: 1}}
-        transparent
-        visible={locationModal}
-        animationType="slide">
+        style={{flex: 1, margin: 0}}
+        isVisible={locationModal}
+        backdropTransitionInTiming={1000}
+        backdropTransitionOutTiming={1000}
+        animationInTiming={1000}
+        animationOutTiming={1000}
+        useNativeDriverForBackdrop={true}>
         <View
           style={{
             flex: 1,
-            backgroundColor: BaseColor.transBlack,
             justifyContent: 'flex-end',
           }}>
           <View
@@ -550,12 +594,13 @@ export default function BuySell({navigation}) {
             <View style={{alignItems: 'flex-end'}}>
               <TouchableOpacity
                 activeOpacity={0.7}
-                onPress={() => setlocationModal(false)}>
+                onPress={() => setlocationModal(false)}
+                style={{padding: 8}}>
                 <Image
                   source={Images.close_cross}
                   style={{
-                    height: 12,
-                    width: 12,
+                    height: 14,
+                    width: 14,
                   }}
                   resizeMode="contain"
                   tintColor={BaseColor.text1}

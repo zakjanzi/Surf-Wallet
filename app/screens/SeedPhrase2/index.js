@@ -21,7 +21,15 @@ import Clipboard from '@react-native-clipboard/clipboard';
 import CButton from '../../components/CButton';
 import {enableAnimateInEaseOut} from '../../config/commonFunctions';
 
-export default function SeedPhrase2({navigation}) {
+export default function SeedPhrase2({
+  navigation,
+  route,
+  setPhrase = () => {},
+  setPaste = () => {},
+}) {
+  const type = route?.params?.type;
+  console.log('🚀 ~ file: index.js ~ line 31 ~ type', type);
+
   const {dark} = useSelector(state => state.auth);
   const [BaseColor, setBaseColor] = useState(dark ? DarkColor : LightColor);
 
@@ -36,6 +44,8 @@ export default function SeedPhrase2({navigation}) {
   const pastePhrase = async () => {
     const text = await Clipboard.getString();
     setphrase(text);
+    setPhrase(text);
+    setPaste(true);
     Toast.show(t('pasted'));
   };
 
@@ -43,13 +53,15 @@ export default function SeedPhrase2({navigation}) {
 
   return (
     <>
-      <CHeader
-        title={t('seedPhrase')}
-        backBtn
-        onBackPress={() => {
-          navigation.goBack();
-        }}
-      />
+      {type == 'already' && (
+        <CHeader
+          title={t('seedPhrase')}
+          backBtn
+          onBackPress={() => {
+            navigation.goBack();
+          }}
+        />
+      )}
       <View style={[styles.root, {backgroundColor: BaseColor.primaryBG}]}>
         <ScrollView style={{flexGrow: 1}} showsVerticalScrollIndicator={false}>
           <View
@@ -105,15 +117,18 @@ export default function SeedPhrase2({navigation}) {
             />
           </View>
         </ScrollView>
-        <View style={{padding: 16}}>
-          <CButton
-            value={t('continue')}
-            disable={!phrase}
-            onPress={() => {
-              navigation.navigate('AccountInformation');
-            }}
-          />
-        </View>
+
+        {type == 'already' && (
+          <View style={{padding: 16}}>
+            <CButton
+              value={t('continue')}
+              disable={!phrase}
+              onPress={() => {
+                navigation.navigate('HomeDrawerNavigator');
+              }}
+            />
+          </View>
+        )}
       </View>
     </>
   );

@@ -39,6 +39,7 @@ export default styles = StyleSheet.create({
     borderRadius: 4,
     marginTop: 8,
     paddingStart: 16,
+    maxHeight: 120,
   },
   borderedBox: {
     borderWidth: 1,

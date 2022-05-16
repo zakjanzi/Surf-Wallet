@@ -30,6 +30,7 @@ import {PersistGate} from 'redux-persist/integration/react';
 import NavStart from './app/navigation';
 import {persistor, store} from './app/redux/store/configureStore';
 import i18n from './app/language/i18n';
+import {Provider as PaperProvider} from 'react-native-paper';
 
 export default function App() {
   return (
@@ -37,7 +38,9 @@ export default function App() {
       <StatusBar barStyle="light-content" backgroundColor={'#3700B3'} />
       <Provider store={store}>
         <PersistGate loading={false} persistor={persistor}>
-          <NavStart />
+          <PaperProvider>
+            <NavStart />
+          </PaperProvider>
         </PersistGate>
       </Provider>
     </>

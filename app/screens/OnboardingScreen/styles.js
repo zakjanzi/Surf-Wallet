@@ -25,7 +25,7 @@ export default styles = StyleSheet.create({
     fontSize: 19,
     color: LightColor.boardingTxt,
     textAlign: 'center',
-    marginHorizontal: 64,
+    marginHorizontal: 56,
     marginTop: 12,
   },
   dotCont: {

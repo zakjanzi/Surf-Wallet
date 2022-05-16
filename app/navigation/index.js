@@ -41,6 +41,7 @@ import {Images} from '../config/images';
 import CText from '../components/CText';
 import CustomDrawerContent from './CustomDrawerContent';
 import {createDrawerNavigator} from '@react-navigation/drawer';
+import {enableAnimateInEaseOut} from '../config/commonFunctions';
 import Account from '../screens/Account';
 import ChangePassword from '../screens/ChangePassword';
 import ChangeProfile from '../screens/ChangeProfile';
@@ -55,6 +56,14 @@ import Feedback from '../screens/Feedback';
 import CreateAnOffer from '../screens/CreateAnOffer';
 import Trade from '../screens/Trade';
 import Chat from '../screens/Chat';
+import SelectAsset from '../screens/SelectAsset';
+import AmountScreen from '../screens/AmountScreen';
+import SendTo from '../screens/SendTo';
+import ConfirmAmount from '../screens/ConfirmAmount';
+import PaymentSuccess from '../screens/PaymentSuccess';
+import QRScanner from '../screens/QRScanner';
+import ReceviedPayment from '../screens/ReceviedPayment';
+import Contacts from '../screens/Contacts';
 
 // Remove font scale
 Text.defaultProps = Text.defaultProps || {};
@@ -146,6 +155,9 @@ export default function NavStart() {
                   navigation.navigate(route.name);
                 }
               };
+
+              enableAnimateInEaseOut();
+
               return (
                 <View key={index}>
                   <TouchableOpacity
@@ -181,7 +193,7 @@ export default function NavStart() {
                           color: isFocused
                             ? BaseColor.inputBottomLine
                             : BaseColor.unselectedBottomTabIcon,
-                          fontSize: 10,
+                          fontSize: 12,
                           marginStart: 16,
                         }}
                       />
@@ -273,10 +285,12 @@ export default function NavStart() {
             name="AccountInformation"
             component={AccountInformation}
           />
+
           <Stack.Screen
             name="HomeDrawerNavigator"
             component={HomeDrawerNavigator}
           />
+
           <Stack.Screen name="ItemProfile" component={ItemProfile} />
           <Stack.Screen name="Account" component={Account} />
           <Stack.Screen name="ChangePassword" component={ChangePassword} />
@@ -298,6 +312,14 @@ export default function NavStart() {
           <Stack.Screen name="CreateAnOffer" component={CreateAnOffer} />
           <Stack.Screen name="Trade" component={Trade} />
           <Stack.Screen name="Chat" component={Chat} />
+          <Stack.Screen name="SelectAsset" component={SelectAsset} />
+          <Stack.Screen name="AmountScreen" component={AmountScreen} />
+          <Stack.Screen name="SendTo" component={SendTo} />
+          <Stack.Screen name="ConfirmAmount" component={ConfirmAmount} />
+          <Stack.Screen name="PaymentSuccess" component={PaymentSuccess} />
+          <Stack.Screen name="QRScanner" component={QRScanner} />
+          <Stack.Screen name="ReceviedPayment" component={ReceviedPayment} />
+          <Stack.Screen name="Contacts" component={Contacts} />
         </Stack.Navigator>
       </NavigationContainer>
       <NoInternet />

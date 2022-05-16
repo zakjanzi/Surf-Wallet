@@ -90,7 +90,7 @@ export default function Notifications({navigation}) {
             medium
             style={{
               color: BaseColor.inputBottomLine,
-              fontSize: 12,
+              fontSize: 13,
             }}
           />
           <CText
@@ -98,7 +98,7 @@ export default function Notifications({navigation}) {
             medium
             style={{
               color: BaseColor.boardingTxt,
-              fontSize: 10,
+              fontSize: 11,
               marginVertical: 8,
             }}
           />
@@ -108,7 +108,7 @@ export default function Notifications({navigation}) {
           medium
           style={{
             color: BaseColor.boardingTxt,
-            fontSize: 8,
+            fontSize: 9,
             marginStart: 8,
           }}
         />

@@ -128,8 +128,20 @@ export default function LanguageScreen({navigation}) {
                 navigation.navigate('OnboardingScreen');
               }, 500);
             }}>
-            <CText
-              value=" ﺔﻴﺑﺮﻌﻟا"
+            <Image
+              source={Images.arabic_text}
+              resizeMode="contain"
+              style={{
+                height: 12,
+              }}
+              tintColor={
+                currentLang == 'ar'
+                  ? BaseColor.langSTxtBack
+                  : BaseColor.langUNSTxtBack
+              }
+            />
+            {/* <CText
+              value="عربي"
               semiBold
               style={{
                 color:
@@ -138,7 +150,7 @@ export default function LanguageScreen({navigation}) {
                     : BaseColor.langUNSTxtBack,
                 transform: [{rotateY: '180deg'}],
               }}
-            />
+            /> */}
           </TouchableOpacity>
         </View>
         <TouchableOpacity

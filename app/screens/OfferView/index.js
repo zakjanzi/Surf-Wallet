@@ -28,6 +28,9 @@ export default function OfferView({navigation, route}) {
     itemDetails,
   );
 
+  const [payAmount, setpayAmount] = useState('');
+  const [forAmount, setforAmount] = useState('');
+
   const lastSeen = '4mn';
 
   const feedbackData = [
@@ -104,6 +107,14 @@ export default function OfferView({navigation, route}) {
               placeholderTextColor={BaseColor.inputBorder}
               style={[styles.amountIT, {color: BaseColor.inputText}]}
               keyboardType="numeric"
+              autoFocus
+              onChangeText={val => {
+                const formattedValue = (
+                  Number(val.replace(/\D/g, '')) || ''
+                ).toLocaleString();
+                setpayAmount(formattedValue);
+              }}
+              value={payAmount}
             />
             <View
               style={[
@@ -133,6 +144,13 @@ export default function OfferView({navigation, route}) {
               placeholderTextColor={BaseColor.inputBorder}
               style={[styles.amountIT, {color: BaseColor.inputText}]}
               keyboardType="numeric"
+              onChangeText={val => {
+                const formattedValue = (
+                  Number(val.replace(/\D/g, '')) || ''
+                ).toLocaleString();
+                setforAmount(formattedValue);
+              }}
+              value={forAmount}
             />
             <View
               style={[

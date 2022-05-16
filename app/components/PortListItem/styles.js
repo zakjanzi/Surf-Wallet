@@ -39,7 +39,7 @@ export default styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 16,
+    // marginBottom: 16,
   },
   partContO: {
     flexDirection: 'row',

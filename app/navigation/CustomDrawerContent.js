@@ -180,9 +180,10 @@ export default function CustomDrawerContent({navigation}) {
                 alignItems: 'center',
               }}>
               <Image
-                source={dark ? Images.support_dark : Images.support_light}
+                source={Images.support}
                 style={{height: 16, width: 16, marginEnd: 16}}
                 resizeMode="contain"
+                tintColor={BaseColor.cccccc}
               />
               <CText
                 value={t('support')}

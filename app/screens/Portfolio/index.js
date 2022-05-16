@@ -27,6 +27,7 @@ import {
 } from 'react-native-wagmi-charts';
 import Pie from 'react-native-pie';
 import MarketScreen from '../MarketScreen';
+import {Card} from 'react-native-paper';
 
 export default function Portfolio({navigation}) {
   const {dark} = useSelector(state => state.auth);
@@ -48,7 +49,7 @@ export default function Portfolio({navigation}) {
       title: 'Bitcoin',
       profite: true,
       plPer: 1.86,
-      price: '9714.20',
+      price: '9,714.20',
       nativeValue: '0.0325474',
       key: 'BTC',
       chart: Images.bit_chart,
@@ -77,10 +78,9 @@ export default function Portfolio({navigation}) {
 
   // chart menu options
   const chatOptions = [
-    {label: '1Hour', value: '1h'},
+    {label: '1H', value: '1h'},
     {label: '1D', value: '1d'},
-    {label: 'IW', value: '1w'},
-    {label: 'IM', value: '1m'},
+    {label: '1W', value: '1w'},
     {label: 'ALL', value: 'all'},
   ];
 
@@ -93,17 +93,24 @@ export default function Portfolio({navigation}) {
   // portfolio list item
   const renderPorfolio = ({item, index}) => {
     return (
-      <PortListItem
-        icon={item?.icon}
-        topLeftTxt={item?.title}
-        bottomLeftTxt={`${item?.profite ? '+' : '-'}${item.plPer}%`}
-        topRightTxt={`$${item?.price}`}
-        bottomRightTxt={`${item?.nativeValue} ${item?.key}`}
-        centerImage={item?.chart}
-        onPress={() => {
-          navigation.navigate('ItemProfile', {itemDetail: item});
-        }}
-      />
+      <Card
+        style={{
+          marginBottom: 16,
+          backgroundColor: BaseColor.langUNSBtnBack,
+          padding: 8,
+        }}>
+        <PortListItem
+          icon={item?.icon}
+          topLeftTxt={item?.title}
+          bottomLeftTxt={`${item?.profite ? '+' : '-'}${item.plPer}%`}
+          topRightTxt={`$${item?.price}`}
+          bottomRightTxt={`${item?.nativeValue} ${item?.key}`}
+          centerImage={item?.chart}
+          onPress={() => {
+            navigation.navigate('ItemProfile', {itemDetail: item});
+          }}
+        />
+      </Card>
     );
   };
 

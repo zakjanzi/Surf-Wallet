@@ -183,13 +183,14 @@ export default function OfferListItem(props) {
           </View>
           <TouchableOpacity activeOpacity={0.7}>
             <Image
-              source={dark ? Images.delete_dark : Images.delete_light}
+              source={dark ? Images.delete : Images.delete}
               resizeMode="contain"
               style={{
-                height: 14,
-                width: 14,
+                height: 16,
+                width: 16,
                 alignSelf: 'flex-end',
               }}
+              tintColor={BaseColor.redCC}
             />
           </TouchableOpacity>
         </View>

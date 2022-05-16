@@ -71,11 +71,15 @@ export default function PincodeScreen({navigation}) {
               elevation: 2,
               margin: 12,
             }}
-            cellStyleFocused={null}
+            // cellStyleFocused={null}
             value={pincode}
             onTextChange={code => setpincode(code)}
             restrictToNumbers
             autoFocus
+            cellStyleFocused={{
+              borderWidth: 1,
+              borderColor: BaseColor.inputBottomLine,
+            }}
           />
         </ScrollView>
         <CButton

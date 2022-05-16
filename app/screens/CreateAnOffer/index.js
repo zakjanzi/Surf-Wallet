@@ -33,6 +33,10 @@ export default function CreateAnOffer({navigation}) {
   const [offerMargin, setofferMargin] = useState(0);
   const [fixedValue, setfixedValue] = useState(0);
 
+  const [fixedAmountNum, setfixedAmountNum] = useState('');
+  const [rangedMinAmountNum, setrangedMinAmountNum] = useState('');
+  const [rangedMaxAmountNum, setrangedMaxAmountNum] = useState('');
+
   const [agreed, setagreed] = useState(false);
   const [understood, setunderstood] = useState(false);
 
@@ -46,26 +50,26 @@ export default function CreateAnOffer({navigation}) {
   const topHorizontalMenu = [
     {
       icon: Images.bitcoin,
-      name: 'Bitcoin',
+      name: 'BTC',
       id: 0,
     },
     {
-      icon: Images.ethereum,
-      name: 'Ethereum',
+      icon: Images.tether,
+      name: 'ETH',
       id: 1,
     },
     {
-      icon: Images.usd_image,
+      icon: Images.ethereum,
       name: 'USDT',
       id: 2,
     },
     {
-      icon: Images.axie_image,
+      icon: Images.dai,
       name: 'DAI',
       id: 3,
     },
     {
-      icon: Images.chiliz_image,
+      icon: Images.xmr,
       name: 'XMR',
       id: 4,
     },
@@ -101,7 +105,7 @@ export default function CreateAnOffer({navigation}) {
           value={item?.name}
           medium
           style={{
-            fontSize: 12,
+            fontSize: 14,
             color:
               selectedCrypto == item?.id ? BaseColor.text1 : BaseColor.text2,
             marginStart: 8,
@@ -134,7 +138,7 @@ export default function CreateAnOffer({navigation}) {
             backgroundColor={BaseColor.unselectedPrivacyback}
             textStyle={styles.txtStyle}
             selectedTextStyle={styles.txtStyle}
-            fontSize={10}
+            fontSize={12}
             borderColor={BaseColor.unselectedPrivacyback}
             hasPadding={true}
           />
@@ -142,7 +146,7 @@ export default function CreateAnOffer({navigation}) {
         <CText
           value={`${t('yourOfferWillListed')}`}
           style={{
-            fontSize: 12,
+            fontSize: 14,
             color: BaseColor.text2,
             marginTop: 10,
           }}
@@ -160,7 +164,7 @@ export default function CreateAnOffer({navigation}) {
               value={`${t('chooseYourCryptocurrency')}`}
               semiBold
               style={{
-                fontSize: 16,
+                fontSize: 18,
                 color: BaseColor.portTitle,
               }}
             />
@@ -183,19 +187,20 @@ export default function CreateAnOffer({navigation}) {
               renderItem={renderTopMenu}
               horizontal
               style={{flex: 0}}
+              showsHorizontalScrollIndicator={false}
             />
           </View>
           {buySellSwitch == 'sell' && (
             <Text
               style={{
-                fontSize: 12,
+                fontSize: 14,
                 color: BaseColor.text2,
                 fontFamily: FontFamily.Inter_Medium,
               }}>
               {'1 BTC = '}{' '}
               <Text
                 style={{
-                  fontSize: 12,
+                  fontSize: 14,
                   color: BaseColor.inputBottomLine,
                   fontFamily: FontFamily.Inter_Medium,
                 }}>
@@ -208,7 +213,7 @@ export default function CreateAnOffer({navigation}) {
             value={`${t('paymentMethod')}`}
             semiBold
             style={{
-              fontSize: 16,
+              fontSize: 18,
               color: BaseColor.portTitle,
               marginTop: 16,
             }}
@@ -224,7 +229,7 @@ export default function CreateAnOffer({navigation}) {
               value={`${t('cashInPerson')}`}
               medium
               style={{
-                fontSize: 12,
+                fontSize: 14,
                 color: BaseColor.portTitle,
                 flex: 1,
               }}
@@ -243,7 +248,7 @@ export default function CreateAnOffer({navigation}) {
             value={`${t('preferredCurrency')}`}
             semiBold
             style={{
-              fontSize: 16,
+              fontSize: 18,
               color: BaseColor.portTitle,
               marginTop: 16,
             }}
@@ -259,7 +264,7 @@ export default function CreateAnOffer({navigation}) {
               value={`${'United States Dollar (USD)'}`}
               medium
               style={{
-                fontSize: 12,
+                fontSize: 14,
                 color: BaseColor.portTitle,
                 flex: 1,
               }}
@@ -278,7 +283,7 @@ export default function CreateAnOffer({navigation}) {
             value={`${t('amount')}`}
             semiBold
             style={{
-              fontSize: 16,
+              fontSize: 18,
               color: BaseColor.portTitle,
               marginTop: 16,
             }}
@@ -305,8 +310,8 @@ export default function CreateAnOffer({navigation}) {
                 value={`${t('fixedAmount')}`}
                 medium
                 style={{
-                  fontSize: 12,
-                  color: BaseColor.text1,
+                  fontSize: 14,
+                  color: fixedAmount ? BaseColor.text1 : BaseColor.text2,
                   marginStart: 8,
                 }}
               />
@@ -322,6 +327,13 @@ export default function CreateAnOffer({navigation}) {
               ]}
               editable={fixedAmount}
               keyboardType="numeric"
+              onChangeText={val => {
+                const formattedValue = (
+                  Number(val.replace(/\D/g, '')) || ''
+                ).toLocaleString();
+                setfixedAmountNum(formattedValue);
+              }}
+              value={fixedAmountNum}
             />
           </View>
 
@@ -346,8 +358,8 @@ export default function CreateAnOffer({navigation}) {
                 value={`${t('rangedAmount')}`}
                 medium
                 style={{
-                  fontSize: 12,
-                  color: BaseColor.text1,
+                  fontSize: 14,
+                  color: !fixedAmount ? BaseColor.text1 : BaseColor.text2,
                   marginStart: 8,
                 }}
               />
@@ -357,7 +369,7 @@ export default function CreateAnOffer({navigation}) {
               value={`${t('minimum')}`}
               medium
               style={{
-                fontSize: 10,
+                fontSize: 12,
                 color: BaseColor.text2,
                 marginTop: 8,
               }}
@@ -373,13 +385,20 @@ export default function CreateAnOffer({navigation}) {
               ]}
               editable={!fixedAmount}
               keyboardType="numeric"
+              onChangeText={val => {
+                const formattedValue = (
+                  Number(val.replace(/\D/g, '')) || ''
+                ).toLocaleString();
+                setrangedMinAmountNum(formattedValue);
+              }}
+              value={rangedMinAmountNum}
             />
 
             <CText
               value={`${t('maximum')}`}
               medium
               style={{
-                fontSize: 10,
+                fontSize: 12,
                 color: BaseColor.text2,
                 marginTop: 8,
               }}
@@ -395,6 +414,13 @@ export default function CreateAnOffer({navigation}) {
               ]}
               editable={!fixedAmount}
               keyboardType="numeric"
+              onChangeText={val => {
+                const formattedValue = (
+                  Number(val.replace(/\D/g, '')) || ''
+                ).toLocaleString();
+                setrangedMaxAmountNum(formattedValue);
+              }}
+              value={rangedMaxAmountNum}
             />
           </View>
 
@@ -402,7 +428,7 @@ export default function CreateAnOffer({navigation}) {
             value={`${t('tradeDetails')}`}
             semiBold
             style={{
-              fontSize: 16,
+              fontSize: 18,
               color: BaseColor.portTitle,
               marginTop: 16,
             }}
@@ -429,7 +455,7 @@ export default function CreateAnOffer({navigation}) {
                 value={`${t('marketPrice')}`}
                 medium
                 style={{
-                  fontSize: 12,
+                  fontSize: 14,
                   color: BaseColor.text1,
                   marginStart: 8,
                 }}
@@ -440,7 +466,7 @@ export default function CreateAnOffer({navigation}) {
               value={`${t('mpDetails')}`}
               medium
               style={{
-                fontSize: 12,
+                fontSize: 14,
                 color: BaseColor.text2,
                 marginStart: 24,
               }}
@@ -466,7 +492,7 @@ export default function CreateAnOffer({navigation}) {
                 value={`${t('fixedPrice')}`}
                 medium
                 style={{
-                  fontSize: 12,
+                  fontSize: 14,
                   color: BaseColor.text1,
                   marginStart: 8,
                 }}
@@ -477,7 +503,7 @@ export default function CreateAnOffer({navigation}) {
               value={`${t('fpDetails')}`}
               medium
               style={{
-                fontSize: 12,
+                fontSize: 14,
                 color: BaseColor.text2,
                 marginStart: 24,
               }}
@@ -490,7 +516,7 @@ export default function CreateAnOffer({navigation}) {
                 value={`${t('offerMargin')}`}
                 semiBold
                 style={{
-                  fontSize: 16,
+                  fontSize: 18,
                   color: BaseColor.portTitle,
                   marginTop: 16,
                 }}
@@ -510,13 +536,16 @@ export default function CreateAnOffer({navigation}) {
                     if (offerMargin != 0) {
                       setofferMargin(val => val - 1);
                     }
+                  }}
+                  style={{
+                    padding: 8,
                   }}>
                   <Image
                     source={dark ? Images.minus_dark : Images.minus_light}
                     resizeMode="contain"
                     style={{
-                      height: 12,
-                      width: 12,
+                      height: 16,
+                      width: 16,
                     }}
                   />
                 </TouchableOpacity>
@@ -524,7 +553,7 @@ export default function CreateAnOffer({navigation}) {
                   value={`${offerMargin}%`}
                   medium
                   style={{
-                    fontSize: 14,
+                    fontSize: 16,
                     color: BaseColor.text1,
                   }}
                 />
@@ -534,13 +563,16 @@ export default function CreateAnOffer({navigation}) {
                     if (offerMargin != 100) {
                       setofferMargin(val => val + 1);
                     }
+                  }}
+                  style={{
+                    padding: 8,
                   }}>
                   <Image
                     source={dark ? Images.plus_dark : Images.plus_light}
                     resizeMode="contain"
                     style={{
-                      height: 12,
-                      width: 12,
+                      height: 16,
+                      width: 16,
                     }}
                   />
                 </TouchableOpacity>
@@ -552,7 +584,7 @@ export default function CreateAnOffer({navigation}) {
                     value={t('currentBitcoinTitle')}
                     medium
                     style={{
-                      fontSize: 12,
+                      fontSize: 14,
                       color: BaseColor.text2,
                       marginTop: 4,
                     }}
@@ -561,7 +593,7 @@ export default function CreateAnOffer({navigation}) {
                     value={t('offerPriceInfo')}
                     medium
                     style={{
-                      fontSize: 12,
+                      fontSize: 14,
                       color: BaseColor.text2,
                     }}
                   />
@@ -585,7 +617,7 @@ export default function CreateAnOffer({navigation}) {
                 value={`${t('fixed')}`}
                 semiBold
                 style={{
-                  fontSize: 16,
+                  fontSize: 18,
                   color: BaseColor.portTitle,
                   marginTop: 16,
                 }}
@@ -606,13 +638,16 @@ export default function CreateAnOffer({navigation}) {
                     if (fixedValue != 0) {
                       setfixedValue(val => val - 1);
                     }
+                  }}
+                  style={{
+                    padding: 8,
                   }}>
                   <Image
                     source={dark ? Images.minus_dark : Images.minus_light}
                     resizeMode="contain"
                     style={{
-                      height: 12,
-                      width: 12,
+                      height: 16,
+                      width: 16,
                     }}
                   />
                 </TouchableOpacity>
@@ -620,7 +655,7 @@ export default function CreateAnOffer({navigation}) {
                   value={`$${fixedValue}`}
                   medium
                   style={{
-                    fontSize: 14,
+                    fontSize: 16,
                     color: BaseColor.text1,
                   }}
                 />
@@ -630,13 +665,16 @@ export default function CreateAnOffer({navigation}) {
                     if (fixedValue != 100) {
                       setfixedValue(val => val + 1);
                     }
+                  }}
+                  style={{
+                    padding: 8,
                   }}>
                   <Image
                     source={dark ? Images.plus_dark : Images.plus_light}
                     resizeMode="contain"
                     style={{
-                      height: 12,
-                      width: 12,
+                      height: 16,
+                      width: 16,
                     }}
                   />
                 </TouchableOpacity>
@@ -648,7 +686,7 @@ export default function CreateAnOffer({navigation}) {
                     value={t('currentBitcoinTitle')}
                     medium
                     style={{
-                      fontSize: 12,
+                      fontSize: 14,
                       color: BaseColor.text2,
                       marginTop: 4,
                     }}
@@ -657,7 +695,7 @@ export default function CreateAnOffer({navigation}) {
                     value={t('offerPriceInfo')}
                     medium
                     style={{
-                      fontSize: 12,
+                      fontSize: 14,
                       color: BaseColor.text2,
                     }}
                   />
@@ -681,7 +719,7 @@ export default function CreateAnOffer({navigation}) {
             value={`${t('offerTerms')}`}
             semiBold
             style={{
-              fontSize: 16,
+              fontSize: 18,
               color: BaseColor.portTitle,
               marginTop: 16,
             }}
@@ -699,30 +737,31 @@ export default function CreateAnOffer({navigation}) {
               ]}
               editable={fixedAmount}
               placeholderTextColor={BaseColor.placeholderInput}
+              multiline
             />
 
             <CText
               value={`${t('anybodyWhoView')}`}
               medium
               style={{
-                fontSize: 12,
+                fontSize: 14,
                 color: BaseColor.text2,
                 marginTop: 8,
               }}
             />
           </View>
 
-          <CText
+          {/* <CText
             value={`${t('tradeInstructions')}`}
             semiBold
             style={{
-              fontSize: 16,
+              fontSize: 18,
               color: BaseColor.portTitle,
               marginTop: 16,
             }}
-          />
+          /> */}
 
-          <View>
+          {/* <View>
             <TextInput
               placeholder={t('listOutYour')}
               style={[
@@ -740,12 +779,12 @@ export default function CreateAnOffer({navigation}) {
               value={`${t('toEnsureSuccessfull')}`}
               medium
               style={{
-                fontSize: 12,
+                fontSize: 14,
                 color: BaseColor.text2,
                 marginTop: 8,
               }}
             />
-          </View>
+          </View> */}
 
           <View
             style={[
@@ -766,7 +805,7 @@ export default function CreateAnOffer({navigation}) {
               value={t('agreedTS')}
               style={{
                 color: BaseColor.text2,
-                fontSize: 12,
+                fontSize: 14,
                 marginStart: 16,
                 paddingEnd: 24,
               }}
@@ -792,7 +831,7 @@ export default function CreateAnOffer({navigation}) {
               value={t('understandTheRisk')}
               style={{
                 color: BaseColor.text2,
-                fontSize: 12,
+                fontSize: 14,
                 marginStart: 16,
                 paddingEnd: 24,
               }}
@@ -813,7 +852,7 @@ export default function CreateAnOffer({navigation}) {
                 value={t('doNotRelease')}
                 style={{
                   color: BaseColor.text2,
-                  fontSize: 10,
+                  fontSize: 12,
                   marginStart: 2,
                   paddingEnd: 128,
                 }}
@@ -836,7 +875,7 @@ export default function CreateAnOffer({navigation}) {
                 value={t('checkFlatNotes')}
                 style={{
                   color: BaseColor.text2,
-                  fontSize: 10,
+                  fontSize: 12,
                   marginStart: 2,
                   paddingEnd: 128,
                 }}
@@ -859,7 +898,7 @@ export default function CreateAnOffer({navigation}) {
                 value={t('alwaysMeet')}
                 style={{
                   color: BaseColor.text2,
-                  fontSize: 10,
+                  fontSize: 12,
                   marginStart: 2,
                   paddingEnd: 128,
                 }}

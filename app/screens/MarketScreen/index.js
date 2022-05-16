@@ -10,7 +10,6 @@ import {
   FlatList,
   StatusBar,
   Dimensions,
-  Modal,
 } from 'react-native';
 import {useSelector} from 'react-redux';
 import CText from '../../components/CText';
@@ -20,6 +19,8 @@ import {Images} from '../../config/images';
 import styles from './styles';
 import PortListItem from '../../components/PortListItem';
 import CMenuItem from '../../components/CMenuItem';
+import Modal from 'react-native-modal';
+import {Card} from 'react-native-paper';
 
 export default function MarketScreen({navigation}) {
   const {dark} = useSelector(state => state.auth);
@@ -141,7 +142,7 @@ export default function MarketScreen({navigation}) {
       title: 'Bitcoin',
       profite: true,
       plPer: 1.86,
-      price: '9714.20',
+      price: '9,714.20',
       nativeValue: '0.0325474',
       key: 'BTC',
       chart: Images.bit_chart,
@@ -317,7 +318,7 @@ export default function MarketScreen({navigation}) {
       title: 'Bitcoin',
       profite: true,
       plPer: -1.86,
-      price: '9714.20',
+      price: '9,714.20',
       nativeValue: '0.0325474',
       key: 'BTC',
       chart: Images.bit_chart,
@@ -332,7 +333,7 @@ export default function MarketScreen({navigation}) {
       title: 'Bitcoin',
       profite: true,
       plPer: 1.86,
-      price: '9714.20',
+      price: '9,714.20',
       nativeValue: '0.0325474',
       key: 'BTC',
       chart: Images.bit_chart,
@@ -382,7 +383,7 @@ export default function MarketScreen({navigation}) {
       title: 'Bitcoin',
       profite: true,
       plPer: 1.86,
-      price: '9714.20',
+      price: '9,714.20',
       nativeValue: '0.0325474',
       key: 'BTC',
       chart: Images.bit_chart,
@@ -488,60 +489,67 @@ export default function MarketScreen({navigation}) {
             paddingEnd: index % 2 == 0 ? 8 : 0,
           },
         ]}>
-        <View
+        <Card
           style={[
-            styles.blockCont2,
             {
               backgroundColor: BaseColor.langUNSBtnBack,
             },
           ]}>
-          <CText
-            value={item.title}
-            medium
-            style={{
-              color: BaseColor.text2,
-              fontSize: 9,
-            }}
-          />
-          <View style={[styles.rowStyle, {marginTop: 8}]}>
-            <View>
-              <CText
-                value={`$${item.value} B`}
-                medium
-                style={{
-                  color: BaseColor.text1,
-                  fontSize: 12,
-                }}
-              />
-              <CText
-                value={`${item.percentage}%`}
-                medium
-                style={{
-                  color:
-                    item.percentage > 0
-                      ? BaseColor.profiteValue
-                      : BaseColor.lossValue,
-                  fontSize: 11,
-                }}
-              />
-            </View>
-            <View
+          <View
+            style={[
+              styles.blockCont2,
+              {
+                // backgroundColor: BaseColor.langUNSBtnBack,
+              },
+            ]}>
+            <CText
+              value={item.title}
+              medium
               style={{
-                flex: 1,
-                justifyContent: 'flex-end',
-                alignItems: 'flex-end',
-              }}>
-              <Image
-                source={item.chatImage}
+                color: BaseColor.text2,
+                fontSize: 9,
+              }}
+            />
+            <View style={[styles.rowStyle, {marginTop: 8}]}>
+              <View>
+                <CText
+                  value={`$${item.value} B`}
+                  medium
+                  style={{
+                    color: BaseColor.text1,
+                    fontSize: 12,
+                  }}
+                />
+                <CText
+                  value={`${item.percentage}%`}
+                  medium
+                  style={{
+                    color:
+                      item.percentage > 0
+                        ? BaseColor.profiteValue
+                        : BaseColor.lossValue,
+                    fontSize: 11,
+                  }}
+                />
+              </View>
+              <View
                 style={{
-                  height: 28,
-                  width: '80%',
-                }}
-                resizeMode="contain"
-              />
+                  flex: 1,
+                  justifyContent: 'flex-end',
+                  alignItems: 'flex-end',
+                }}>
+                <Image
+                  source={item.chatImage}
+                  style={{
+                    height: 28,
+                    width: '80%',
+                  }}
+                  resizeMode="contain"
+                />
+              </View>
             </View>
           </View>
-        </View>
+        </Card>
       </View>
     );
   };
@@ -549,7 +557,10 @@ export default function MarketScreen({navigation}) {
   //render list item
   const renderTop5 = ({item, index}) => {
     return (
-      <View>
+      <View
+        style={{
+          marginBottom: 16,
+        }}>
         {item.wish && (
           <Image
             source={Images.star}
@@ -583,45 +594,52 @@ export default function MarketScreen({navigation}) {
   // news list item
   const renderNews = ({item, index}) => {
     return (
-      <View style={[styles.rowStyle, {marginVertical: 8}]}>
-        <View style={{flex: 1, paddingEnd: 16}}>
-          <CText
-            value={item.title}
-            semiBold
-            style={{
-              fontSize: 14,
-              color: BaseColor.text1,
-            }}
-          />
-          <View
-            style={[
-              styles.rowStyle,
-              {justifyContent: 'flex-start', marginTop: 8},
-            ]}>
+      <Card
+        style={{
+          marginBottom: 16,
+          backgroundColor: BaseColor.langUNSBtnBack,
+          padding: 8,
+        }}>
+        <View style={[styles.rowStyle]}>
+          <View style={{flex: 1, paddingEnd: 16}}>
             <CText
-              value={item.time}
-              medium
+              value={item.title}
+              semiBold
               style={{
-                fontSize: 12,
-                color: BaseColor.text2,
+                fontSize: 14,
+                color: BaseColor.text1,
               }}
             />
-            <CText
-              value={item.company}
-              style={{
-                fontSize: 12,
-                color: BaseColor.inputBottomLine,
-                marginStart: 8,
-              }}
-            />
+            <View
+              style={[
+                styles.rowStyle,
+                {justifyContent: 'flex-start', marginTop: 8},
+              ]}>
+              <CText
+                value={item.time}
+                medium
+                style={{
+                  fontSize: 12,
+                  color: BaseColor.text2,
+                }}
+              />
+              <CText
+                value={item.company}
+                style={{
+                  fontSize: 12,
+                  color: BaseColor.inputBottomLine,
+                  marginStart: 8,
+                }}
+              />
+            </View>
           </View>
+          <Image
+            source={item.image}
+            style={{height: 84, width: 84}}
+            resizeMode="contain"
+          />
         </View>
-        <Image
-          source={item.image}
-          style={{height: 84, width: 84}}
-          resizeMode="contain"
-        />
-      </View>
+      </Card>
     );
   };
 
@@ -635,6 +653,7 @@ export default function MarketScreen({navigation}) {
             renderItem={renderTopMenu}
             horizontal
             style={{flex: 0}}
+            showsHorizontalScrollIndicator={false}
           />
         </View>
         <View
@@ -727,13 +746,19 @@ export default function MarketScreen({navigation}) {
                 <View style={{marginTop: 12}}>
                   <MoreItemHeader title={t('top6')} />
 
+                  {/* <Card
+                    style={{
+                      backgroundColor: BaseColor.selectedBack,
+                      borderRadius: 10,
+                      marginTop: 12,
+                    }}> */}
                   <FlatList
                     data={top5Data}
                     keyExtractor={(item, index) => index}
                     renderItem={renderTop5}
                     scrollEnabled={false}
                     style={{
-                      backgroundColor: BaseColor.selectedBack,
+                      backgroundColor: BaseColor.ffff24,
                       paddingHorizontal: 16,
                       borderRadius: 10,
                       paddingTop: 10,
@@ -741,6 +766,7 @@ export default function MarketScreen({navigation}) {
                     }}
                     showsVerticalScrollIndicator={false}
                   />
+                  {/* </Card> */}
                 </View>
                 <View style={{marginTop: 12}}>
                   <MoreItemHeader title={t('topLoser')} />
@@ -751,7 +777,7 @@ export default function MarketScreen({navigation}) {
                     renderItem={renderTop5}
                     scrollEnabled={false}
                     style={{
-                      backgroundColor: BaseColor.selectedBack,
+                      backgroundColor: BaseColor.ffff24,
                       paddingHorizontal: 16,
                       borderRadius: 10,
                       paddingTop: 10,
@@ -846,11 +872,17 @@ export default function MarketScreen({navigation}) {
       />
 
       {/* change currency modal  */}
-      <Modal transparent animationType="slide" visible={currencyModal}>
+      <Modal
+        style={{margin: 0}}
+        isVisible={currencyModal}
+        backdropTransitionInTiming={1000}
+        backdropTransitionOutTiming={1000}
+        animationInTiming={1000}
+        animationOutTiming={1000}
+        useNativeDriverForBackdrop={true}>
         <View
           style={{
             flex: 1,
-            backgroundColor: BaseColor.transBlack,
             justifyContent: 'flex-end',
           }}>
           <View style={{padding: 16, backgroundColor: BaseColor.primaryBG}}>
@@ -865,12 +897,13 @@ export default function MarketScreen({navigation}) {
               />
               <TouchableOpacity
                 activeOpacity={0.7}
-                onPress={() => setcurrencyModal(false)}>
+                onPress={() => setcurrencyModal(false)}
+                style={{padding: 8}}>
                 <Image
                   source={Images.close_cross}
                   style={{
-                    height: 12,
-                    width: 12,
+                    height: 14,
+                    width: 14,
                   }}
                   resizeMode="contain"
                   tintColor={BaseColor.text1}
@@ -886,14 +919,14 @@ export default function MarketScreen({navigation}) {
                   <View
                     style={{
                       width: Dimensions.get('window').width / 4 - 8,
-                      padding: 4,
+                      padding: 6,
                     }}>
                     <TouchableOpacity
                       activeOpacity={0.7}
                       style={{
                         flexDirection: 'row',
                         alignItems: 'center',
-                        padding: 4,
+                        padding: 8,
                         paddingHorizontal: 8,
                         flex: 1,
                         borderWidth: 1,

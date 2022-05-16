@@ -156,7 +156,7 @@ export default function OnboardingScreen({navigation}) {
               style={{padding: 24}}
               activeOpacity={0.7}
               onPress={() => {
-                navigation.navigate('HomeDrawerNavigator');
+                navigation.navigate('SeedPhrase2', {type: 'already'});
               }}>
               <CText
                 value={t('alreadyWallet')}

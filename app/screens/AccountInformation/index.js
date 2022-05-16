@@ -8,7 +8,6 @@ import {
   Text,
   FlatList,
   Dimensions,
-  Modal,
 } from 'react-native';
 import {useSelector} from 'react-redux';
 import CButton from '../../components/CButton';
@@ -21,6 +20,7 @@ import styles from './styles';
 import Clipboard from '@react-native-clipboard/clipboard';
 import CCheckBox from '../../components/CCheckBox';
 import {FontFamily} from '../../config/typography';
+import Modal from 'react-native-modal';
 
 export default function AccountInformation({navigation}) {
   const {dark} = useSelector(state => state.auth);
@@ -120,9 +120,10 @@ export default function AccountInformation({navigation}) {
                       Toast.show(t('copied'));
                     }}>
                     <Image
-                      source={dark ? Images.copy_dark : Images.copy_light}
+                      source={Images.copy}
                       style={{height: 18, width: 18}}
                       resizeMode="contain"
+                      tintColor={BaseColor.inputBottomLine}
                     />
                   </TouchableOpacity>
                 </View>
@@ -218,30 +219,37 @@ export default function AccountInformation({navigation}) {
       </View>
 
       {/* phrase details modal */}
-      <Modal transparent animationType="slide" visible={phraseModal}>
+      <Modal
+        style={{flex: 1, margin: 0}}
+        isVisible={phraseModal}
+        backdropTransitionInTiming={1000}
+        backdropTransitionOutTiming={1000}
+        animationInTiming={1000}
+        animationOutTiming={1000}
+        useNativeDriverForBackdrop={true}>
         <TouchableOpacity
           activeOpacity={1}
           onPress={() => setphraseModal(false)}
-          style={[styles.modalCont, {backgroundColor: BaseColor.transBlack}]}>
+          style={[styles.modalCont]}>
           <View
             style={[styles.bottomCont, {backgroundColor: BaseColor.primaryBG}]}>
             <CText
               value={t('seedPhrase')}
               semiBold
-              style={{color: BaseColor.text1, fontSize: 16}}
+              style={{color: BaseColor.text1, fontSize: 18}}
             />
 
             <Text
               style={{
                 color: BaseColor.text2,
-                fontSize: 12,
+                fontSize: 14,
                 fontFamily: FontFamily.Inter_Regular,
               }}>
               {t('seedIsPrivateKey1') + ' '}
               <Text
                 style={{
                   color: BaseColor.onBoardTitle,
-                  fontSize: 12,
+                  fontSize: 14,
                   fontFamily: FontFamily.Inter_Regular,
                 }}>
                 {t('seedPhrase')}
@@ -250,7 +258,7 @@ export default function AccountInformation({navigation}) {
             </Text>
             <CText
               value={t('seedIsPrivateKey3')}
-              style={{color: BaseColor.text2, fontSize: 12, marginTop: 24}}
+              style={{color: BaseColor.text2, fontSize: 14, marginTop: 24}}
             />
             <View
               style={{
@@ -264,7 +272,7 @@ export default function AccountInformation({navigation}) {
                 medium
                 style={{
                   color: BaseColor.text1,
-                  fontSize: 12,
+                  fontSize: 14,
                   textAlign: 'center',
                 }}
               />

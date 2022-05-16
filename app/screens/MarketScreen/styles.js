@@ -15,7 +15,7 @@ export default styles = StyleSheet.create({
   },
   topMenuCont: {
     padding: 8,
-    paddingHorizontal: 16,
+    paddingHorizontal: 32,
     borderRadius: 10,
     marginEnd: 16,
   },

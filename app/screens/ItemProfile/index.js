@@ -1,5 +1,5 @@
 import {t} from 'i18next';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   ScrollView,
@@ -8,7 +8,7 @@ import {
   Text,
   ImageBackground,
   FlatList,
-  Modal,
+  BackHandler,
 } from 'react-native';
 import {useSelector} from 'react-redux';
 import CHeader from '../../components/CHeader';
@@ -17,7 +17,10 @@ import PortListItem from '../../components/PortListItem';
 import {DarkColor, LightColor} from '../../config/colors';
 import {Images} from '../../config/images';
 import styles from './styles';
+import Modal from 'react-native-modal';
+
 import {BlurView, VibrancyView} from '@react-native-community/blur';
+import {Card} from 'react-native-paper';
 
 export default function ItemProfile({navigation, route}) {
   const {dark} = useSelector(state => state.auth);
@@ -57,38 +60,59 @@ export default function ItemProfile({navigation, route}) {
   // transaction history list item
   const renderTransactionHistory = ({item, index}) => {
     return (
-      <PortListItem
-        icon={
-          item?.send
-            ? dark
-              ? Images.sent_icon_dark
-              : Images.sent_icon
-            : dark
-            ? Images.received_icon_dark
-            : Images.received_icon
-        }
-        topLeftTxt={item?.send ? t('sent') : t('received')}
-        bottomLeftTxt={item?.date}
-        bottomLeftTxtColor={BaseColor.text2}
-        topRightTxt={`$${item?.price}`}
-        topRightTxtColor={
-          item?.send ? BaseColor.lossValue : BaseColor.profiteValueDark
-        }
-        bottomRightTxt={`${item.send ? '-' : '+'}${item?.nativeValue}${
-          itemDetails?.key
-        }`}
-        bottomRightTxtColor={
-          item?.send ? BaseColor.lossValue : BaseColor.profiteValueDark
-        }
-        bottomLeftTxtFontSize={10}
-        onPress={() => {
-          navigation.navigate('TransactionDetails', {
-            transactionDetails: item,
-            itemDetails: itemDetails,
-          });
-        }}
-      />
+      <Card
+        style={{
+          marginBottom: 16,
+          backgroundColor: BaseColor.langUNSBtnBack,
+          padding: 8,
+        }}>
+        <PortListItem
+          icon={
+            item?.send
+              ? dark
+                ? Images.sent_icon_dark
+                : Images.sent_icon
+              : dark
+              ? Images.received_icon_dark
+              : Images.received_icon
+          }
+          topLeftTxt={item?.send ? t('sent') : t('received')}
+          bottomLeftTxt={item?.date}
+          bottomLeftTxtColor={BaseColor.text2}
+          topRightTxt={`$${item?.price}`}
+          topRightTxtColor={
+            item?.send ? BaseColor.lossValue : BaseColor.profiteValueDark
+          }
+          bottomRightTxt={`${item.send ? '-' : '+'}${item?.nativeValue}${
+            itemDetails?.key
+          }`}
+          bottomRightTxtColor={
+            item?.send ? BaseColor.lossValue : BaseColor.profiteValueDark
+          }
+          bottomLeftTxtFontSize={10}
+          onPress={() => {
+            navigation.navigate('TransactionDetails', {
+              transactionDetails: item,
+              itemDetails: itemDetails,
+            });
+          }}
+        />
+      </Card>
     );
+  };
+
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backPress,
+    );
+
+    return () => backHandler.remove();
+  }, []);
+
+  const backPress = () => {
+    navigation.goBack();
+    return true;
   };
 
   return (
@@ -151,22 +175,24 @@ export default function ItemProfile({navigation, route}) {
 
       {/* sort options modal */}
       <Modal
-        transparent
-        style={{flex: 1}}
-        visible={sortModal}
-        onRequestClose={() => {
+        style={{margin: 0}}
+        isVisible={sortModal}
+        backdropTransitionInTiming={1000}
+        backdropTransitionOutTiming={1000}
+        animationInTiming={1000}
+        animationOutTiming={1000}
+        useNativeDriverForBackdrop={true}
+        onBackButtonPress={() => {
           setsortModal(false);
-        }}
-        animationType="slide">
+        }}>
         <View
           style={{
             flex: 1,
-            backgroundColor: BaseColor.transBlack,
             justifyContent: 'flex-end',
           }}>
           <View style={{backgroundColor: BaseColor.primaryBG, padding: 16}}>
             <CText
-              value={t('Sort by')}
+              value={t('sortBy')}
               medium
               style={{
                 fontSize: 14,

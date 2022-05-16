@@ -19,6 +19,7 @@ export default function CHeader(props) {
     rightIcon,
     onRightIconPress = () => {},
     rightIconSize = 24,
+    style,
   } = props;
 
   useEffect(() => {
@@ -28,12 +29,15 @@ export default function CHeader(props) {
   return (
     <>
       <View
-        style={{
-          backgroundColor: BaseColor.primaryBG,
-          height: 80,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
+        style={[
+          {
+            backgroundColor: BaseColor.primaryBG,
+            height: 80,
+            justifyContent: 'center',
+            alignItems: 'center',
+          },
+          style,
+        ]}>
         {title ? (
           <CText
             value={title}
