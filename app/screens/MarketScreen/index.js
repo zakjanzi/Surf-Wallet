@@ -22,6 +22,9 @@ import CMenuItem from '../../components/CMenuItem';
 import Modal from 'react-native-modal';
 import {Card} from 'react-native-paper';
 
+//api
+// import { defiMarketCap } from '../../../cryptoRoutes'
+
 export default function MarketScreen({navigation}) {
   const {dark} = useSelector(state => state.auth);
   const [BaseColor, setBaseColor] = useState(dark ? DarkColor : LightColor);
@@ -123,7 +126,7 @@ export default function MarketScreen({navigation}) {
     },
     {
       title: 'DeFi Cap',
-      value: 161.2,
+      value: 55,
       percentage: -2.55,
       chatImage: Images.eth_chart,
     },
