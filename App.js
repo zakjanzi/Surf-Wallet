@@ -5,7 +5,7 @@
  * @format
  * @flow strict-local
  */
-import 'react-native-gesture-handler';
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import React from 'react';
 import {
   I18nManager,
@@ -32,7 +32,7 @@ import {persistor, store} from './app/redux/store/configureStore';
 import i18n from './app/language/i18n';
 import {Provider as PaperProvider} from 'react-native-paper';
 
-export default function App() {
+function App() {
   return (
     <>
       <StatusBar barStyle="light-content" backgroundColor={'#3700B3'} />
@@ -46,3 +46,5 @@ export default function App() {
     </>
   );
 }
+
+export default gestureHandlerRootHOC(App);

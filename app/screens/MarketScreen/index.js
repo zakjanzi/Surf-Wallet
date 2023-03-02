@@ -22,8 +22,6 @@ import CMenuItem from '../../components/CMenuItem';
 import Modal from 'react-native-modal';
 import {Card} from 'react-native-paper';
 
-//api
-// import { defiMarketCap } from '../../../cryptoRoutes'
 
 export default function MarketScreen({navigation}) {
   const {dark} = useSelector(state => state.auth);
