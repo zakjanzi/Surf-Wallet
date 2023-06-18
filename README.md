@@ -3,4 +3,9 @@
 A non-custodial wallet app that allows users to cash in and out of the crypto ecosystem. 
 This enables instant cross-border payments and the use of fiat onramps for cashless payments.
 
-Read full [whitepaper](https://drive.google.com/file/d/1AxRpr9INpADb20TW48T3UQXBbZ7hEGxg/view?usp=sharing).
+
+# Run it
+
+- Clone repo
+- npm install (use node version 14.18.1)
+- npx react-native run-android (assuming JDK 11 and Android SDKs are installed)

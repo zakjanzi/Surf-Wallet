@@ -1,5 +1,6 @@
 # Stage 1: Build the React Native app
 FROM node:14-alpine as build
+#nvm use 14.18.1
 
 # Set working directory
 WORKDIR /app
