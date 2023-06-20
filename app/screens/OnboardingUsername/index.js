@@ -1,42 +1,51 @@
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable prettier/prettier */
+
+//Note
+// Modified the code to remove the privacy option (public/private usernames)
+// Merged the Email and username screens to one (OnboardingUsername + RecoveryOption)
+
 import {t} from 'i18next';
 import {isEmpty} from 'lodash';
 import React, {useRef, useState} from 'react';
-import {
-  View,
-  TextInput,
-  Text,
-  TouchableOpacity,
-  Platform,
-  UIManager,
-  LayoutAnimation,
-  ScrollView,
-} from 'react-native';
+import {View, TextInput, Text, ScrollView} from 'react-native';
 import {useSelector} from 'react-redux';
 import CHeader from '../../components/CHeader';
 import CText from '../../components/CText';
 import {DarkColor, LightColor} from '../../config/colors';
-import {
-  enableAnimateInEaseOut,
-  enableAnimateLinear,
-} from '../../config/commonFunctions';
+import {enableAnimateInEaseOut} from '../../config/commonFunctions';
 import styles from './styles';
-import SwitchSelector from 'react-native-switch-selector';
 import CButton from '../../components/CButton';
+import CInput from '../../components/CInput';
+import {Images} from '../../config/images';
 
 export default function OnboardingUsername({navigation}) {
   const {dark} = useSelector(state => state.auth);
   const [BaseColor, setBaseColor] = useState(dark ? DarkColor : LightColor);
 
+  //username hooks
   const [username, setusername] = useState('');
-  const [privacy, setprivacy] = useState('public');
   const [available, setavailable] = useState(false);
-
   const usernameRef = useRef();
 
-  const options = [
-    {label: t('public'), value: 'public'},
-    {label: t('private'), value: 'private'},
-  ];
+  // email hooks + validation
+  const emailRef = useRef();
+  const [email, setemail] = useState('');
+  const [isEmailValid, setisEmailValid] = useState(false);
+
+  const ValidateEmail = val => {
+    let emailReg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+
+    if (isEmpty(val) || !emailReg.test(val)) {
+      setisEmailValid(false);
+    } else {
+      setisEmailValid(true);
+    }
+  };
+
+  // privacy tips text
+  const pTips = [t('pTip1'), t('pTip2'), t('pTip3')];
+
 
   enableAnimateInEaseOut();
 
@@ -56,6 +65,7 @@ export default function OnboardingUsername({navigation}) {
             style={{
               color: BaseColor.text1,
               fontSize: 16,
+              marginBottom: 15,
             }}
           />
           <CText
@@ -63,6 +73,7 @@ export default function OnboardingUsername({navigation}) {
             style={{
               color: BaseColor.text2,
               fontSize: 12,
+              marginTop: 5,
             }}
           />
           <View
@@ -86,12 +97,13 @@ export default function OnboardingUsername({navigation}) {
             <TextInput
               ref={usernameRef}
               value={username}
+              autoFocus={true}
               onChangeText={val => {
                 setusername(val.trim());
 
                 //check if username Available or not
                 if (val.trim().length >= 4) {
-                  if (val.trim() == 'username' || isEmpty(val)) {
+                  if (val.trim() === 'username' || isEmpty(val)) {
                     setavailable(false);
                   } else {
                     setavailable(true);
@@ -122,7 +134,7 @@ export default function OnboardingUsername({navigation}) {
                 styles.righttxt,
                 {
                   color:
-                    username != 'username' && available
+                    username !== 'username' && available
                       ? BaseColor.availableName
                       : BaseColor.notavailableName,
                 },
@@ -140,49 +152,92 @@ export default function OnboardingUsername({navigation}) {
               ]}
             />
           )}
-          <CText
-            value={t('setPrivacy')}
+        </ScrollView>
+
+      <View>
+
+
+        <CText
+            value={t('recoveryOption')}
             semiBold
             style={{
               color: BaseColor.text1,
               fontSize: 16,
-              marginTop: 28,
-            }}
-          />
-          <View style={{width: '40%', marginTop: 16}}>
-            <SwitchSelector
-              options={options}
-              initial={0}
-              onPress={value => {
-                setprivacy(value);
-              }}
-              selectedColor={BaseColor.privacySelClr}
-              textColor={BaseColor.privacyUnSelClr}
-              buttonColor={BaseColor.selectedPrivacyback}
-              backgroundColor={BaseColor.unselectedPrivacyback}
-              textStyle={styles.txtStyle}
-              fontSize={12}
-              borderColor={BaseColor.unselectedPrivacyback}
-              hasPadding={true}
-            />
-          </View>
+              marginBottom: 2,
+          }}
+        />
+        <View
+          style={{ marginTop: 16}}
+          showsVerticalScrollIndicator={false}>
           <CText
-            value={
-              privacy == 'public'
-                ? t('searchableUsername')
-                : t('notSearchableUsername')
-            }
-            medium
+            value={t('enterEmail')}
+            semiBold
             style={{
-              color: BaseColor.privacyUnSelClr,
-              fontSize: 12,
-              marginTop: 28,
+              color: BaseColor.text1,
+              fontSize: 16,
             }}
           />
-        </ScrollView>
+          <CText
+            value={t('recoverForgotPin')}
+            style={{
+              color: BaseColor.text2,
+              fontSize: 12,
+            }}
+          />
+
+          <CInput
+            ref={emailRef}
+            value={email}
+            onChangeText={val => {
+              setemail(val.trim());
+
+              //Validate Email
+              ValidateEmail(val);
+            }}
+            placeholder={t('emailPH')}
+            leftIcon={
+              !isEmpty(email)
+                ? isEmailValid
+                  ? dark
+                    ? Images.valid_tick_dark
+                    : Images.valid_tick_light
+                  : Images.invalid_tick_light
+                : false
+            }
+            keyboardType="email-address"
+            style={{marginTop: 22}}
+            error={!isEmailValid}
+          />
+          </View>
+
+          {emailRef?.current?.isFocused() && (
+            <View>
+              <CText
+                value={t('privacyTips')}
+                medium
+                style={{
+                  color: BaseColor.text2,
+                  fontSize: 12,
+                  marginTop: 20,
+                }}
+              />
+              <View style={{marginTop: 12}}>
+                <Text style={{color: BaseColor.text2, fontSize: 12, marginLeft: 16, marginBottom: 12}}>
+                  • {pTips[0]}
+                </Text>
+                <Text style={{color: BaseColor.text2, fontSize: 12, marginLeft: 16, marginBottom: 12}}>
+                  • {pTips[1]}
+                </Text>
+                <Text style={{color: BaseColor.text2, fontSize: 12, marginLeft: 16, marginBottom: 12}}>
+                  • {pTips[2]}
+                </Text>
+              </View>
+            </View>
+          )}
+        </View>
         <CButton
-          value={t('next')}
-          disable={!available}
+          value={t('continue')}
+          disable={!isEmailValid || !available}
           onPress={() => {
             navigation.navigate('SecurityScreen');
           }}

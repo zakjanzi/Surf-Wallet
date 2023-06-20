@@ -86,7 +86,7 @@ export default function PincodeScreen({navigation}) {
           value={t('next')}
           disable={pincode.length == 6 ? false : true}
           onPress={() => {
-            navigation.navigate('RecoveryOption');
+            navigation.navigate('GenerateWallet');
           }}
         />
       </View>

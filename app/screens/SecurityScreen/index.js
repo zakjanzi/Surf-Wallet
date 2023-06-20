@@ -14,16 +14,6 @@ export default function SecurityScreen({navigation}) {
 
   const options = [
     {
-      title: t('faceID'),
-      icon: dark ? Images.faceid_dark : Images.faceid_light,
-      onPress: () => {},
-    },
-    {
-      title: t('fingerprint'),
-      icon: dark ? Images.fingerprint_dark : Images.fingerprint_light,
-      onPress: () => {},
-    },
-    {
       title: t('pincode'),
       icon: dark ? Images.pincode_dark : Images.pincode_light,
       onPress: () => {
