@@ -1,13 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
-import {
-  View,
-  ScrollView,
-  Image,
-  TouchableOpacity,
-  Text,
-  BackHandler,
-} from 'react-native';
+import {View,ScrollView, Image, TouchableOpacity, Text, BackHandler} from 'react-native';
 import {DarkColor, LightColor} from '../../config/colors';
 import CHeader from '../../components/CHeader';
 import {t} from 'i18next';
@@ -21,6 +14,15 @@ import CButton from '../../components/CButton';
 import {enableAnimateInEaseOut} from '../../config/commonFunctions';
 import SeedPhrase from '../SeedPhrase';
 import SeedPhrase2 from '../SeedPhrase2';
+
+// import the generate wallet function
+import { generateWallet } from '../../utils/bip39.js';
+
+// Function to handle the "Generate Wallet" button click
+const handleGenerateWallet = () => {
+  generateWallet();
+  // Call the function from the blockchain module to generate a wallet
+};
 
 export default function GenerateWallet({navigation}) {
   const {dark} = useSelector(state => state.auth);
@@ -284,8 +286,9 @@ export default function GenerateWallet({navigation}) {
         ) : (
           <CButton
             value={t('generateAWallet')}
-            onPress={() => generatePrivacyKey()}
+            onPress={() => generateWallet()}
           />
+          // call generateWallet() function
         )}
       </View>
     </>

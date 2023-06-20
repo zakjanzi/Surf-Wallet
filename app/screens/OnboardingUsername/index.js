@@ -1,7 +1,4 @@
-/* eslint-disable react-native/no-inline-styles */
-/* eslint-disable prettier/prettier */
-
-//Note
+//Notes:
 // Modified the code to remove the privacy option (public/private usernames)
 // Merged the Email and username screens to one (OnboardingUsername + RecoveryOption)
 
@@ -262,6 +259,7 @@ export default function OnboardingUsername({navigation}) {
           onPress={() => {
             navigation.navigate('SecurityScreen');
           }}
+          //handleSubmit, api call, navigation
         />
       </View>
     </>
