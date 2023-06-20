@@ -19,6 +19,8 @@ import CButton from '../../components/CButton';
 import CInput from '../../components/CInput';
 import {Images} from '../../config/images';
 
+import axios from 'axios';
+
 export default function OnboardingUsername({navigation}) {
   const {dark} = useSelector(state => state.auth);
   const [BaseColor, setBaseColor] = useState(dark ? DarkColor : LightColor);
@@ -48,6 +50,25 @@ export default function OnboardingUsername({navigation}) {
 
 
   enableAnimateInEaseOut();
+
+  ///////////////////////////////// API CALLS //////////////////////////////////////
+
+  const handleSubmit = async () => {
+    try {
+      const response = await axios.post('/api/auth', {
+        username,
+        email,
+      });
+
+      // Handle successful sign up
+      console.log(response.data);
+    } catch (error) {
+      // Handle sign up error
+      console.error(error.response.data);
+    }
+  };
+
+  ///////////////////////////////////////////////////////////////////////////////////
 
   return (
     <>
