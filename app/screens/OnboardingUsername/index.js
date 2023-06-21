@@ -32,6 +32,9 @@ export default function OnboardingUsername({navigation}) {
   const [email, setemail] = useState('');
   const [isEmailValid, setisEmailValid] = useState(false);
 
+  // Button hook
+  const [isLoading, setIsLoading] = useState(false);
+
   const ValidateEmail = val => {
     let emailReg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
 
@@ -50,6 +53,25 @@ export default function OnboardingUsername({navigation}) {
 
   ///////////////////////////////// API CALLS //////////////////////////////////////
 
+  const validateInputs = async () => {
+    setIsLoading(true); // Set loading state to true
+
+    try {
+      const response = await axios.post('/register/validate', {
+        username,
+        email
+      });
+      // If request successful, do below
+      console.log(response.data);
+    } catch (error) {
+      // If there's an error, do below
+      console.error(error);
+    } finally {
+      setIsLoading(false); // Set loading state back to false
+    }
+  };
+  
+  
   const handleSubmit = async () => {
     try {
       const response = await axios.post('/api/auth', {
@@ -255,11 +277,12 @@ export default function OnboardingUsername({navigation}) {
         </View>
         <CButton
           value={t('continue')}
-          disable={!isEmailValid || !available}
-          onPress={() => {
+          disable={!isEmailValid || !available || isLoading}
+          onPress={async () => {
+            await validateInputs();
+            await handleSubmit();
             navigation.navigate('SecurityScreen');
           }}
-          //handleSubmit, api call, navigation
         />
       </View>
     </>
