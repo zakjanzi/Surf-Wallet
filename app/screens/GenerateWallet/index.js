@@ -15,6 +15,8 @@ import {enableAnimateInEaseOut} from '../../config/commonFunctions';
 import SeedPhrase from '../SeedPhrase';
 import SeedPhrase2 from '../SeedPhrase2';
 
+import {mnemonic,masterSeed, bitcoinPrivateKey, ethereumPrivateKey, usdtPrivateKey} from '../../utils/bip39.js';
+
 // import the generate wallet function
 import { generateWallet } from '../../utils/bip39.js';
 
@@ -191,7 +193,7 @@ export default function GenerateWallet({navigation}) {
                           />
                           <CText
                           //where to log the private key
-                            value={privateKey}
+                            value={GenerateWallet.masterSeed}
                             style={{
                               color: BaseColor.text1,
                               fontSize: 14,
