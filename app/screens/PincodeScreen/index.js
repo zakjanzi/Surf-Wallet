@@ -27,6 +27,25 @@ export default function PincodeScreen({navigation}) {
     setpincode,
   });
 
+
+  ///////////////////////////////// API CALLS //////////////////////////////////////
+  const handleSubmit = async () => {
+    try {
+      const response = await axios.post('http://localhost:85/api/auth/register', {
+        username,
+        email,
+        password: pincode,
+        //add password
+      });
+
+      // Handle successful sign up
+      console.log(response.data);
+    } catch (error) {
+      // Handle sign up error
+      console.error(error.response.data);
+    }
+  };
+
   return (
     <>
       <CHeader

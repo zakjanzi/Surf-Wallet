@@ -61,31 +61,96 @@ export default function OnboardingUsername({navigation}) {
         username,
         email
       });
-      // If request successful, do below
-      console.log(response.data);
+      // If request successful: navigate to next screen
+      navigation.navigate('SecurityScreen');
+      // Log the success message from the response
+      console.log(response.data.message); 
+  
+       // To display a notification, update a success message component, or perform any other action to show the success message to the user.
+  
+      // const successMessage = response.data.message;
+      // Function to show success message to the user
+      // showSuccessMessage(successMessage);    
+    
     } catch (error) {
-      // If there's an error, do below
+      // If there's an error: show error message (from the "message" key in the response")
       console.error(error);
+      if (error.response && error.response.data && error.response.data.message) {
+        const errorMessage = error.response.data.message;
+        // Show the error message to the user or handle it as needed
+        console.log(errorMessage);
+        showErrorMessage(errorMessage)
+      }
+    
+      // Additional error handling code if required
+    
     } finally {
       setIsLoading(false); // Set loading state back to false
     }
-  };
-  
-  
-  const handleSubmit = async () => {
     try {
-      const response = await axios.post('http://localhost:85/api/auth', {
+      const response = await axios.post('http://localhost:85/api/auth/register/validate', {
         username,
-        email,
+        email
       });
-
-      // Handle successful sign up
-      console.log(response.data);
+      // If request successful: navigate to next screen
+      navigation.navigate('SecurityScreen');
+      // Log the success message from the response
+      console.log(response.data.message); 
+  
+       // To display a notification, update a success message component, or perform any other action to show the success message to the user.
+  
+      // const successMessage = response.data.message;
+      // Function to show success message to the user
+      // showSuccessMessage(successMessage);    
+    
     } catch (error) {
-      // Handle sign up error
-      console.error(error.response.data);
+      // If there's an error: show error message (from the "message" key in the response")
+      console.error(error);
+      if (error.response && error.response.data && error.response.data.message) {
+        const errorMessage = error.response.data.message;
+        // Show the error message to the user or handle it as needed
+        console.log(errorMessage);
+        showErrorMessage(errorMessage)
+      }
+    
+      // Additional error handling code if required
+    
+    } finally {
+      setIsLoading(false); // Set loading state back to false
     }
-  };
+    try {
+      const response = await axios.post('http://localhost:85/api/auth/register/validate', {
+        username,
+        email
+      });
+      // If request successful: navigate to next screen
+      navigation.navigate('SecurityScreen');
+      // Log the success message from the response
+      console.log(response.data.message); 
+  
+       // To display a notification, update a success message component, or perform any other action to show the success message to the user.
+  
+      // const successMessage = response.data.message;
+      // Function to show success message to the user
+      // showSuccessMessage(successMessage);    
+    
+    } catch (error) {
+      // If there's an error: show error message (from the "message" key in the response")
+      console.error(error);
+      if (error.response && error.response.data && error.response.data.message) {
+        const errorMessage = error.response.data.message;
+        // Show the error message to the user or handle it as needed
+        console.log(errorMessage);
+        // showErrorMessage(errorMessage)
+      }
+    
+      // Additional error handling code if required
+    
+    } finally {
+      setIsLoading(false); // Set loading state back to false
+    }
+  };    
+  
 
   ///////////////////////////////////////////////////////////////////////////////////
 
@@ -280,8 +345,6 @@ export default function OnboardingUsername({navigation}) {
           disable={!isEmailValid || !available || isLoading}
           onPress={async () => {
             await validateInputs();
-            await handleSubmit();
-            navigation.navigate('SecurityScreen');
           }}
         />
       </View>
