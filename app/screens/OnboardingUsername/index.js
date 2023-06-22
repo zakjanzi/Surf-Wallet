@@ -79,68 +79,6 @@ export default function OnboardingUsername({navigation}) {
         const errorMessage = error.response.data.message;
         // Show the error message to the user or handle it as needed
         console.log(errorMessage);
-        showErrorMessage(errorMessage)
-      }
-    
-      // Additional error handling code if required
-    
-    } finally {
-      setIsLoading(false); // Set loading state back to false
-    }
-    try {
-      const response = await axios.post('http://localhost:85/api/auth/register/validate', {
-        username,
-        email
-      });
-      // If request successful: navigate to next screen
-      navigation.navigate('SecurityScreen');
-      // Log the success message from the response
-      console.log(response.data.message); 
-  
-       // To display a notification, update a success message component, or perform any other action to show the success message to the user.
-  
-      // const successMessage = response.data.message;
-      // Function to show success message to the user
-      // showSuccessMessage(successMessage);    
-    
-    } catch (error) {
-      // If there's an error: show error message (from the "message" key in the response")
-      console.error(error);
-      if (error.response && error.response.data && error.response.data.message) {
-        const errorMessage = error.response.data.message;
-        // Show the error message to the user or handle it as needed
-        console.log(errorMessage);
-        showErrorMessage(errorMessage)
-      }
-    
-      // Additional error handling code if required
-    
-    } finally {
-      setIsLoading(false); // Set loading state back to false
-    }
-    try {
-      const response = await axios.post('http://localhost:85/api/auth/register/validate', {
-        username,
-        email
-      });
-      // If request successful: navigate to next screen
-      navigation.navigate('SecurityScreen');
-      // Log the success message from the response
-      console.log(response.data.message); 
-  
-       // To display a notification, update a success message component, or perform any other action to show the success message to the user.
-  
-      // const successMessage = response.data.message;
-      // Function to show success message to the user
-      // showSuccessMessage(successMessage);    
-    
-    } catch (error) {
-      // If there's an error: show error message (from the "message" key in the response")
-      console.error(error);
-      if (error.response && error.response.data && error.response.data.message) {
-        const errorMessage = error.response.data.message;
-        // Show the error message to the user or handle it as needed
-        console.log(errorMessage);
         // showErrorMessage(errorMessage)
       }
     
@@ -149,8 +87,7 @@ export default function OnboardingUsername({navigation}) {
     } finally {
       setIsLoading(false); // Set loading state back to false
     }
-  };    
-  
+  };
 
   ///////////////////////////////////////////////////////////////////////////////////
 
