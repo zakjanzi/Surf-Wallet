@@ -54,7 +54,8 @@ export default function PincodeScreen({navigation}) {
 
       console.log(response.data);
 
-    // If there's an error: show error message (from the "message" key in the response")
+    } catch (error) {
+      // If there's an error: show error message (from the "message" key in the response")
       console.error(error);
       if (error.response && error.response.data && error.response.data.message) {
         const errorMessage = error.response.data.message;
