@@ -41,7 +41,7 @@ export default function PincodeScreen({navigation}) {
     setIsLoading(true); // Set loading state to true
 
     try {
-      const response = await axios.post('http://10.0.2.2:85/api/auth/register', {
+      const response = await axios.post('http://3.250.35.169/api/auth/register', {
         username,
         email,
         password: pincode,

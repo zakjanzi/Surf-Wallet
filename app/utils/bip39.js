@@ -1,12 +1,16 @@
 const bip39 = require('bip39');
 const { ethers } = require('ethers');
 const { HDNode } = require('@ethersproject/hdnode');
-const { Buffer } = require('buffer');
+const crypto = require('crypto');
 
 const generateWallet = () => {
-  console.log(" generateWallet running")
-  // Generate a random mnemonic phrase
-  const mnemonic = bip39.generateMnemonic();
+  console.log("generateWallet running");
+  // Generate random entropy
+  const entropySizeBits = 256;
+  const entropy = crypto.randomBytes(entropySizeBits / 8);
+
+  // Convert entropy to mnemonic phrase
+  const mnemonic = bip39.entropyToMnemonic(entropy);
 
   // Derive the master seed from the mnemonic
   const masterSeed = bip39.mnemonicToSeedSync(mnemonic);
@@ -40,7 +44,7 @@ console.log('Mnemonic:', wallet.mnemonic);
 console.log('Ethereum Private Key:', wallet.ethereumPrivateKey);
 console.log('USDT Private Key:', wallet.usdtPrivateKey);
 console.log('Bitcoin Private Key', wallet.bitcoinPrivateKey);
-console.log('Master seed: ', wallet.masterSeed.toString('hex'));
+console.log('Master Seed:', wallet.masterSeed.toString('hex'));
 
 module.exports = {
   generateWallet,
