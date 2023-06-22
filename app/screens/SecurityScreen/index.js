@@ -20,11 +20,11 @@ export default function SecurityScreen({navigation}) {
         navigation.navigate('PincodeScreen');
       },
     },
-    {
-      title: t('password'),
-      icon: dark ? Images.lock_dark : Images.lock_light,
-      onPress: () => {},
-    },
+    // {
+    //   title: t('password'),
+    //   icon: dark ? Images.lock_dark : Images.lock_light,
+    //   onPress: () => {},
+    // },
   ];
 
   return (
