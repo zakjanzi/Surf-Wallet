@@ -1,8 +1,10 @@
 const bip39 = require('bip39');
 const { ethers } = require('ethers');
 const { HDNode } = require('@ethersproject/hdnode');
+const { Buffer } = require('buffer');
 
 const generateWallet = () => {
+  console.log(" generateWallet running")
   // Generate a random mnemonic phrase
   const mnemonic = bip39.generateMnemonic();
 
