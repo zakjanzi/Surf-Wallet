@@ -62,7 +62,7 @@ export default function OnboardingUsername({navigation}) {
         email
       });
       // If request successful: navigate to next screen
-      navigation.navigate('SecurityScreen');
+      navigation.navigate('SecurityScreen', { username, email });
       // Log the success message from the response
       console.log(response.data.message); 
   

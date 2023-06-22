@@ -6,15 +6,15 @@ import styles from './styles';
 import {useSelector} from 'react-redux';
 import {DarkColor, LightColor} from '../../config/colors';
 import OTPInputView from '@twotalltotems/react-native-otp-input';
-import {
-  CodeField,
-  Cursor,
-  useBlurOnFulfill,
-  useClearByFocusCell,
-} from 'react-native-confirmation-code-field';
+import {CodeField, Cursor, useBlurOnFulfill, useClearByFocusCell} from 'react-native-confirmation-code-field';
 import SmoothPinCodeInput from 'react-native-smooth-pincode-input';
 import CButton from '../../components/CButton';
 import {isEmpty} from 'lodash';
+import axios from 'axios';
+import { useRoute } from '@react-navigation/native';
+
+const route = useRoute();
+const { username, email } = route.params;
 
 export default function PincodeScreen({navigation}) {
   const {dark} = useSelector(state => state.auth);
@@ -43,19 +43,15 @@ export default function PincodeScreen({navigation}) {
       });
        // If request successful: navigate to next screen
        navigation.navigate('GenerateWallet');
-      // Log the success message from the response
       console.log(response.data.message);
 
-      // A function below to display a notification, update a success message component, or perform any other action to show the success message to the user.
-  
+      // A function below to display a notification or perform any other action to show the success message to the user.
       // const successMessage = response.data.message;
-      // Function to show success message to the user
       // showSuccessMessage(successMessage); 
 
       console.log(response.data);
 
     } catch (error) {
-      // If there's an error: show error message (from the "message" key in the response")
       console.error(error);
       if (error.response && error.response.data && error.response.data.message) {
         const errorMessage = error.response.data.message;
@@ -63,7 +59,7 @@ export default function PincodeScreen({navigation}) {
         console.log(errorMessage);
         // showErrorMessage(errorMessage)
       }
-    
+
       // Additional error handling code if required
     
     } finally {
