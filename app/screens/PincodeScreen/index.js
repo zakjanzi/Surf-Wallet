@@ -13,10 +13,12 @@ import {isEmpty} from 'lodash';
 import axios from 'axios';
 import { useRoute } from '@react-navigation/native';
 
-const route = useRoute();
-const { username, email } = route.params;
+
 
 export default function PincodeScreen({navigation}) {
+  const route = useRoute();
+  const username = route.params?.username;
+  const email = route.params?.email;  
   const {dark} = useSelector(state => state.auth);
   const [BaseColor, setBaseColor] = useState(dark ? DarkColor : LightColor);
 
@@ -29,6 +31,9 @@ export default function PincodeScreen({navigation}) {
 
   // Button hook (for email and username validation)
   const [isLoading, setIsLoading] = useState(false);
+  console.log('Username:', username);
+  console.log('Email:', email);
+
 
 
   ///////////////////////////////// API CALLS //////////////////////////////////////

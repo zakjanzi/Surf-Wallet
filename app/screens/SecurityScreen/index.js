@@ -7,17 +7,22 @@ import CText from '../../components/CText';
 import {DarkColor, LightColor} from '../../config/colors';
 import {Images} from '../../config/images';
 import styles from './styles';
+import { useRoute } from '@react-navigation/native';
 
 export default function SecurityScreen({navigation}) {
   const {dark} = useSelector(state => state.auth);
   const [BaseColor, setBaseColor] = useState(dark ? DarkColor : LightColor);
+
+  const route = useRoute();
+  const username = route.params?.username;
+  const email = route.params?.email; 
 
   const options = [
     {
       title: t('pincode'),
       icon: dark ? Images.pincode_dark : Images.pincode_light,
       onPress: () => {
-        navigation.navigate('PincodeScreen');
+        navigation.navigate('PincodeScreen', { username: username, email: email });
       },
     },
     // {
@@ -26,6 +31,7 @@ export default function SecurityScreen({navigation}) {
     //   onPress: () => {},
     // },
   ];
+  console.log(username, email)
 
   return (
     <>
