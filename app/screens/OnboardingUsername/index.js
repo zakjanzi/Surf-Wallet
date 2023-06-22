@@ -32,7 +32,7 @@ export default function OnboardingUsername({navigation}) {
   const [email, setemail] = useState('');
   const [isEmailValid, setisEmailValid] = useState(false);
 
-  // Button hook
+  // Button hook (for email and username validation)
   const [isLoading, setIsLoading] = useState(false);
 
   const ValidateEmail = val => {
@@ -57,7 +57,7 @@ export default function OnboardingUsername({navigation}) {
     setIsLoading(true); // Set loading state to true
 
     try {
-      const response = await axios.post('/register/validate', {
+      const response = await axios.post('http://localhost:85/api/auth/register/validate', {
         username,
         email
       });
@@ -74,7 +74,7 @@ export default function OnboardingUsername({navigation}) {
   
   const handleSubmit = async () => {
     try {
-      const response = await axios.post('/api/auth', {
+      const response = await axios.post('http://localhost:85/api/auth', {
         username,
         email,
       });

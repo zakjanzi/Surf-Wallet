@@ -21,7 +21,7 @@ import { generateWallet } from '../../utils/bip39.js';
 // Function to handle the "Generate Wallet" button click
 const handleGenerateWallet = () => {
   generateWallet();
-  // Call the function from the blockchain module to generate a wallet
+  // Call the function to generate a wallet
 };
 
 export default function GenerateWallet({navigation}) {
@@ -190,6 +190,7 @@ export default function GenerateWallet({navigation}) {
                             }}
                           />
                           <CText
+                          //where to log the private key
                             value={privateKey}
                             style={{
                               color: BaseColor.text1,
