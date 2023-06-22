@@ -27,22 +27,46 @@ export default function PincodeScreen({navigation}) {
     setpincode,
   });
 
+  // Button hook (for email and username validation)
+  const [isLoading, setIsLoading] = useState(false);
+
 
   ///////////////////////////////// API CALLS //////////////////////////////////////
   const handleSubmit = async () => {
+    setIsLoading(true); // Set loading state to true
+
     try {
-      const response = await axios.post('http://localhost:85/api/auth/register', {
+      const response = await axios.post('http://10.0.2.2:85/api/auth/register', {
         username,
         email,
         password: pincode,
-        //add password
       });
+       // If request successful: navigate to next screen
+       navigation.navigate('GenerateWallet');
+      // Log the success message from the response
+      console.log(response.data.message);
 
-      // Handle successful sign up
+      // A function below to display a notification, update a success message component, or perform any other action to show the success message to the user.
+  
+      // const successMessage = response.data.message;
+      // Function to show success message to the user
+      // showSuccessMessage(successMessage); 
+
       console.log(response.data);
-    } catch (error) {
-      // Handle sign up error
-      console.error(error.response.data);
+
+    // If there's an error: show error message (from the "message" key in the response")
+      console.error(error);
+      if (error.response && error.response.data && error.response.data.message) {
+        const errorMessage = error.response.data.message;
+        // Show the error message to the user or handle it as needed
+        console.log(errorMessage);
+        // showErrorMessage(errorMessage)
+      }
+    
+      // Additional error handling code if required
+    
+    } finally {
+      setIsLoading(false); // Set loading state back to false
     }
   };
 
@@ -104,8 +128,8 @@ export default function PincodeScreen({navigation}) {
         <CButton
           value={t('next')}
           disable={pincode.length == 6 ? false : true}
-          onPress={() => {
-            navigation.navigate('GenerateWallet');
+          onPress={async () => {
+            await handleSubmit();
           }}
         />
       </View>

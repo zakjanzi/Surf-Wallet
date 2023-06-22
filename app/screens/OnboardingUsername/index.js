@@ -57,7 +57,7 @@ export default function OnboardingUsername({navigation}) {
     setIsLoading(true); // Set loading state to true
 
     try {
-      const response = await axios.post('http://localhost:85/api/auth/register/validate', {
+      const response = await axios.post('http://10.0.2.2:85/api/auth/register/validate', {
         username,
         email
       });
@@ -66,7 +66,7 @@ export default function OnboardingUsername({navigation}) {
       // Log the success message from the response
       console.log(response.data.message); 
   
-       // To display a notification, update a success message component, or perform any other action to show the success message to the user.
+      // To display a notification, update a success message component, or perform any other action to show the success message to the user.
   
       // const successMessage = response.data.message;
       // Function to show success message to the user
