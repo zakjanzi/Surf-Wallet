@@ -26,6 +26,7 @@ const generateWallet = () => {
   // Return the generated wallet data or perform any other necessary actions
   return {
     mnemonic,
+    masterSeed,
     bitcoinPrivateKey,
     ethereumPrivateKey,
     usdtPrivateKey,
@@ -37,6 +38,7 @@ console.log('Mnemonic:', wallet.mnemonic);
 console.log('Ethereum Private Key:', wallet.ethereumPrivateKey);
 console.log('USDT Private Key:', wallet.usdtPrivateKey);
 console.log('Bitcoin Private Key', wallet.bitcoinPrivateKey);
+console.log('Master seed: ', wallet.masterSeed.toString('hex'));
 
 module.exports = {
   generateWallet,
