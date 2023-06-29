@@ -42,14 +42,10 @@ export default function MarketScreen({navigation}) {
     id: 0,
   });
 
-  // useEffect(() => {
-  //   /// it will run whenever screen mounts ////
-  //   async function fetchData() {
-  //       await getTopCoins()
-  //   }
-  //   fetchData()
-  
-  // },[])
+  // coin hooks
+  const [allCoins, setAllCoins] = useState([]);
+  const [top5Data, setTop5Data] = useState([]);
+  const [topLosers, setTopLosers] = useState([]);
 
   //horizontal menu tabs
   const topHorizontalMenu = [
@@ -148,107 +144,61 @@ export default function MarketScreen({navigation}) {
 
 
   //Cryptocurrency Data
-  const cryptocurrencyData = [
-    {
-      icon: Images.oasis_image,
-      title: 'Oasis Network',
-      plPer: -16.1,
-      price: '0.3209',
-      key: 'ROSE',
-    },
-    {
-      icon: Images.audius_iamge,
-      title: 'Audius',
-      plPer: -10.78,
-      price: '2.24',
-      key: 'AUDIO',
-    },
-    {
-      icon: Images.omg_image,
-      title: 'OMG Network',
-      plPer: -9.59,
-      price: '8.12',
-      key: 'OMG',
-    },
-    {
-      icon: Images.siacon_image,
-      title: 'Siacon',
-      plPer: 18.67,
-      price: '0.02647',
-      key: 'SC',
-    },
-    {
-      icon: Images.icon_image,
-      title: 'Icon',
-      plPer: 3.47,
-      price: '1.77',
-      key: 'ICX',
-    },
-  ];
+  // const cryptocurrencyData = [
+  //   {
+  //     icon: Images.oasis_image,
+  //     title: 'Oasis Network',
+  //     plPer: -16.1,
+  //     price: '0.3209',
+  //     key: 'ROSE',
+  //   },
+  // ];
 
   //deFi Data
-  const deFiData = [
-    {
-      icon: Images.theta_image,
-      title: 'THETA',
-      plPer: -16.1,
-      price: '0.3209',
-      key: 'ROSE',
-    },
-    {
-      icon: Images.tezos_image,
-      title: 'Tezos',
-      plPer: -10.78,
-      price: '2.24',
-      key: 'AUDIO',
-    },
-    {
-      icon: Images.axie_image,
-      title: 'Axie Inf',
-      plPer: -9.59,
-      price: '8.12',
-      key: 'OMG',
-    },
-    {
-      icon: Images.chiliz_image,
-      title: 'Chiliz',
-      plPer: 18.67,
-      price: '0.02647',
-      key: 'SC',
-    },
-    {
-      icon: Images.icon_image,
-      title: 'Icon',
-      plPer: 3.47,
-      price: '1.77',
-      key: 'ICX',
-    },
-  ];
+  // const deFiData = [
+  //   {
+  //     icon: Images.theta_image,
+  //     title: 'THETA',
+  //     plPer: -16.1,
+  //     price: '0.3209',
+  //     key: 'ROSE',
+  //   },
+  // ];
 
 
-  //Note to self: declare  globally to use them in other components
-let allCoins = []; // This array will be populated by the API call
-let top5Data = [];
-let topLoser = [];
+  useEffect(() => {
+    // Function to fetch top coins data
+    async function getCoins() {
+      const apiUrl = 'http://3.250.35.169/api/tokens';
+      const bearerToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHBpcmVzX2F0IjoxNjg4MTE5NDQ3LCJ1c2VyIjp7ImlkIjoxOSwiZW1haWwiOiJkdGZoZmdoQGhmZ2hqZmcuY29tIiwidXNlcm5hbWUiOiJzYWRyZmdlcnMifX0.hBaYROsLp8Q70EI6PIhgw6fnTGwrqn02DaLVGhDy3g8';
 
-// API call here
-axios.get('http://3.250.35.169/api/tokens')
-  .then(response => {
-    const responseData = response.data;
-    // Populate the allCoins array with the API data
-    allCoins = responseData;
+      try {
+        const response = await axios.get(apiUrl, {
+          headers: {
+            Authorization: `Bearer ${bearerToken}`
+          }
+        });
 
-    // Extract the first 5 values into top5Data
-    top5Data = allCoins.slice(0, 5);
+        const responseData = response.data;
+        // Update the state variables with the API data
+        setAllCoins(responseData);
+        setTop5Data(responseData.slice(0, 5));
+        setTopLosers(responseData.reverse().slice(0, 5));
 
-    // Reverse the top5Data array to display topLosers
-    topLoser = top5Data.reverse();
+        console.log('API RESPONSE:', responseData);
+        console.log('TOP 5:', responseData.slice(0, 5));
+        console.log('TOP LOSERS:', responseData.slice(0, 5).reverse());
+      } catch (error) {
+        console.error('API error:', error);
+        // Handle any errors that occurred during the API call
+      }
+    }
 
-  })
-  .catch(error => {
-    console.error('API error:', error);
-    // Handle any errors that occurred during the API call
-  });
+    // Call the getCoins function when the component mounts
+    getCoins();
+  }, []);
+  
+
   
   //watchlist array
   const wishlistArr = [
@@ -276,96 +226,6 @@ axios.get('http://3.250.35.169/api/tokens')
       nativeValue: '0.0325474',
       key: 'BTC',
       chart: Images.bit_chart,
-    },
-    {
-      icon: Images.ethereum,
-      title: 'Ethereum',
-      profite: true,
-      plPer: 3.92,
-      price: '5,941.67',
-      nativeValue: '2.07',
-      key: 'ETH',
-      chart: Images.eth_chart,
-    },
-    {
-      icon: Images.tether,
-      title: 'Tether',
-      profite: true,
-      plPer: 0.03,
-      price: '514.08',
-      nativeValue: '514.97',
-      key: 'USDT',
-      chart: Images.teh_chart,
-    },
-    {
-      icon: Images.tether,
-      title: 'Tether',
-      profite: true,
-      plPer: 0.03,
-      price: '514.08',
-      nativeValue: '514.97',
-      key: 'USDT',
-      chart: Images.teh_chart,
-    },
-    {
-      icon: Images.tether,
-      title: 'Tether',
-      profite: true,
-      plPer: 0.03,
-      price: '514.08',
-      nativeValue: '514.97',
-      key: 'USDT',
-      chart: Images.teh_chart,
-    },
-    {
-      icon: Images.bitcoin,
-      title: 'Bitcoin',
-      profite: true,
-      plPer: 1.86,
-      price: '9,714.20',
-      nativeValue: '0.0325474',
-      key: 'BTC',
-      chart: Images.bit_chart,
-    },
-    {
-      icon: Images.ethereum,
-      title: 'Ethereum',
-      profite: true,
-      plPer: 3.92,
-      price: '5,941.67',
-      nativeValue: '2.07',
-      key: 'ETH',
-      chart: Images.eth_chart,
-    },
-    {
-      icon: Images.tether,
-      title: 'Tether',
-      profite: true,
-      plPer: 0.03,
-      price: '514.08',
-      nativeValue: '514.97',
-      key: 'USDT',
-      chart: Images.teh_chart,
-    },
-    {
-      icon: Images.tether,
-      title: 'Tether',
-      profite: true,
-      plPer: 0.03,
-      price: '514.08',
-      nativeValue: '514.97',
-      key: 'USDT',
-      chart: Images.teh_chart,
-    },
-    {
-      icon: Images.tether,
-      title: 'Tether',
-      profite: true,
-      plPer: 0.03,
-      price: '514.08',
-      nativeValue: '514.97',
-      key: 'USDT',
-      chart: Images.teh_chart,
     },
   ];
 
@@ -501,8 +361,10 @@ axios.get('http://3.250.35.169/api/tokens')
           marginBottom: 16,
         }}>
         {item.wish && (
+
+          // source={{ uri: responseData.symbol }} ??
           <Image
-            source={Images.star}
+            source={item?.symbol}
             style={{
               height: 10,
               width: 10,
@@ -517,7 +379,7 @@ axios.get('http://3.250.35.169/api/tokens')
           topLeftTxt={item?.name}
           bottomLeftTxt={`${item?.ticker}`}
           topRightTxt={`${selectedCurrency.symbol}${item?.price}`}
-          bottomRightTxt={`${item?.change_percentage}%`}
+          bottomRightTxt={`${item?.change_percentage.toFixed(2)}%`}
           bottomLeftTxtColor={BaseColor.text2}
           bottomRightTxtColor={
             item.change_percentage > 0 ? BaseColor.profiteValue : BaseColor.lossValue
