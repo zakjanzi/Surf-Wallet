@@ -3,12 +3,11 @@ const { ethers } = require('ethers');
 const { HDNode } = require('@ethersproject/hdnode');
 const RandomBytes = require('react-native-randombytes');
 
-const generateWallet = async () => {
-  console.log('generateWallet running');
+const generateWallet = () => {
+  console.log("generateWallet running");
   // Generate random entropy
-  const entropySizeBytes = 32;
-  const entropyBuffer = await RandomBytes.randomBytes(entropySizeBytes);
-  const entropy = Buffer.from(entropyBuffer);
+  const entropySizeBits = 256;
+  const entropy = crypto.randomBytes(entropySizeBits / 8);
 
   // Convert entropy to mnemonic phrase
   const mnemonic = bip39.entropyToMnemonic(entropy);

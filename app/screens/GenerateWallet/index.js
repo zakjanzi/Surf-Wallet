@@ -14,13 +14,11 @@ import CButton from '../../components/CButton';
 import {enableAnimateInEaseOut} from '../../config/commonFunctions';
 import SeedPhrase from '../SeedPhrase';
 import SeedPhrase2 from '../SeedPhrase2';
-import { Buffer } from 'buffer';
 
-import {mnemonic, masterSeed, bitcoinPrivateKey, ethereumPrivateKey, usdtPrivateKey} from '../../utils/bip39.js';
+import {mnemonic,masterSeed, bitcoinPrivateKey, ethereumPrivateKey, usdtPrivateKey} from '../../utils/bip39.js';
 
 // import the generate wallet function
 import { generateAndLogWallet } from '../../utils/bip39.js';
-
 
 // Function to handle the "Generate Wallet" button click
 const handleGenerateWallet =  () => {
@@ -195,7 +193,7 @@ export default function GenerateWallet({navigation}) {
                           />
                           <CText
                           //where to log the private key
-                            value={masterSeed}
+                            value={GenerateWallet.masterSeed}
                             style={{
                               color: BaseColor.text1,
                               fontSize: 14,
@@ -291,7 +289,7 @@ export default function GenerateWallet({navigation}) {
         ) : (
           <CButton
             value={t('generateAWallet')}
-            onPress={() => handleGenerateWallet()}
+            onPress={() => generateWallet()}
           />
           // call generateWallet() function
         )}
