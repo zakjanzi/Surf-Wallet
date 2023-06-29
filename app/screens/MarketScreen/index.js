@@ -1,5 +1,5 @@
 import {t} from 'i18next';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   ScrollView,
@@ -21,7 +21,7 @@ import PortListItem from '../../components/PortListItem';
 import CMenuItem from '../../components/CMenuItem';
 import Modal from 'react-native-modal';
 import {Card} from 'react-native-paper';
-
+import axios from 'axios';
 
 export default function MarketScreen({navigation}) {
   const {dark} = useSelector(state => state.auth);
@@ -42,19 +42,28 @@ export default function MarketScreen({navigation}) {
     id: 0,
   });
 
+  // useEffect(() => {
+  //   /// it will run whenever screen mounts ////
+  //   async function fetchData() {
+  //       await getTopCoins()
+  //   }
+  //   fetchData()
+  
+  // },[])
+
   //horizontal menu tabs
   const topHorizontalMenu = [
-    {
-      title: 'Watch List',
-      id: 'watchlist',
-    },
     {
       title: 'Overview',
       id: 'overview',
     },
     {
-      title: 'Cryptocurrency',
+      title: 'All Coins',
       id: 'cryptocurrency',
+    },
+    {
+      title: 'Watchlist',
+      id: 'watchlist',
     },
     {
       title: 'Category',
@@ -136,103 +145,7 @@ export default function MarketScreen({navigation}) {
     },
   ];
 
-  //top 6 Data
-  const top5Data = [
-    {
-      icon: Images.bitcoin,
-      title: 'Bitcoin',
-      profite: true,
-      plPer: 1.86,
-      price: '9,714.20',
-      nativeValue: '0.0325474',
-      key: 'BTC',
-      chart: Images.bit_chart,
-    },
-    {
-      icon: Images.ethereum,
-      title: 'Ethereum',
-      profite: true,
-      plPer: 3.92,
-      price: '5,941.67',
-      nativeValue: '2.07',
-      key: 'ETH',
-      chart: Images.eth_chart,
-    },
-    {
-      icon: Images.tether,
-      title: 'Tether',
-      profite: true,
-      plPer: 0.03,
-      price: '514.08',
-      nativeValue: '514.97',
-      key: 'USDT',
-      chart: Images.teh_chart,
-    },
-    {
-      icon: Images.bnb_image,
-      title: 'BNB',
-      profite: true,
-      plPer: 3.78,
-      price: '427.65',
-      nativeValue: '514.97',
-      key: 'BNB',
-      chart: Images.teh_chart,
-    },
-    {
-      icon: Images.usd_image,
-      title: 'USD Coin',
-      profite: true,
-      plPer: 3.78,
-      price: '0.9995',
-      nativeValue: '514.97',
-      key: 'USDC',
-      chart: Images.teh_chart,
-    },
-  ];
 
-  //top losers Data
-  const topLosers = [
-    {
-      icon: Images.ownix_image,
-      title: 'Ownix',
-      profite: true,
-      plPer: -10.54,
-      price: '43,254.74',
-      nativeValue: '0.0325474',
-      key: 'GENE',
-      chart: Images.bit_chart,
-    },
-    {
-      icon: Images.pancake_image,
-      title: 'Pancake Games',
-      profite: true,
-      plPer: -9.86,
-      price: '2,973.27',
-      nativeValue: '2.07',
-      key: 'ETHM',
-      chart: Images.eth_chart,
-    },
-    {
-      icon: Images.fire_image,
-      title: 'Fire Rocket',
-      profite: true,
-      plPer: -17.01,
-      price: '1.00',
-      nativeValue: '514.97',
-      key: 'SSR',
-      chart: Images.teh_chart,
-    },
-    {
-      icon: Images.tether,
-      title: 'Arc Governance',
-      profite: true,
-      plPer: -23.78,
-      price: '0.98',
-      nativeValue: '514.97',
-      key: 'AS',
-      chart: Images.teh_chart,
-    },
-  ];
 
   //Cryptocurrency Data
   const cryptocurrencyData = [
@@ -312,6 +225,31 @@ export default function MarketScreen({navigation}) {
     },
   ];
 
+
+  //Note to self: declare  globally to use them in other components
+let allCoins = []; // This array will be populated by the API call
+let top5Data = [];
+let topLoser = [];
+
+// API call here
+axios.get('http://3.250.35.169/api/tokens')
+  .then(response => {
+    const responseData = response.data;
+    // Populate the allCoins array with the API data
+    allCoins = responseData;
+
+    // Extract the first 5 values into top5Data
+    top5Data = allCoins.slice(0, 5);
+
+    // Reverse the top5Data array to display topLosers
+    topLoser = top5Data.reverse();
+
+  })
+  .catch(error => {
+    console.error('API error:', error);
+    // Handle any errors that occurred during the API call
+  });
+  
   //watchlist array
   const wishlistArr = [
     {
@@ -575,14 +513,14 @@ export default function MarketScreen({navigation}) {
           />
         )}
         <PortListItem
-          icon={item?.icon}
-          topLeftTxt={item?.title}
-          bottomLeftTxt={`${item?.key}`}
+          icon={item?.symbol}
+          topLeftTxt={item?.name}
+          bottomLeftTxt={`${item?.ticker}`}
           topRightTxt={`${selectedCurrency.symbol}${item?.price}`}
-          bottomRightTxt={`${item?.plPer}%`}
+          bottomRightTxt={`${item?.change_percentage}%`}
           bottomLeftTxtColor={BaseColor.text2}
           bottomRightTxtColor={
-            item.plPer > 0 ? BaseColor.profiteValue : BaseColor.lossValue
+            item.change_percentage > 0 ? BaseColor.profiteValue : BaseColor.lossValue
           }
           onPress={() => {
             navigation.navigate('DetailedItemScreen', {itemDetail: item});
@@ -835,8 +773,10 @@ export default function MarketScreen({navigation}) {
                 />
               </TouchableOpacity>
               <FlatList
+              // Note: change to All Coins data
                 data={
                   selectedTopMenu == 'watchlist'
+                  // change wishlistArr to object returned from api call
                     ? wishlistArr
                     : selectedTopMenu == 'cryptocurrency'
                     ? cryptocurrencyData

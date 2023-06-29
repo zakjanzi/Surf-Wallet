@@ -19,12 +19,12 @@ import { Buffer } from 'buffer';
 import {mnemonic, masterSeed, bitcoinPrivateKey, ethereumPrivateKey, usdtPrivateKey} from '../../utils/bip39.js';
 
 // import the generate wallet function
-import { generateWallet } from '../../utils/bip39.js';
+import { generateAndLogWallet } from '../../utils/bip39.js';
 
 
 // Function to handle the "Generate Wallet" button click
 const handleGenerateWallet =  () => {
-   generateWallet();
+   generateAndLogWallet();
   // Call the function to generate a wallet
 };
 
