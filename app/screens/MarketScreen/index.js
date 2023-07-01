@@ -55,19 +55,11 @@ export default function MarketScreen({navigation}) {
     },
     {
       title: 'All Coins',
-      id: 'cryptocurrency',
+      id: 'allcoins',
     },
     {
       title: 'Watchlist',
       id: 'watchlist',
-    },
-    {
-      title: 'Category',
-      id: 'category',
-    },
-    {
-      title: 'DeFi',
-      id: 'deFi',
     },
   ];
 
@@ -94,23 +86,7 @@ export default function MarketScreen({navigation}) {
     {
       title: t('lowestCap'),
       id: 1,
-    },
-    {
-      title: t('highestPrice'),
-      id: 2,
-    },
-    {
-      title: t('lowestPrice'),
-      id: 3,
-    },
-    {
-      title: t('topGainers'),
-      id: 4,
-    },
-    {
-      title: t('topLosers'),
-      id: 5,
-    },
+    }
   ];
 
   //top four block data
@@ -364,7 +340,7 @@ export default function MarketScreen({navigation}) {
 
           // source={{ uri: responseData.symbol }} ??
           <Image
-            source={item?.symbol}
+            source={{ uri: item.symbol }}
             style={{
               height: 10,
               width: 10,
