@@ -15,26 +15,26 @@ import styles from './styles';
 import {Images} from '../../config/images';
 import CText from '../../components/CText';
 import {enableAnimateInEaseOut} from '../../config/commonFunctions';
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-} from 'react-native-reanimated';
+// import Animated, {
+//   useAnimatedStyle,
+//   useSharedValue,
+//   withTiming,
+// } from 'react-native-reanimated';
 
 export default function Notifications({navigation}) {
   const {dark} = useSelector(state => state.auth);
   const [BaseColor, setBaseColor] = useState(dark ? DarkColor : LightColor);
 
-  const progress = useSharedValue(0);
-  const reanimatedStyle = useAnimatedStyle(() => {
-    return {
-      opacity: progress.value,
-    };
-  }, []);
+  // const progress = useSharedValue(0);
+  // const reanimatedStyle = useAnimatedStyle(() => {
+  //   return {
+  //     opacity: progress.value,
+  //   };
+  // }, []);
 
-  useEffect(() => {
-    progress.value = withTiming(1, {duration: 2000});
-  }, []);
+  // useEffect(() => {
+  //   progress.value = withTiming(1, {duration: 2000});
+  // }, []);
 
   const data = [
     {

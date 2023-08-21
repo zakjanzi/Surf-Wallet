@@ -345,8 +345,7 @@ export default function Contacts({navigation}) {
         onBackButtonPress={() => {
           setdeleteModal(false);
         }}
-        animationOutTiming={1000}
-        backdropTransitionOutTiming={1000}>
+        >
         <View
           style={{
             flex: 1,

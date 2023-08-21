@@ -145,7 +145,7 @@ export default function MarketScreen({navigation}) {
   useEffect(() => {
     // Function to fetch top coins data
     async function getCoins() {
-      const apiUrl = 'http://3.250.35.169/api/tokens';
+      const apiUrl = 'http://34.254.240.38/api/tokens';
       const bearerToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHBpcmVzX2F0IjoxNjg4MTE5NDQ3LCJ1c2VyIjp7ImlkIjoxOSwiZW1haWwiOiJkdGZoZmdoQGhmZ2hqZmcuY29tIiwidXNlcm5hbWUiOiJzYWRyZmdlcnMifX0.hBaYROsLp8Q70EI6PIhgw6fnTGwrqn02DaLVGhDy3g8';
 
       try {

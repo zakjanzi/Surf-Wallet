@@ -1,4 +1,4 @@
-import {NavigationContainer} from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 import {
   Text,
   View,
@@ -13,11 +13,11 @@ import {
   CardStyleInterpolators,
   createStackNavigator,
 } from '@react-navigation/stack';
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import SplashScreen from '../screens/SplashScreen';
 import LanguageScreen from '../screens/LanguageScreen';
 import OnboardingScreen from '../screens/OnboardingScreen';
-import {useDispatch, useSelector} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import i18n from '../language/i18n';
 import RNRestart from 'react-native-restart';
 import OnboardingUsername from '../screens/OnboardingUsername';
@@ -33,15 +33,15 @@ import SeedPhrase2 from '../screens/SeedPhrase2';
 import AccountInformation from '../screens/AccountInformation';
 import Portfolio from '../screens/Portfolio';
 import ItemProfile from '../screens/ItemProfile';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import BuySell from '../screens/BuySell';
 import SendReceive from '../screens/SendReceive';
-import {DarkColor, LightColor} from '../config/colors';
-import {Images} from '../config/images';
+import { DarkColor, LightColor } from '../config/colors';
+import { Images } from '../config/images';
 import CText from '../components/CText';
 import CustomDrawerContent from './CustomDrawerContent';
-import {createDrawerNavigator} from '@react-navigation/drawer';
-import {enableAnimateInEaseOut} from '../config/commonFunctions';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { enableAnimateInEaseOut } from '../config/commonFunctions';
 import Account from '../screens/Account';
 import ChangePassword from '../screens/ChangePassword';
 import ChangeProfile from '../screens/ChangeProfile';
@@ -72,9 +72,9 @@ TextInput.defaultProps = TextInput.defaultProps || {};
 TextInput.defaultProps.allowFontScaling = false;
 
 export default function NavStart() {
-  const {currentLanguage, dark} = useSelector(state => state.auth);
+  const { currentLanguage, dark } = useSelector(state => state.auth);
   const [BaseColor, setBaseColor] = useState(dark ? DarkColor : LightColor);
-  const {setDark} = AuthAction;
+  const { setDark } = AuthAction;
   const dispatch = useDispatch();
 
   const colorScheme = Appearance.getColorScheme();
@@ -98,7 +98,7 @@ export default function NavStart() {
   const changeLanguage = async value => {
     i18n
       .changeLanguage(value)
-      .then(async () => {})
+      .then(async () => { })
       .catch(err => console.log(err));
   };
 
@@ -107,7 +107,7 @@ export default function NavStart() {
   const Tab = createBottomTabNavigator();
   const Drawer = createDrawerNavigator();
 
-  const BottomTabBar = ({state, descriptors, navigation}) => {
+  const BottomTabBar = ({ state, descriptors, navigation }) => {
     const ButtonIcons = {
       PortfolioNavigatior: Images.portfolio_light,
       BuySell: Images.buy_sell_light,
@@ -134,13 +134,13 @@ export default function NavStart() {
               alignItems: 'center',
             }}>
             {state.routes.map((route, index) => {
-              const {options} = descriptors[route.key];
+              const { options } = descriptors[route.key];
               const label =
                 options.tabBarLabel !== undefined
                   ? options.tabBarLabel
                   : options.title !== undefined
-                  ? options.title
-                  : route.name;
+                    ? options.title
+                    : route.name;
 
               const isFocused = state.index === index;
 
@@ -161,7 +161,7 @@ export default function NavStart() {
               return (
                 <View key={index}>
                   <TouchableOpacity
-                    accessibilityState={isFocused ? {selected: true} : {}}
+                    accessibilityState={isFocused ? { selected: true } : {}}
                     onPress={onPress}
                     style={[
                       {
@@ -177,7 +177,7 @@ export default function NavStart() {
                     ]}>
                     <Image
                       source={ButtonIcons[label]}
-                      style={{height: 20, width: 20}}
+                      style={{ height: 20, width: 20 }}
                       resizeMode="contain"
                       tintColor={
                         isFocused
@@ -266,7 +266,8 @@ export default function NavStart() {
           screenOptions={{
             headerShown: false,
             cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-          }}>
+          }}
+          >
           <Stack.Screen name="SplashScreen" component={SplashScreen} />
           <Stack.Screen name="LanguageScreen" component={LanguageScreen} />
           <Stack.Screen name="OnboardingScreen" component={OnboardingScreen} />
