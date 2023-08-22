@@ -1,16 +1,14 @@
 const bip39 = require('bip39');
 const { ethers } = require('ethers');
 const { HDNode } = require('@ethersproject/hdnode');
-const RandomBytes = require('react-native-randombytes');
 
 const generateWallet = () => {
+  
   console.log("generateWallet running");
-  // Generate random entropy
-  const entropySizeBits = 256;
-  const entropy = crypto.randomBytes(entropySizeBits / 8);
 
-  // Convert entropy to mnemonic phrase
-  const mnemonic = bip39.entropyToMnemonic(entropy);
+  // Generate a mnemonic
+  const mnemonic = bip39.generateMnemonic();
+  console.log('Mnemonic:', mnemonic);
 
   // Derive the master seed from the mnemonic
   const masterSeed = bip39.mnemonicToSeedSync(mnemonic);
@@ -48,5 +46,5 @@ console.log('Bitcoin Private Key', wallet.bitcoinPrivateKey);
 console.log('Master Seed:', wallet.masterSeed.toString('hex'));
 
 module.exports = {
-  generateWallet,
+  generateWallet, wallet,
 };

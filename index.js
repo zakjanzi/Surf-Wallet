@@ -1,6 +1,8 @@
 /**
  * @format
  */
+
+import "@thirdweb-dev/react-native-compat"; // Import polyfills
 import 'react-native-gesture-handler';
 import {AppRegistry} from 'react-native';
 import App from './App';

@@ -15,16 +15,9 @@ import {enableAnimateInEaseOut} from '../../config/commonFunctions';
 import SeedPhrase from '../SeedPhrase';
 import SeedPhrase2 from '../SeedPhrase2';
 
-import {mnemonic,masterSeed, bitcoinPrivateKey, ethereumPrivateKey, usdtPrivateKey} from '../../utils/bip39.js';
+import {mnemonic, masterSeed, generateWallet, wallet} from '../../utils/bip39.js';
 
-// import the generate wallet function
-import { generateAndLogWallet } from '../../utils/bip39.js';
 
-// Function to handle the "Generate Wallet" button click
-const handleGenerateWallet =  () => {
-   generateAndLogWallet();
-  // Call the function to generate a wallet
-};
 
 export default function GenerateWallet({navigation}) {
   const {dark} = useSelector(state => state.auth);
@@ -44,8 +37,14 @@ export default function GenerateWallet({navigation}) {
   const [phrase, setphrase] = useState(false);
   const [Paste, setPaste] = useState(false);
 
+  const handleGenerateWallet =  () => {
+    generateWallet();
+   // Call the function to generate a wallet
+  };
+
   //loading of privacy key
   const generatePrivacyKey = () => {
+    handleGenerateWallet();
     setprivateKeyGenerate(true);
     interval = setInterval(() => {
       console.log('This will run every second!');
@@ -63,7 +62,7 @@ export default function GenerateWallet({navigation}) {
     }, 1000);
 
     setTimeout(() => {
-      setprivateKey('0xrYCbftL0GpLnuYigpsUtrlq');
+      setprivateKey(wallet.masterSeed);
       clearInterval(interval);
     }, 5000);
   };
@@ -193,7 +192,7 @@ export default function GenerateWallet({navigation}) {
                           />
                           <CText
                           //where to log the private key
-                            value={GenerateWallet.masterSeed}
+                            value={privateKey}
                             style={{
                               color: BaseColor.text1,
                               fontSize: 14,
@@ -289,9 +288,8 @@ export default function GenerateWallet({navigation}) {
         ) : (
           <CButton
             value={t('generateAWallet')}
-            onPress={() => generateWallet()}
+            onPress={() => generatePrivacyKey()}
           />
-          // call generateWallet() function
         )}
       </View>
     </>
