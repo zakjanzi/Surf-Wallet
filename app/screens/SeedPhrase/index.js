@@ -24,6 +24,8 @@ import {FontFamily} from '../../config/typography';
 import Modal from 'react-native-modal';
 import SeedPhrase2 from '../SeedPhrase2';
 
+import {mnemonic, masterSeed, generateWallet, wallet} from '../../utils/bip39.js';
+
 export default function SeedPhrase({navigation, load, setcopied = () => {}}) {
   const {dark} = useSelector(state => state.auth);
   const [BaseColor, setBaseColor] = useState(dark ? DarkColor : LightColor);
@@ -32,7 +34,7 @@ export default function SeedPhrase({navigation, load, setcopied = () => {}}) {
 
   const [privateKeyLoading, setprivateKeyLoading] = useState(false);
   const [privateKeyGenerate, setprivateKeyGenerate] = useState(false);
-  const [privateKey, setprivateKey] = useState('0xrYCbftL0GpLnuYigpsUtrlq');
+  const [privateKey, setprivateKey] = useState(wallet.masterSeed);
 
   const [phrase, setphrase] = useState('');
   const [phraseArr, setphraseArr] = useState([]);
@@ -48,9 +50,9 @@ export default function SeedPhrase({navigation, load, setcopied = () => {}}) {
     if (load) {
       setTimeout(() => {
         let tempPhrase =
-          'book man test word wallet short eyes apply pencil door floor tall';
+          wallet.mnemonic;
         setphrase(tempPhrase);
-        setphraseArr(tempPhrase.split(' '));
+        setphraseArr(tempPhrase.split(' ')); // ?
         console.log(
           "🚀 ~ file: index.js ~ line 58 ~ setTimeout ~ tempPhrase.split(' ')",
           tempPhrase.split(' '),
@@ -76,7 +78,7 @@ export default function SeedPhrase({navigation, load, setcopied = () => {}}) {
 
       setTimeout(() => {
         let tempPhrase =
-          'book man test word wallet short eyes apply pencil door floor tall';
+        wallet.mnemonic;
         setphrase(tempPhrase);
         setphraseArr(tempPhrase.split(' '));
         console.log(

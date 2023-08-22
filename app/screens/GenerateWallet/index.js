@@ -44,7 +44,7 @@ export default function GenerateWallet({navigation}) {
 
   //loading of privacy key
   const generatePrivacyKey = () => {
-    handleGenerateWallet();
+    handleGenerateWallet(); //turn to async
     setprivateKeyGenerate(true);
     interval = setInterval(() => {
       console.log('This will run every second!');
