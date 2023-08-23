@@ -70,7 +70,10 @@ export default function PincodeScreen({navigation}) {
     } finally {
       setIsLoading(false); // Set loading state back to false
     }
+
   };
+
+
 
   return (
     <>
@@ -132,9 +135,11 @@ export default function PincodeScreen({navigation}) {
           disable={pincode.length == 6 ? false : true}
           onPress={async () => {
             await handleSubmit();
+            console.log(pincode);
           }}
         />
       </View>
     </>
   );
 }
+

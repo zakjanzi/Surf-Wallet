@@ -21,6 +21,9 @@ import Clipboard from '@react-native-clipboard/clipboard';
 import CCheckBox from '../../components/CCheckBox';
 import {FontFamily} from '../../config/typography';
 import Modal from 'react-native-modal';
+import { pincode } from '../PincodeScreen'
+
+import { mnemonic, masterSeed, generateWallet, wallet } from '../../utils/bip39.js';
 
 export default function AccountInformation({navigation}) {
   const {dark} = useSelector(state => state.auth);
@@ -29,14 +32,11 @@ export default function AccountInformation({navigation}) {
   const [agreed, setagreed] = useState(false);
   const [understood, setunderstood] = useState(false);
 
-  const [phrase, setphrase] = useState(
-    'book man test word wallet short eyes apply pencil door floor tall',
-  );
   const [passwordVisible, setpasswordVisible] = useState(false);
   const [expand, setexpand] = useState(false);
 
   const [phraseModal, setphraseModal] = useState(false);
-
+  
   // ease out animation
   enableAnimateInEaseOut();
 
@@ -108,7 +108,7 @@ export default function AccountInformation({navigation}) {
                       style={{color: BaseColor.text2, fontSize: 14}}
                     />
                     <CText
-                      value={phrase}
+                      value={wallet.mnemonic}
                       style={{color: BaseColor.text1, fontSize: 14}}
                     />
                   </View>
@@ -143,7 +143,7 @@ export default function AccountInformation({navigation}) {
                       style={{color: BaseColor.text2, fontSize: 14}}
                     />
                     <CText
-                      value={passwordVisible ? '123456789' : '********'}
+                      value={passwordVisible ? pincode : '********'}
                       style={{
                         color: BaseColor.text1,
                         fontSize: 14,

@@ -15,7 +15,8 @@ import {enableAnimateInEaseOut} from '../../config/commonFunctions';
 import SeedPhrase from '../SeedPhrase';
 import SeedPhrase2 from '../SeedPhrase2';
 
-import {mnemonic, masterSeed, generateWallet, wallet} from '../../utils/bip39.js';
+import { mnemonic, masterSeed, generateWallet, wallet } from '../../utils/bip39.js';
+
 
 
 
@@ -37,15 +38,12 @@ export default function GenerateWallet({navigation}) {
   const [phrase, setphrase] = useState(false);
   const [Paste, setPaste] = useState(false);
 
-  const handleGenerateWallet =  () => {
-    generateWallet();
-   // Call the function to generate a wallet
-  };
+
 
   //loading of privacy key
-  const generatePrivacyKey = () => {
-    handleGenerateWallet(); //turn to async
+  const generatePrivacyKey =  () => {
     setprivateKeyGenerate(true);
+    generateWallet();
     interval = setInterval(() => {
       console.log('This will run every second!');
       setprivateKeyProgress(progress => {
