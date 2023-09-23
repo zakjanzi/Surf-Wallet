@@ -54,9 +54,19 @@ transactionDetails(transactionHash);
 sendTransaction();
 
 
+
 module.exports = {
   getBalance,
   transactionHistory,
   transactionDetails,
   sendTransaction,
 };
+
+
+// if (require.main === module) {
+//   // This code will only run when the module is executed directly as a script
+//   getBalance(ethereumAddress);
+//   transactionHistory(transactionHash);
+//   transactionDetails(transactionHash);
+//   sendTransaction();
+// }

@@ -8,7 +8,6 @@ const generateWallet = () => {
 
   // Generate a mnemonic
   const mnemonic = bip39.generateMnemonic();
-  console.log('Mnemonic:', mnemonic);
 
   // Derive the master seed from the mnemonic
   const masterSeed = bip39.mnemonicToSeedSync(mnemonic);
@@ -37,14 +36,25 @@ const generateWallet = () => {
   };
 };
 
-
 const wallet = generateWallet();
-console.log('Mnemonic:', wallet.mnemonic);
-console.log('Ethereum Private Key:', wallet.ethereumPrivateKey);
-console.log('USDT Private Key:', wallet.usdtPrivateKey);
-console.log('Bitcoin Private Key', wallet.bitcoinPrivateKey);
-console.log('Master Seed:', wallet.masterSeed.toString('hex'));
+// console.log('Mnemonic:', wallet.mnemonic);
+// console.log('Ethereum Private Key:', wallet.ethereumPrivateKey);
+// console.log('USDT Private Key:', wallet.usdtPrivateKey);
+// console.log('Bitcoin Private Key', wallet.bitcoinPrivateKey);
+// console.log('Master Seed:', wallet.masterSeed.toString('hex'));
+
+
+if (require.main === module) {
+  // This code will only run when the module is executed directly as a script
+  console.log('Mnemonic:', wallet.mnemonic);
+  console.log('Ethereum Private Key:', wallet.ethereumPrivateKey);
+  console.log('USDT Private Key:', wallet.usdtPrivateKey);
+  console.log('Bitcoin Private Key', wallet.bitcoinPrivateKey);
+  console.log('Master Seed:', wallet.masterSeed.toString('hex'));
+}
+
 
 module.exports = {
   generateWallet, wallet,
 };
+
