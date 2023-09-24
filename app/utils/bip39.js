@@ -22,9 +22,12 @@ const generateWallet = () => {
   const ethereumNode = ethereumMasterNode.derivePath("m/44'/60'/0'/0");
   const ethereumPrivateKey = ethereumNode.privateKey.toString('hex');
 
-  // Example for USDT (Tether) token using Ethereum derivation path
-  // const usdtNode = ethereumMasterNode.derivePath("m/44'/60'/0'/0/0");
-  // const usdtPrivateKey = usdtNode.privateKey.toString('hex');
+  // Create an ethers Wallet instance with the Ethereum private key
+  const wallet = new ethers.Wallet(ethereumPrivateKey);
+
+  // Access the public key from the Wallet instance
+  const ethereumPublicKey = wallet.publicKey;
+
 
   // Return the generated wallet data or perform any other necessary actions
   return {
@@ -32,25 +35,16 @@ const generateWallet = () => {
     masterSeed: masterSeed.toString('hex'),
     bitcoinPrivateKey,
     ethereumPrivateKey,
-    // usdtPrivateKey,
+    ethereumPublicKey,
   };
 };
 
-// if (require.main === module) {
-//   // This code will only run when the module is executed directly as a script
-//   const wallet = generateWallet();
-//   console.log('Mnemonic:', wallet.mnemonic);
-//   console.log('Ethereum Private Key:', wallet.ethereumPrivateKey);
-//   console.log('USDT Private Key:', wallet.usdtPrivateKey);
-//   console.log('Bitcoin Private Key', wallet.bitcoinPrivateKey);
-//   console.log('Master Seed:', wallet.masterSeed.toString('hex'));
-// }
 
 const wallet = generateWallet();
 console.log('Mnemonic:', wallet.mnemonic);
 console.log('Master Seed:', wallet.masterSeed.toString('hex'));
 console.log('Ethereum Private Key:', wallet.ethereumPrivateKey);
-// console.log('USDT Private Key:', wallet.usdtPrivateKey);
+console.log('Ethereum Public Key:', wallet.ethereumPublicKey);
 console.log('Bitcoin Private Key', wallet.bitcoinPrivateKey);
 
 module.exports = {
