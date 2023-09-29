@@ -1,9 +1,11 @@
 const bip39 = require('bip39');
 const { ethers } = require('ethers');
 const { HDNode } = require('@ethersproject/hdnode');
+const { store } = require('../redux/store'); // Import your Redux store
+const { storePublicKey } = require('../redux/walletReducer/walletReducer.js'); 
 
 const generateWallet = () => {
-  
+
   console.log("generateWallet running");
 
   // Generate a mnemonic
@@ -28,8 +30,10 @@ const generateWallet = () => {
   // Access the public key from the Wallet instance
   const ethereumPublicKey = wallet.publicKey;
 
+  // Dispatch the action to store the public key in Redux using the store
+  store.dispatch(storePublicKey(ethereumPublicKey));
 
-  // Return the generated wallet data or perform any other necessary actions
+  // Return the generated wallet data including the public key
   return {
     mnemonic,
     masterSeed: masterSeed.toString('hex'),
@@ -39,15 +43,9 @@ const generateWallet = () => {
   };
 };
 
-
 const wallet = generateWallet();
 console.log('Mnemonic:', wallet.mnemonic);
 console.log('Master Seed:', wallet.masterSeed.toString('hex'));
-console.log('Ethereum Private Key:', wallet.ethereumPrivateKey);
 console.log('Ethereum Public Key:', wallet.ethereumPublicKey);
-console.log('Bitcoin Private Key', wallet.bitcoinPrivateKey);
-
-module.exports = {
-  generateWallet, wallet,
-};
-
+console.log('Ethereum Private Key:', wallet.ethereumPrivateKey);
+// console.log('Bitcoin Private Key', wallet.bitcoinPrivateKey);
