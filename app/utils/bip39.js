@@ -1,10 +1,10 @@
 const bip39 = require('bip39');
 const { ethers } = require('ethers');
 const { HDNode } = require('@ethersproject/hdnode');
-const { store } = require('../redux/store'); // Import your Redux store
-const { storePublicKey } = require('../redux/walletReducer/walletReducer.js'); 
+const { store } = require('../redux/store/configureStore.js');
+const walletReducer = require('../redux/reducer/walletReducer.js').default;
 
-const generateWallet = () => {
+const generateWallet = async () => {
 
   console.log("generateWallet running");
 
@@ -30,8 +30,7 @@ const generateWallet = () => {
   // Access the public key from the Wallet instance
   const ethereumPublicKey = wallet.publicKey;
 
-  // Dispatch the action to store the public key in Redux using the store
-  store.dispatch(storePublicKey(ethereumPublicKey));
+  store.dispatch(walletReducer(ethereumPublicKey));
 
   // Return the generated wallet data including the public key
   return {
@@ -43,7 +42,7 @@ const generateWallet = () => {
   };
 };
 
-const wallet = generateWallet();
+const wallet = await generateWallet();
 console.log('Mnemonic:', wallet.mnemonic);
 console.log('Master Seed:', wallet.masterSeed.toString('hex'));
 console.log('Ethereum Public Key:', wallet.ethereumPublicKey);

@@ -1,4 +1,4 @@
-import { STORE_PUBLIC_KEY } from '../actions';
+import { STORE_PUBLIC_KEY } from '../walletReducer/actions';
 
 const initialState = {
   publicKey: null,
