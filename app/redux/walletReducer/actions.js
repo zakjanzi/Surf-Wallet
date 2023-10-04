@@ -1,12 +1,26 @@
 const actions = {
-    STORE_PUBLIC_KEY: 'wallet/STORE_PUBLIC_KEY',
   
-    walletReducer: publicKey => dispatch =>
-      dispatch({
-        type: actions.STORE_PUBLIC_KEY,
-        publicKey,
-      }),
-  };
-  
-  export default actions;
-  
+  storePublicKey: payload => dispatch =>
+    dispatch({
+      type: STORE_PUBLIC_KEY,
+      payload,
+    }),
+
+    storeMasterseed: payload => dispatch =>
+    dispatch({
+      type: STORE_MASTERSEED,
+      payload,
+    }),
+
+    storePincode: payload => dispatch =>
+    dispatch({
+      type: STORE_PINCODE,
+      payload,
+    }),
+};
+
+export const STORE_PUBLIC_KEY ='CREATE_WALLET';
+export const STORE_MASTERSEED ='STORE_MASTERSEED';
+export const STORE_PINCODE ='STORE_PINCODE';
+
+export default actions;
