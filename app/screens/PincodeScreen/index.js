@@ -12,10 +12,15 @@ import CButton from '../../components/CButton';
 import {isEmpty} from 'lodash';
 import axios from 'axios';
 import { useRoute } from '@react-navigation/native';
+import { useDispatch } from 'react-redux';
+
+import WalletAction from '../../redux/walletReducer/actions'
 
 
 
 export default function PincodeScreen({navigation}) {
+  const { storePincode } = WalletAction;
+  const dispatch = useDispatch();
   const route = useRoute();
   const username = route.params?.username;
   const email = route.params?.email;  
@@ -46,6 +51,7 @@ export default function PincodeScreen({navigation}) {
         email,
         password: pincode,
       });
+      dispatch(storePincode(pincode))
        // If request successful: navigate to next screen
        navigation.navigate('GenerateWallet');
       console.log(response.data.message);
