@@ -17,10 +17,16 @@ const actions = {
       type: STORE_PINCODE,
       payload,
     }),
+    storeWallet: payload => dispatch =>
+    dispatch({
+      type: STORE_WALLET,
+      payload,
+    }),
 };
 
 export const STORE_PUBLIC_KEY ='CREATE_WALLET';
 export const STORE_MASTERSEED ='STORE_MASTERSEED';
 export const STORE_PINCODE ='STORE_PINCODE';
+export const STORE_WALLET ='STORE_WALLET';
 
 export default actions;
