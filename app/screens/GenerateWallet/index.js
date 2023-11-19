@@ -14,8 +14,9 @@ import CButton from '../../components/CButton';
 import {enableAnimateInEaseOut} from '../../config/commonFunctions';
 import SeedPhrase from '../SeedPhrase';
 import SeedPhrase2 from '../SeedPhrase2';
+import { useDispatch } from "react-redux";
 
-import { mnemonic, masterSeed, generateWallet, wallet } from '../../utils/bip39.js';
+import { mnemonic, generateWallet, wallet } from '../../utils/bip39.js';
 
 
 
@@ -23,6 +24,10 @@ import { mnemonic, masterSeed, generateWallet, wallet } from '../../utils/bip39.
 export default function GenerateWallet({navigation}) {
   const {dark} = useSelector(state => state.auth);
   const [BaseColor, setBaseColor] = useState(dark ? DarkColor : LightColor);
+
+  const state = useSelector(state => state.wallet);
+  // console.log('=======state====', state?.publicKey)
+  const dispatch = useDispatch();
 
   let interval;
 
@@ -41,9 +46,10 @@ export default function GenerateWallet({navigation}) {
 
 
   //loading of privacy key
-  const generatePrivacyKey =  () => {
+  const generatePrivacyKey =  async () => {
     setprivateKeyGenerate(true);
-    generateWallet();
+    const wallet = await generateWallet(dispatch);
+
     interval = setInterval(() => {
       console.log('This will run every second!');
       setprivateKeyProgress(progress => {
@@ -59,6 +65,7 @@ export default function GenerateWallet({navigation}) {
       });
     }, 1000);
 
+    console.log(wallet)
     setTimeout(() => {
       setprivateKey(wallet.masterSeed);
       clearInterval(interval);

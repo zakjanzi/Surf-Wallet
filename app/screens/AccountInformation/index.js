@@ -26,6 +26,8 @@ import { pincode } from '../PincodeScreen'
 import { mnemonic, masterSeed, generateWallet, wallet } from '../../utils/bip39.js';
 
 export default function AccountInformation({navigation}) {
+  const state = useSelector(state => state.wallet);
+  console.log("STATE : ", state.pincode)
   const {dark} = useSelector(state => state.auth);
   const [BaseColor, setBaseColor] = useState(dark ? DarkColor : LightColor);
 
@@ -143,7 +145,7 @@ export default function AccountInformation({navigation}) {
                       style={{color: BaseColor.text2, fontSize: 14}}
                     />
                     <CText
-                      value={passwordVisible ? pincode : '********'}
+                      value={passwordVisible ? state.pincode : '********'}
                       style={{
                         color: BaseColor.text1,
                         fontSize: 14,
