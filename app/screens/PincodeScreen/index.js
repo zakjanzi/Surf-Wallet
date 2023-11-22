@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import CHeader from '../../components/CHeader';
 import {View, ScrollView, Image, TouchableOpacity, Text} from 'react-native';
 import {t} from 'i18next';
@@ -14,12 +14,16 @@ import axios from 'axios';
 import { useRoute } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
 
-import WalletAction from '../../redux/walletReducer/actions'
+import WalletAction from '../../redux/walletReducer/actions';
+import AccessTokenAction from '../../redux/walletReducer/actions';
+import RefreshTokenAction from '../../redux/walletReducer/actions';
 
 
 
 export default function PincodeScreen({navigation}) {
   const { storePincode } = WalletAction;
+  const { storeAccessToken } = AccessTokenAction;
+  const { storeRefreshToken } = RefreshTokenAction;
   const dispatch = useDispatch();
   const route = useRoute();
   const username = route.params?.username;
@@ -28,11 +32,19 @@ export default function PincodeScreen({navigation}) {
   const [BaseColor, setBaseColor] = useState(dark ? DarkColor : LightColor);
 
   const [pincode, setpincode] = useState('');
+  const [accessToken, setAccessToken] = useState('');
+  const [refreshToken, setRefreshToken] = useState('');
   const ref = useBlurOnFulfill({pincode, cellCount: 6});
   const [props, getCellOnLayoutHandler] = useClearByFocusCell({
     pincode,
     setpincode,
   });
+
+  useEffect(() => {
+    console.log('Pincode:', pincode);
+    console.log('AccessToken:', accessToken);
+    console.log('RefreshToken:', refreshToken);
+  }, [pincode, accessToken, refreshToken]);
 
   // Button hook (for email and username validation)
   const [isLoading, setIsLoading] = useState(false);
@@ -51,16 +63,22 @@ export default function PincodeScreen({navigation}) {
         email,
         password: pincode,
       });
+
       dispatch(storePincode(pincode))
+       // Extract tokens from the API response
+       const { access_token: accessToken, refresh_token: refreshToken } = response.data;
+
+       // Dispatch actions to save tokens in Redux store
+      dispatch(storeAccessToken(accessToken));
+      setAccessToken(accessToken)
+      dispatch(storeRefreshToken(refreshToken));
+      setRefreshToken(refreshToken)
+
        // If request successful: navigate to next screen
-       navigation.navigate('GenerateWallet');
-      console.log(response.data.message);
-
-      // A function below to display a notification or perform any other action to show the success message to the user.
-      // const successMessage = response.data.message;
-      // showSuccessMessage(successMessage); 
-
-      console.log(response.data);
+      navigation.navigate('GenerateWallet');
+      
+      // console.log(response.data.message);
+      // console.log(response.data);
 
     } catch (error) {
       console.error(error);
@@ -141,7 +159,7 @@ export default function PincodeScreen({navigation}) {
           disable={pincode.length == 6 ? false : true}
           onPress={async () => {
             await handleSubmit();
-            console.log(pincode);
+
           }}
         />
       </View>

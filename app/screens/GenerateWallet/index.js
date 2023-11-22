@@ -24,9 +24,8 @@ import { mnemonic, generateWallet, wallet } from '../../utils/bip39.js';
 export default function GenerateWallet({navigation}) {
   const {dark} = useSelector(state => state.auth);
   const [BaseColor, setBaseColor] = useState(dark ? DarkColor : LightColor);
-
   const state = useSelector(state => state.wallet);
-  // console.log('=======state====', state?.publicKey)
+  //  console.log('=======state====', state?.masterSeed)
   const dispatch = useDispatch();
 
   let interval;
@@ -38,6 +37,7 @@ export default function GenerateWallet({navigation}) {
   const [seedPhrase, setseedPhrase] = useState(false);
   const [seedPhraseLoad, setseedPhraseLoad] = useState(false);
   const [seedPhrase2, setseedPhrase2] = useState(false);
+  const [copyValue, setCopyValue] = useState('')
 
   const [copied, setcopied] = useState(false);
   const [phrase, setphrase] = useState(false);
@@ -65,9 +65,9 @@ export default function GenerateWallet({navigation}) {
       });
     }, 1000);
 
-    console.log(wallet)
+    // console.log('====wallet====',wallet)
     setTimeout(() => {
-      setprivateKey(wallet.masterSeed);
+      setprivateKey(wallet?.masterSeed);
       clearInterval(interval);
     }, 5000);
   };
@@ -129,11 +129,15 @@ export default function GenerateWallet({navigation}) {
           setcopied={val => {
             setcopied(val);
           }}
+          setCopyText={val => {
+            setCopyValue(val)
+          }}
           load={seedPhraseLoad}
         />
       ) : seedPhrase2 ? (
         <SeedPhrase2
           navigation={navigation}
+          copyValue={copyValue}
           setPhrase={val => {
             setphrase(val);
           }}

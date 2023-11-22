@@ -24,17 +24,19 @@ import {FontFamily} from '../../config/typography';
 import Modal from 'react-native-modal';
 import SeedPhrase2 from '../SeedPhrase2';
 
-import {mnemonic, masterSeed, generateWallet, wallet} from '../../utils/bip39.js';
+import {mnemonic, masterSeed, generateWallet} from '../../utils/bip39.js';
 
-export default function SeedPhrase({navigation, load, setcopied = () => {}}) {
+export default function SeedPhrase({navigation, load, setcopied = () => {}, setCopyText = () => {},}) {
   const {dark} = useSelector(state => state.auth);
+   const {wallet} = useSelector(state => state.wallet);
+  //  console.log('=======wallet====', wallet)
   const [BaseColor, setBaseColor] = useState(dark ? DarkColor : LightColor);
 
   let interval;
 
   const [privateKeyLoading, setprivateKeyLoading] = useState(false);
   const [privateKeyGenerate, setprivateKeyGenerate] = useState(false);
-  const [privateKey, setprivateKey] = useState(wallet.masterSeed);
+  const [privateKey, setprivateKey] = useState(wallet?.masterSeed);
 
   const [phrase, setphrase] = useState('');
   const [phraseArr, setphraseArr] = useState([]);
@@ -43,6 +45,8 @@ export default function SeedPhrase({navigation, load, setcopied = () => {}}) {
   const [seedPhrase2, setseedPhrase2] = useState(false);
 
   const [phraseModal, setphraseModal] = useState(false);
+
+
 
   // loading for privacy key generate
   const generatePhrase = () => {
@@ -134,7 +138,7 @@ export default function SeedPhrase({navigation, load, setcopied = () => {}}) {
                 activeOpacity={0.7}
                 onPress={() => {
                   Clipboard.setString(privateKey);
-
+                  
                   Toast.show(t('copied'));
                 }}>
                 <Image
@@ -215,6 +219,7 @@ export default function SeedPhrase({navigation, load, setcopied = () => {}}) {
                   onPress={() => {
                     setcopied(true);
                     Clipboard.setString(phrase);
+                    setCopyText(phrase)
                     Toast.show(t('copied'));
                   }}>
                   <CText

@@ -5,7 +5,7 @@ const { HDNode } = require('@ethersproject/hdnode');
 import WalletAction from '../redux/walletReducer/actions'
 
 
-const { storePublicKey, storeMasterseed } = WalletAction;
+const { storePublicKey, storeMasterseed, storeWallet } = WalletAction;
 
 export const generateWallet = async (dispatch) => {
 
@@ -32,9 +32,17 @@ export const generateWallet = async (dispatch) => {
 
   // Access the public key from the Wallet instance
   const ethereumPublicKey = wallet.publicKey;
+  // console.log('====ethereumPublicKey===',ethereumPublicKey)
 
-  dispatch(storePublicKey(ethereumPublicKey));
-  dispatch(storeMasterseed(masterSeed));
+  // dispatch(storePublicKey(ethereumPublicKey));
+  // dispatch(storeMasterseed(masterSeed.toString('hex')));
+  dispatch(storeWallet({
+    mnemonic,
+    masterSeed: masterSeed.toString('hex'),
+    bitcoinPrivateKey,
+    ethereumPrivateKey,
+    ethereumPublicKey
+  }));
 
   // Return the generated wallet data
   return {
@@ -42,9 +50,7 @@ export const generateWallet = async (dispatch) => {
     masterSeed: masterSeed.toString('hex'),
     bitcoinPrivateKey,
     ethereumPrivateKey,
-    ethereumPublicKey,
-
-
+    ethereumPublicKey
   };
 
   // const wallet =  generateWallet();
