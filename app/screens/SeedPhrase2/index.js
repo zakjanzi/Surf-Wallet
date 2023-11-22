@@ -24,6 +24,7 @@ import {enableAnimateInEaseOut} from '../../config/commonFunctions';
 export default function SeedPhrase2({
   navigation,
   route,
+  copyValue,
   setPhrase = () => {},
   setPaste = () => {},
 }) {
@@ -42,7 +43,7 @@ export default function SeedPhrase2({
   const [phraseProgess, setphraseProgess] = useState(0);
 
   const pastePhrase = async () => {
-    const text = await Clipboard.getString();
+    const text = copyValue //await Clipboard.getString();
     setphrase(text);
     setPhrase(text);
     setPaste(true);

@@ -15,7 +15,9 @@ import {enableAnimateInEaseOut} from '../../config/commonFunctions';
 import SeedPhrase from '../SeedPhrase';
 import SeedPhrase2 from '../SeedPhrase2';
 import { useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 
+import { mnemonic, generateWallet, wallet } from '../../utils/bip39.js';
 import { mnemonic, generateWallet, wallet } from '../../utils/bip39.js';
 
 
@@ -38,6 +40,7 @@ export default function GenerateWallet({navigation}) {
   const [seedPhrase, setseedPhrase] = useState(false);
   const [seedPhraseLoad, setseedPhraseLoad] = useState(false);
   const [seedPhrase2, setseedPhrase2] = useState(false);
+  const [copyValue, setCopyValue] = useState('')
 
   const [copied, setcopied] = useState(false);
   const [phrase, setphrase] = useState(false);
@@ -48,6 +51,8 @@ export default function GenerateWallet({navigation}) {
   //loading of privacy key
   const generatePrivacyKey =  async () => {
     setprivateKeyGenerate(true);
+    const wallet = await generateWallet(dispatch);
+
     const wallet = await generateWallet(dispatch);
 
     interval = setInterval(() => {
@@ -67,7 +72,7 @@ export default function GenerateWallet({navigation}) {
 
     console.log(wallet)
     setTimeout(() => {
-      setprivateKey(wallet.masterSeed);
+      setprivateKey(wallet?.masterSeed);
       clearInterval(interval);
     }, 5000);
   };
@@ -129,11 +134,15 @@ export default function GenerateWallet({navigation}) {
           setcopied={val => {
             setcopied(val);
           }}
+          setCopyText={val => {
+            setCopyValue(val)
+          }}
           load={seedPhraseLoad}
         />
       ) : seedPhrase2 ? (
         <SeedPhrase2
           navigation={navigation}
+          copyValue={copyValue}
           setPhrase={val => {
             setphrase(val);
           }}
