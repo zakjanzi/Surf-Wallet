@@ -15,10 +15,9 @@ import {enableAnimateInEaseOut} from '../../config/commonFunctions';
 import SeedPhrase from '../SeedPhrase';
 import SeedPhrase2 from '../SeedPhrase2';
 import { useDispatch } from "react-redux";
-import { useDispatch } from "react-redux";
 
 import { mnemonic, generateWallet, wallet } from '../../utils/bip39.js';
-import { mnemonic, generateWallet, wallet } from '../../utils/bip39.js';
+
 
 
 
@@ -51,8 +50,6 @@ export default function GenerateWallet({navigation}) {
   //loading of privacy key
   const generatePrivacyKey =  async () => {
     setprivateKeyGenerate(true);
-    const wallet = await generateWallet(dispatch);
-
     const wallet = await generateWallet(dispatch);
 
     interval = setInterval(() => {
