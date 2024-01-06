@@ -16,6 +16,8 @@ import CButton from '../../components/CButton';
 import CInput from '../../components/CInput';
 import {Images} from '../../config/images';
 
+import { apiHandler } from '../../utils/APIHandler';
+
 import axios from 'axios';
 
 export default function OnboardingUsername({navigation}) {
@@ -57,7 +59,8 @@ export default function OnboardingUsername({navigation}) {
     setIsLoading(true); // Set loading state to true
 
     try {
-      const response = await axios.post('http://34.254.240.38/api/auth/register/validate', {
+      
+      const response = await apiHandler.post('/api/auth/register/validate', {
         username,
         email
       });

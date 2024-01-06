@@ -18,6 +18,8 @@ import WalletAction from '../../redux/walletReducer/actions';
 import AccessTokenAction from '../../redux/walletReducer/actions';
 import RefreshTokenAction from '../../redux/walletReducer/actions';
 
+import { apiHandler } from '../../utils/APIHandler';
+import { setLoggedInSessionData } from '../../utils/localStorage';
 
 
 export default function PincodeScreen({navigation}) {
@@ -58,7 +60,8 @@ export default function PincodeScreen({navigation}) {
     setIsLoading(true); // Set loading state to true
 
     try {
-      const response = await axios.post('http://34.254.240.38/api/auth/register', {
+      
+      const response = await apiHandler.post('/api/auth/register', {
         username,
         email,
         password: pincode,
@@ -69,6 +72,9 @@ export default function PincodeScreen({navigation}) {
        const { access_token: accessToken, refresh_token: refreshToken } = response.data;
 
        // Dispatch actions to save tokens in Redux store
+       
+      // Store Token in locaxl storage
+      setLoggedInSessionData(accessToken)
       dispatch(storeAccessToken(accessToken));
       setAccessToken(accessToken)
       dispatch(storeRefreshToken(refreshToken));

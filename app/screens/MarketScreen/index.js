@@ -22,6 +22,7 @@ import CMenuItem from '../../components/CMenuItem';
 import Modal from 'react-native-modal';
 import {Card} from 'react-native-paper';
 import axios from 'axios';
+import { apiHandler } from '../../utils/APIHandler';
 
 export default function MarketScreen({navigation}) {
   const {dark} = useSelector(state => state.auth);
@@ -145,16 +146,11 @@ export default function MarketScreen({navigation}) {
   useEffect(() => {
     // Function to fetch top coins data
     async function getCoins() {
-      const apiUrl = 'http://34.254.240.38/api/tokens';
-      const bearerToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHBpcmVzX2F0IjoxNjg4MTE5NDQ3LCJ1c2VyIjp7ImlkIjoxOSwiZW1haWwiOiJkdGZoZmdoQGhmZ2hqZmcuY29tIiwidXNlcm5hbWUiOiJzYWRyZmdlcnMifX0.hBaYROsLp8Q70EI6PIhgw6fnTGwrqn02DaLVGhDy3g8';
-
+      // const apiUrl = 'http://34.254.190.194/api/tokens';
+      // const bearerToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHBpcmVzX2F0IjoxNjg4MTE5NDQ3LCJ1c2VyIjp7ImlkIjoxOSwiZW1haWwiOiJkdGZoZmdoQGhmZ2hqZmcuY29tIiwidXNlcm5hbWUiOiJzYWRyZmdlcnMifX0.hBaYROsLp8Q70EI6PIhgw6fnTGwrqn02DaLVGhDy3g8';
       try {
-        const response = await axios.get(apiUrl, {
-          headers: {
-            Authorization: `Bearer ${bearerToken}`
-          }
-        });
-
+        
+        const response = await apiHandler.get('/api/tokens');
         const responseData = response.data;
         // Update the state variables with the API data
         setAllCoins(responseData);
