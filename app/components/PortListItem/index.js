@@ -43,7 +43,7 @@ export default function PortListItem(props) {
         }}>
         <View style={[styles.partContO]}>
           <Image
-            source={icon}
+            source={typeof icon === 'string'? {uri:icon}:icon}
             style={{height: 34, width: 34}}
             resizeMode="contain"
           />
