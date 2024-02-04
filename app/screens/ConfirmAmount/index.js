@@ -18,13 +18,16 @@ import {DarkColor, LightColor} from '../../config/colors';
 import {Images} from '../../config/images';
 import styles from './styles';
 
-export default function ConfirmAmount({navigation}) {
+export default function ConfirmAmount({navigation, route}) {
   const {dark} = useSelector(state => state.auth);
   const [BaseColor, setBaseColor] = useState(dark ? DarkColor : LightColor);
-
-  const balance = '1170';
-  const amount = '35.00';
-  const username = 'Joe';
+  const transactionDetails = route?.params?.transactionDetails;
+  const receiverDetails = route?.params?.receiverDetails;
+  console.log('transactionDetails', transactionDetails)
+  console.log('receiverDetails', receiverDetails)
+  const balance = transactionDetails.balance   // '1170';
+  const amount = transactionDetails.amount //'35.00';
+  const username = receiverDetails?.name;
 
   return (
     <>

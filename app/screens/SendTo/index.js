@@ -18,13 +18,16 @@ import {Images} from '../../config/images';
 import {FontFamily} from '../../config/typography';
 import styles from './styles';
 
-export default function SendTo({navigation}) {
+export default function SendTo({navigation, route}) {
   const {dark} = useSelector(state => state.auth);
   const [BaseColor, setBaseColor] = useState(dark ? DarkColor : LightColor);
-
+  const transactionsDetails = route?.params?.transactionsDetails;
   const [searchTxt, setsearchTxt] = useState('');
   const [walletAddress, setwalletAddress] = useState('');
   const [note, setnote] = useState('');
+  const [selectedUserDetail, setSelectedUserDetail] = useState({})
+
+  // console.log('==transactionsDetail==',transactionsDetail)
 
   const contactData = [
     {
@@ -123,7 +126,8 @@ export default function SendTo({navigation}) {
                 style={{marginTop: 16}}
                 renderItem={({item, index}) => {
                   return (
-                    <View
+                    <TouchableOpacity
+                    onPress={()=> setSelectedUserDetail(item)}
                       style={{
                         width: (Dimensions.get('window').width - 32) / 5,
                         alignItems: 'center',
@@ -144,7 +148,7 @@ export default function SendTo({navigation}) {
                           color: BaseColor.text1,
                         }}
                       />
-                    </View>
+                    </TouchableOpacity>
                   );
                 }}
                 horizontal
@@ -276,7 +280,7 @@ export default function SendTo({navigation}) {
         <CButton
           value={t('continue')}
           onPress={() => {
-            navigation.navigate('ConfirmAmount');
+            navigation.navigate('ConfirmAmount',{transactionDetails:transactionsDetails, receiverDetails: selectedUserDetail});
           }}
         />
       </View>

@@ -50,28 +50,34 @@ export default function GenerateWallet({navigation}) {
   //loading of privacy key
   const generatePrivacyKey =  async () => {
     setprivateKeyGenerate(true);
+    setprivateKeyProgress(0.2)
     const wallet = await generateWallet(dispatch);
-
-    interval = setInterval(() => {
-      console.log('This will run every second!');
-      setprivateKeyProgress(progress => {
-        if (progress == 0) {
-          return 0.2;
-        } else if (progress == 0.2) {
-          return 0.5;
-        } else if (progress == 0.5) {
-          return 0.6;
-        } else if (progress == 0.6) {
-          return 1;
-        }
-      });
-    }, 1000);
-
+    setprivateKeyProgress(0.5)
+    // interval = setInterval(() => {
+      // console.log('This will run every second!');
+    //   setprivateKeyProgress(progress => {
+    //     if(progress == 1 ) return 1
+    //     if (progress == 0) {
+    //       return 0.2;
+    //     } else if (progress == 0.2) {
+    //       return 0.5;
+    //     } else if (progress == 0.5) {
+    //       return 0.6;
+    //     } else if (progress == 0.6) {
+    //       return 1;
+    //     }
+    //   });
+    // }, 1000);
+    setTimeout(() => {
+      setprivateKeyProgress(0.8)
+    }, 500);
+   
     console.log(wallet)
     setTimeout(() => {
       setprivateKey(wallet?.masterSeed);
       clearInterval(interval);
-    }, 5000);
+      setprivateKeyProgress(1)
+    }, 1000);
   };
 
   enableAnimateInEaseOut();

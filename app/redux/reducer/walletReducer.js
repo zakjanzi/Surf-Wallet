@@ -1,4 +1,4 @@
-import { STORE_MASTERSEED, STORE_PUBLIC_KEY, STORE_PINCODE, STORE_WALLET, STORE_ACCESS_TOKEN, STORE_REFRESH_TOKEN } from '../walletReducer/actions';
+import { STORE_MASTERSEED, STORE_PUBLIC_KEY, STORE_PINCODE, STORE_WALLET, STORE_ACCESS_TOKEN, STORE_REFRESH_TOKEN, STORE_USER_BALANCE } from '../walletReducer/actions';
 
 const initialState = {
   publicKey: null,
@@ -6,7 +6,8 @@ const initialState = {
   pincode: null,
   wallet: null,
   accessToken: null,
-  refreshToken: null
+  refreshToken: null, 
+  userbalances:[]
 };
 
 export default function walletReducer(state = initialState, action) {
@@ -45,6 +46,11 @@ export default function walletReducer(state = initialState, action) {
           return {
             ...state,
             refreshToken: action.payload,
+          };
+        case STORE_USER_BALANCE:
+          return {
+            ...state,
+            userbalances: action.payload,
           };
 
 

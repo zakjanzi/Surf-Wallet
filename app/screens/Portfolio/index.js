@@ -1,5 +1,5 @@
 import {t} from 'i18next';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   ScrollView,
@@ -12,7 +12,7 @@ import {
   Dimensions,
 } from 'react-native';
 import SwitchSelector from 'react-native-switch-selector';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import CHeader from '../../components/CHeader';
 import CText from '../../components/CText';
 import PortListItem from '../../components/PortListItem';
@@ -28,11 +28,60 @@ import {
 import Pie from 'react-native-pie';
 import MarketScreen from '../MarketScreen';
 import {Card} from 'react-native-paper';
+import { map } from 'lodash';
+import { ethereumAddress, getBalance } from '../../utils/accountMethods';
+import actions from '../../redux/walletReducer/actions';
+ //demo portfolio data
+ const portfolioArr = [
+  {
+    icon: Images.bitcoin,
+    title: 'Bitcoin',
+    profite: true,
+    plPer: 1.86,
+    price: '9,714.20',
+    nativeValue: '0.0325474',
+    key: 'BTC',
+    chart: Images.bit_chart,
+  },
+  {
+    icon: Images.ethereum,
+    title: 'Ethereum',
+    profite: true,
+    plPer: 3.92,
+    price: '5,941.67',
+    nativeValue: '2.07',
+    key: 'ETH',
+    chart: Images.eth_chart,
+  },
+  {
+    icon: Images.tether,
+    title: 'Tether',
+    profite: true,
+    plPer: 0.03,
+    price: '514.08',
+    nativeValue: '514.97',
+    key: 'USDT',
+    chart: Images.teh_chart,
+  },
+];
 
+// chart menu options
+const chatOptions = [
+  {label: '1H', value: '1h'},
+  {label: '1D', value: '1d'},
+  {label: '1W', value: '1w'},
+  {label: 'ALL', value: 'all'},
+];
+
+//header data
+const options = [
+  {label: t('porfolio'), value: 'portfolio'},
+  {label: t('market'), value: 'market'},
+];
 export default function Portfolio({navigation}) {
   const {dark} = useSelector(state => state.auth);
   const [BaseColor, setBaseColor] = useState(dark ? DarkColor : LightColor);
-
+  const { storeUserBalance } = actions;
   const [totalBalance, settotalBalance] = useState('$9,211.47');
   const [increasePercentage, setincreasePercentage] = useState('12.07');
   const [increaseBalance, setincreaseBalance] = useState('1,074.22');
@@ -41,54 +90,31 @@ export default function Portfolio({navigation}) {
 
   const [balancePart, setbalancePart] = useState(0);
   const [portfoliotab, setportfoliotab] = useState('portfolio');
+  const [portfolioArrList, setPortfolioArrList] = useState([])
 
-  //demo portfolio data
-  const portfolioArr = [
-    {
-      icon: Images.bitcoin,
-      title: 'Bitcoin',
-      profite: true,
-      plPer: 1.86,
-      price: '9,714.20',
-      nativeValue: '0.0325474',
-      key: 'BTC',
-      chart: Images.bit_chart,
-    },
-    {
-      icon: Images.ethereum,
-      title: 'Ethereum',
-      profite: true,
-      plPer: 3.92,
-      price: '5,941.67',
-      nativeValue: '2.07',
-      key: 'ETH',
-      chart: Images.eth_chart,
-    },
-    {
-      icon: Images.tether,
-      title: 'Tether',
-      profite: true,
-      plPer: 0.03,
-      price: '514.08',
-      nativeValue: '514.97',
-      key: 'USDT',
-      chart: Images.teh_chart,
-    },
-  ];
+  const dispatch = useDispatch();
 
-  // chart menu options
-  const chatOptions = [
-    {label: '1H', value: '1h'},
-    {label: '1D', value: '1d'},
-    {label: '1W', value: '1w'},
-    {label: 'ALL', value: 'all'},
-  ];
+  useEffect(() => {
+    getBalanceFrom()
+  }, [])
 
-  //header data
-  const options = [
-    {label: t('porfolio'), value: 'portfolio'},
-    {label: t('market'), value: 'market'},
-  ];
+  const getBalanceFrom = async ()=>{
+    if (portfolioArr.length > 0) {
+      const updatedList = await Promise.all(
+        map(portfolioArr, async (item) => {
+          const getBalanceValue = await getBalance(ethereumAddress);
+          return { ...item, price: getBalanceValue };
+        })
+      );
+      setPortfolioArrList(updatedList)
+      dispatch(storeUserBalance(updatedList));
+    }else{ 
+      setPortfolioArrList(portfolioArr)
+      dispatch(storeUserBalance(portfolioArr));
+    }
+  
+  }
+  
 
   // portfolio list item
   const renderPorfolio = ({item, index}) => {
@@ -479,12 +505,12 @@ export default function Portfolio({navigation}) {
                   color: BaseColor.inputColor,
                 }}
               />
-              <FlatList
-                data={portfolioArr}
+            {portfolioArrList?.length > 0 &&  <FlatList
+                data={portfolioArrList}
                 keyExtractor={(item, index) => index}
                 renderItem={renderPorfolio}
                 contentContainerStyle={{marginTop: 24}}
-              />
+              />}
             </View>
           </View>
         ) : (

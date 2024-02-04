@@ -112,12 +112,23 @@ export default function AmountScreen({navigation, route}) {
               />
             </View>
           </View>
+        { balance < amount && <CText
+                value={`insufficient balance`}
+                style={{
+                  fontSize: 16,
+                  color: BaseColor.redCC,
+                  textAlign: 'center',
+                  fontWeight:'700',
+                  marginTop: 8,
+                }}
+                semiBold
+              />}
         </View>
 
         <CButton
           value={t('continue')}
           onPress={() => {
-            navigation.navigate('SendTo');
+            navigation.navigate('SendTo',{transactionsDetails:{ asset:{name: itemData?.key, image: itemData?.image}, amount:amount,balance: balance } });
           }}
         />
       </View>

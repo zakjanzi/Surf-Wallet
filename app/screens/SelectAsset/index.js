@@ -12,9 +12,9 @@ import styles from './styles';
 export default function SelectAsset({navigation}) {
   const {dark} = useSelector(state => state.auth);
   const [BaseColor, setBaseColor] = useState(dark ? DarkColor : LightColor);
-
+  const {userbalances} = useSelector(state => state.wallet);
   const [searchTxt, setsearchTxt] = useState('');
-
+  console.log(';===userbalances===',userbalances)
   const data = [
     {
       image: Images.bitcoin,
@@ -114,6 +114,7 @@ export default function SelectAsset({navigation}) {
                     {backgroundColor: BaseColor.langUNSBtnBack},
                   ]}
                   onPress={() => {
+
                     navigation.navigate('AmountScreen', {itemData: item});
                   }}>
                   <View

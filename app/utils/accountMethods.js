@@ -11,6 +11,7 @@ const transactionHash = '0xe414cbdd5c3ad2de6cbcff6de2662b5d6e94c59b6523dc5a14d89
 
 // Function to get balance
 async function getBalance(ethereumAddress) {
+  return '100'
   const balance = await provider.getBalance(ethereumAddress);
   console.log("Logging the user Balance: " , balance.toString())
   return ethers.utils.formatEther(balance);
@@ -60,6 +61,7 @@ module.exports = {
   transactionHistory,
   transactionDetails,
   sendTransaction,
+  ethereumAddress
 };
 
 
